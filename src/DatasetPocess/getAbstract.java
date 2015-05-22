@@ -14,15 +14,7 @@ public class getAbstract {
 	}
 
 	private static void getAbstract(String input, String dir) throws IOException {
-		File Dir = new File(dir);
-		if (!Dir.exists()) {
-			Dir.mkdirs();
-			try {
-				Dir.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+
 		FileReader FileStream = new FileReader(input);
 		BufferedReader in = new BufferedReader(FileStream);
 		String line = "";
