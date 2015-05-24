@@ -72,7 +72,7 @@ System.out.println("ready to search");
 		new GetMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
 	}
 	public static void main(String[] args) throws IOException{
-		path="D:/dataset/abstract/";
+		path="D:/dataset/Oldabstract/";
 		ouputPath="D:/dataset/mainWords/";
 		File outputDir = new File(ouputPath);
 		if (!outputDir.exists()) {

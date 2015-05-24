@@ -14,5 +14,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/lib"/>
 	<classpathentry kind="lib" path="D:/workspace/BookRecommenderSystem/jsoup-1.8.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DTG"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Graph"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
