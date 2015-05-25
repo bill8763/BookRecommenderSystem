@@ -56,13 +56,12 @@ public class PrepocessTest {
 		
 		StemmingDecorator<TermNode,CEdge<Double>> stemmedC = new StemmingDecorator<TermNode,CEdge<Double>>(termLengthComp, posComp.getVertexResultsTerms());
 		TermFreqDecorator<TermNode,CEdge<Double>> tfComp = new TermFreqDecorator<TermNode,CEdge<Double>>(stemmedC, posComp.getVertexResultsTerms());
-System.out.println("ready to search");
+
 		SearchResultFilter<TermNode,CEdge<Double>> filitedTermComp = new SearchResultFilter<TermNode,CEdge<Double>>(tfComp,  posComp.getVertexResultsTerms(), 10, 1000, searcher);
-		System.out.println("nodes searching done");
 		NGDistanceDecorator<TermNode,CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode,CEdge<Double>>(filitedTermComp,posComp.getVertexResultsTerms(),searcher);
-		System.out.println("edges searching done");
 		NgdEdgeFilter<TermNode,CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode,CEdge<Double>>(ngdComp, ngdComp.getEdgeDistance(), 0.5);
 		KcoreDecorator<TermNode,CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode,CEdge<Double>>(ngdflitedComp, ngdflitedComp.getNgdMap(), 0.4);
+		System.out.println("ready to processing:"+doc);
 		Graph<TermNode,CEdge<Double>> docGraph = kcoreComp.execute(doc);
 
 		/**
