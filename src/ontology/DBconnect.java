@@ -12,14 +12,20 @@ public class DBconnect {
     String database = "user_profile";
     String url = "jdbc:mysql://127.0.0.1/user_profile";
     String driver = "com.mysql.jdbc.Driver";
-    protected Connection conn;
+    private static Connection conn;
 	protected Statement stmt;
+	public static Connection getConn() {
+		return conn;
+	}
+	public void setConn(Connection conn) {
+		this.conn = conn;
+	}
 	public DBconnect() throws InstantiationException, IllegalAccessException, ClassNotFoundException{
 		try{
 	        
 			Class.forName(driver);
-			conn = DriverManager.getConnection(url,user,pass);
-			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+			setConn(DriverManager.getConnection(url,user,pass));
+			stmt = getConn().createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
 	                      
 	    }
 	    catch(SQLException sqle){

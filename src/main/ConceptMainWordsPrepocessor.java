@@ -22,7 +22,13 @@ import tw.edu.ncu.im.Preprocess.graph.*;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedGraph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
-
+/**
+ * conceptMainWord-txt to graph
+ * @author chiang
+ *
+ * @param <V>
+ * @param <E>
+ */
 public class ConceptMainWordsPrepocessor<V,E> extends PreprocessComponent<V,E> {
 	HashSet<KeyTerm> terms;
 	HashSet<TestEdge> edges;

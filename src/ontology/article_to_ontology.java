@@ -37,30 +37,30 @@ public class article_to_ontology  extends DBconnect{
 				}
 			}
 		}
-		concept_list.add((concept_num+1)+"%"+temp); //³Ì«á¤@­Óconcept
+		concept_list.add((concept_num+1)+"%"+temp); //ï¿½Ì«ï¿½@ï¿½ï¿½concept
 		System.out.println((concept_num+1)+"%"+temp);
-//-------------------------¸ê®Æ¼g¤J³¡¥÷-------------------------------
+//-------------------------ï¿½ï¿½Æ¼gï¿½Jï¿½ï¿½ï¿½ï¿½-------------------------------
 		PreparedStatement select_topic = null; 
 		PreparedStatement insert_article_to_topic = null;
-		select_topic = conn.prepareStatement("select * from ontology where concept_id = ? and topic_name = ?");
-		insert_article_to_topic = conn.prepareStatement("insert into concept_article" + "(concept_id,topic_id,article_id)"
+		select_topic = getConn().prepareStatement("select * from ontology where concept_id = ? and topic_name = ?");
+		insert_article_to_topic = getConn().prepareStatement("insert into concept_article" + "(concept_id,topic_id,article_id)"
 	  				   +"values ( ?, ?, ? )");
 		
-		String concept_id = concept_list.get(1).split("%")[0]; //¼È®É¥ý¶] concept
-		String[] concept_article = (concept_list.get(1).split("%")[1]).split("#"); //¼È®É¥ý¶] concept
+		String concept_id = concept_list.get(1).split("%")[0]; //ï¿½È®É¥ï¿½ï¿½] concept
+		String[] concept_article = (concept_list.get(1).split("%")[1]).split("#"); //ï¿½È®É¥ï¿½ï¿½] concept
 		
 		
 		for(int i=0;i<concept_article.length;i++){
 
-			if(concept_article[i].contains("&")){ //¦³¦h¥DÃD
+			if(concept_article[i].contains("&")){ //ï¿½ï¿½ï¿½hï¿½Dï¿½D
 				String[] topic_temp= concept_article[i].split(":")[0].split("&");
 				for(int j=0;j<topic_temp.length;j++){
 					select_topic.setString(1,concept_id);
 					select_topic.setString(2,topic_temp[j]);
 					ResultSet topicrs = select_topic.executeQuery();
 					topicrs.next();
-					String topic_id = topicrs.getString("topic_id"); //¬Û¹ïÀ³ªºtopic_id
-					if(concept_article[i].contains(",")){ //¥DÃD¤U¦³¦h½g¤å³¹
+					String topic_id = topicrs.getString("topic_id"); //ï¿½Û¹ï¿½ï¿½ï¿½ï¿½ï¿½topic_id
+					if(concept_article[i].contains(",")){ //ï¿½Dï¿½Dï¿½Uï¿½ï¿½ï¿½hï¿½gï¿½å³¹
 						String[] article_temp = concept_article[i].split(":")[1].split(",");
 						for( int k=0;k<article_temp.length;k++){
 							insert_article_to_topic.setString(1,concept_id);
@@ -69,7 +69,7 @@ public class article_to_ontology  extends DBconnect{
 							insert_article_to_topic.executeUpdate(); 
 						}
 					}
-					else{ //¥DÃD¤U¥u¦³¤@½g¤å³¹
+					else{ //ï¿½Dï¿½Dï¿½Uï¿½uï¿½ï¿½ï¿½@ï¿½gï¿½å³¹
 						insert_article_to_topic.setString(1,concept_id);
 						insert_article_to_topic.setString(2,topic_id);
 						insert_article_to_topic.setString(3,concept_article[i].split(":")[1]);
@@ -83,8 +83,8 @@ public class article_to_ontology  extends DBconnect{
 				select_topic.setString(2,concept_article[i].split(":")[0]);
 				ResultSet topicrs = select_topic.executeQuery();
 				topicrs.next();
-				String topic_id = topicrs.getString("topic_id"); //¬Û¹ïÀ³ªºtopic_id
-				if(concept_article[i].contains(",")){ //¥DÃD¤U¦³¦h½g¤å³¹
+				String topic_id = topicrs.getString("topic_id"); //ï¿½Û¹ï¿½ï¿½ï¿½ï¿½ï¿½topic_id
+				if(concept_article[i].contains(",")){ //ï¿½Dï¿½Dï¿½Uï¿½ï¿½ï¿½hï¿½gï¿½å³¹
 					String[] article_temp = concept_article[i].split(":")[1].split(",");
 					for( int k=0;k<article_temp.length;k++){
 						insert_article_to_topic.setString(1,concept_id);
@@ -93,7 +93,7 @@ public class article_to_ontology  extends DBconnect{
 						insert_article_to_topic.executeUpdate(); 
 					}
 				}
-				else{ //¥DÃD¤U¥u¦³¤@½g¤å³¹
+				else{ //ï¿½Dï¿½Dï¿½Uï¿½uï¿½ï¿½ï¿½@ï¿½gï¿½å³¹
 					insert_article_to_topic.setString(1,concept_id);
 					insert_article_to_topic.setString(2,topic_id);
 					insert_article_to_topic.setString(3,concept_article[i].split(":")[1]);

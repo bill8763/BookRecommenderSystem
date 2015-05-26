@@ -19,10 +19,10 @@ public class user_in_article extends DBconnect {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public void UIA(int user_id,double phi) throws SQLException, IOException{ //¹ïuser¨C½g¾\Åª¹Lªº¤å³¹¥h°µ­pºâ¡A¿é¥X
+	public void UIA(int user_id,double phi) throws SQLException, IOException{ //ï¿½ï¿½userï¿½Cï¿½gï¿½\Åªï¿½Lï¿½ï¿½ï¿½å³¹ï¿½hï¿½ï¿½ï¿½pï¿½ï¿½Aï¿½ï¿½X
 		
 		PreparedStatement  select_user_article = null;
-		select_user_article = conn.prepareStatement("select * from behavior where user_id = ?");
+		select_user_article = getConn().prepareStatement("select * from behavior where user_id = ?");
 		select_user_article.setInt(1, user_id);
 		ResultSet user_article_rs = select_user_article.executeQuery();
 		
@@ -36,23 +36,23 @@ public class user_in_article extends DBconnect {
 			
 			
 			if (calcutePeriod(s,e) <=1  ){
-				dateDis = 1; //Á×§K¬Û¶Z¤Ñ¼Æ¤p©óµ¥©ó1
+				dateDis = 1; //ï¿½×§Kï¿½Û¶Zï¿½Ñ¼Æ¤pï¿½óµ¥©ï¿½1
 			}
 			else{
 				
-				dateDis = (double)Math.pow((calcutePeriod(s,e)),(double)1/phi); //³Ì«áµo¥Íªº¦æ¬°©M¥Ø«e¤é´Áªº¶¡¹j¤Ñ¼Æ ¨ú(1/2)¦¸¤è
+				dateDis = (double)Math.pow((calcutePeriod(s,e)),(double)1/phi); //ï¿½Ì«ï¿½oï¿½Íªï¿½ï¿½æ¬°ï¿½Mï¿½Ø«eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½Ñ¼ï¿½ ï¿½ï¿½(1/2)ï¿½ï¿½ï¿½ï¿½
 			}
-			double uia = (double)1/dateDis; //¤À¤l¬°¨Ï¥ÎªÌ¦æ¬°¡A¥Ø«e¼È¤£°µ¡A»Ý­nuser¥hµû¦ô
+			double uia = (double)1/dateDis; //ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½Ï¥ÎªÌ¦æ¬°ï¿½Aï¿½Ø«eï¿½È¤ï¿½ï¿½ï¿½ï¿½Aï¿½Ý­nuserï¿½hï¿½ï¿½ï¿½ï¿½
 			
 			bw.write(user_article_rs.getInt("article_id")+";"+uia);
 			bw.newLine();
 		}
 		bw.flush();
 		bw.close();	
-		conn.close();
+		getConn().close();
 	}
 	
-	private static long calcutePeriod(String dateStr1,String dateStr2) { //­pºâ¬Û®t¤é´Á
+	private static long calcutePeriod(String dateStr1,String dateStr2) { //ï¿½pï¿½ï¿½Û®tï¿½ï¿½ï¿½
 		SimpleDateFormat sdf =  new SimpleDateFormat("yyyyMMdd");
 	    ParsePosition pos1 = new ParsePosition(0);
 	    ParsePosition pos2 = new ParsePosition(0);

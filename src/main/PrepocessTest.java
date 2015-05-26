@@ -59,8 +59,8 @@ public class PrepocessTest {
 
 		SearchResultFilter<TermNode,CEdge<Double>> filitedTermComp = new SearchResultFilter<TermNode,CEdge<Double>>(tfComp,  posComp.getVertexResultsTerms(), 10, 1000, searcher);
 		NGDistanceDecorator<TermNode,CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode,CEdge<Double>>(filitedTermComp,posComp.getVertexResultsTerms(),searcher);
-		NgdEdgeFilter<TermNode,CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode,CEdge<Double>>(ngdComp, ngdComp.getEdgeDistance(), 0.5);
-		KcoreDecorator<TermNode,CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode,CEdge<Double>>(ngdflitedComp, ngdflitedComp.getNgdMap(), 0.4);
+		NgdEdgeFilter<TermNode,CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode,CEdge<Double>>(ngdComp, ngdComp.getEdgeDistance(), 0.);
+		KcoreDecorator<TermNode,CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode,CEdge<Double>>(ngdflitedComp, ngdflitedComp.getNgdMap(), 1.0);
 		System.out.println("ready to processing:"+doc);
 		Graph<TermNode,CEdge<Double>> docGraph = kcoreComp.execute(doc);
 
@@ -68,10 +68,10 @@ public class PrepocessTest {
 		 * test
 		 */
 		System.out.print(docGraph.getVertexCount());
-		new GetMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
+		new gerenratingMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
 	}
 	public static void main(String[] args) throws IOException{
-		path="D:/dataset/Oldabstract/";
+		path="D:/dataset/abstract/";
 		ouputPath="D:/dataset/mainWords/";
 		File outputDir = new File(ouputPath);
 		if (!outputDir.exists()) {
@@ -88,6 +88,8 @@ public class PrepocessTest {
 		for(int i=0;i<list.size();i++){
 			tempFile= new File(path+list.get(i));
 			readFromDTG(tempFile,ouputPath+list.get(i));
+			/*if ( new File(ouputPath+list.get(i)).exists()){System.out.println("exists!");}
+			else{readFromDTG(tempFile,ouputPath+list.get(i));}*/
 		}
 	}
 }

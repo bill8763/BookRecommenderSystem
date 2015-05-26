@@ -25,7 +25,11 @@ import tw.edu.ncu.im.Preprocess.Decorator.TermFreqDecorator;
 import tw.edu.ncu.im.Preprocess.Decorator.TermToLowerCaseDecorator;
 import tw.edu.ncu.im.Util.EmbeddedIndexSearcher;
 import tw.edu.ncu.im.Util.HttpIndexSearcher;
-
+/**
+ * concept main words k core preocessing
+ * @author chiang
+ *
+ */
 public class ConceptMainWordsProcessor {
 	public static String path="";
 	public static String ouputPath="";
@@ -69,9 +73,10 @@ System.out.println("ready to search");
 		 * test
 		 */
 		System.out.print(docGraph.getVertexCount());
-		new GetMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
+		new gerenratingMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
 	}
 	public static void main(String[] args) throws IOException{
+
 		path="D:/dataset/Oldabstract/";
 		ouputPath="D:/dataset/mainWords/";
 		

@@ -15,7 +15,7 @@ public class ontology_transform extends DBconnect{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public void ontology_to_database(int no) throws IOException, SQLException{ //¿é¤Jtagtree½s¸¹(¬°concept¤§id)
+	public void ontology_to_database(int no) throws IOException, SQLException{ //ï¿½ï¿½Jtagtreeï¿½sï¿½ï¿½(ï¿½ï¿½conceptï¿½ï¿½id)
 		FileReader FileStream;
 		FileStream = new FileReader("D:/DataTemp/Processing/TagTree/" + no + "_File/TagTreeNumberResult.txt");
 		@SuppressWarnings("resource")
@@ -24,14 +24,14 @@ public class ontology_transform extends DBconnect{
 		int i = 1;
 		ArrayList<String> hierarchy_list = new ArrayList<String>();
 		
-		//ÁÙ»Ý¥[ ¦pªG¸ê®Æ®w¦³ªº¸Ü@_@` ´N¤£°õ¦æ¥H¤U
+		//ï¿½Ù»Ý¥[ ï¿½pï¿½Gï¿½ï¿½Æ®wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½@_@` ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Hï¿½U
 		
 		while ((line = BufferedStream.readLine()) != null) {
-			String topic = i + ","+ line; //i¬°topic¤§id
+			String topic = i + ","+ line; //iï¿½ï¿½topicï¿½ï¿½id
 			hierarchy_list.add(topic);
-			//¼g¤J¸ê®Æ®w
+			//ï¿½gï¿½Jï¿½ï¿½Æ®w
 			PreparedStatement insert_ontology = null; 
-			insert_ontology = conn.prepareStatement("insert into ontology" + "(concept_id,topic_id,topic_name,level_number,parent_id)"
+			insert_ontology = getConn().prepareStatement("insert into ontology" + "(concept_id,topic_id,topic_name,level_number,parent_id)"
 	  				   +"values ( ?, ?, ?, ?, ? )");
 			
 			insert_ontology.setInt(1, no); 
@@ -58,11 +58,11 @@ public class ontology_transform extends DBconnect{
 				stmt.executeUpdate(parent_update);
 			}
 		}
-		conn.close();
-	//¶]for~> ¦Pconcept ´M§ä¤÷topic §Q¥Î¤U­±¤@¬qµ{¦¡½X
+		getConn().close();
+	//ï¿½]for~> ï¿½Pconcept ï¿½Mï¿½ï¿½ï¿½topic ï¿½Qï¿½Î¤Uï¿½ï¿½ï¿½@ï¿½qï¿½{ï¿½ï¿½ï¿½X
 		
 	}
-	public String find_parent(String level_number){ //§ä´M¤÷topic
+	public String find_parent(String level_number){ //ï¿½ï¿½Mï¿½ï¿½topic
 		
 		String temp[]=level_number.split("\\.");
 		String parent_number = "";

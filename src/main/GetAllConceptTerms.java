@@ -13,18 +13,29 @@ import java.util.Map;
 import java.util.Set;
 
 import ontology.DBconnect;
-
+/**
+ * 	將所有該概念內文章的核心字詞納入
+ * @author chiang
+ *
+ */
 public class GetAllConceptTerms extends DBconnect {
 	public GetAllConceptTerms() throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 		super();
 	}
+	public static void main(String[] args) throws Exception{
+		
+		String mainwordsDirPath="D:/K-core/Main_word/";
+		String conceptDirPath="D:/DataTemp/Concept_K-core/Number_of_term/";
+		GetAllConceptTermsMethod(1,1,mainwordsDirPath,conceptDirPath);
+	}
 
-	public GetAllConceptTerms(int concept_id, int topic_id) throws Exception {
+	@SuppressWarnings("resource")
+	public static  void GetAllConceptTermsMethod(int concept_id, int topic_id,String mainwordsDir,String outputDir) throws Exception {
 
 		// 尋找主題下的文章
 		PreparedStatement select_acticle = null;
-		select_acticle = conn
+		select_acticle = DBconnect.getConn()
 				.prepareStatement("select * from concept_article where concept_id = ? and topic_id = ?");
 		select_acticle.setInt(1, concept_id);
 		select_acticle.setInt(2, topic_id);
@@ -41,8 +52,8 @@ public class GetAllConceptTerms extends DBconnect {
 
 		for (int i = 0; i < article_list.size(); i++) {
 			FileReader FileStream;
-			FileStream = new FileReader("D:/K-core/Main_word/"
-					+ article_list.get(i));
+			FileStream = new FileReader(mainwordsDir + article_list.get(i));
+			@SuppressWarnings("resource")
 			BufferedReader BufferedStream = new BufferedReader(FileStream);
 			String line = "";
 
@@ -64,13 +75,13 @@ public class GetAllConceptTerms extends DBconnect {
 		System.out.println(term_set);
 		System.out.println(term_map);
 		BufferedWriter bw;
-		bw = new BufferedWriter(new FileWriter(
-				"D:/DataTemp/Concept_K-core/Number_of_term/" + concept_id + "_"
-						+ topic_id + "_number_of_term.txt", false));
+		bw = new BufferedWriter(new FileWriter(outputDir + concept_id + "_"
+				+ topic_id + "_number_of_term.txt", false));
 		for (String term : term_set) {
 			bw.write(term);
 			bw.newLine();
 			bw.flush(); // 清空緩衝區
 		}
 	}
+
 }

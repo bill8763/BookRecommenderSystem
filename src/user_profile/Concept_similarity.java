@@ -29,9 +29,9 @@ public class Concept_similarity extends DBconnect{
 	@SuppressWarnings("resource")
 	public void concept_weight(int concept_id,int topic_id) throws Exception{
 		
-		//´M§ä¥DÃD¤Uªº¤å³¹
+		//ï¿½Mï¿½ï¿½Dï¿½Dï¿½Uï¿½ï¿½ï¿½å³¹
 		PreparedStatement select_acticle = null;
-		select_acticle = conn.prepareStatement("select * from concept_article where concept_id = ? and topic_id = ?");
+		select_acticle = getConn().prepareStatement("select * from concept_article where concept_id = ? and topic_id = ?");
 		select_acticle.setInt(1, concept_id); 
 		select_acticle.setInt(2, topic_id); 
 		ResultSet articlers = select_acticle.executeQuery();
@@ -41,9 +41,9 @@ public class Concept_similarity extends DBconnect{
 		}
 		System.out.println(article_list); 
 		
-		//­pºâ¦h¤å³¹¦@¦P¯S¼x
-		Set<String> term_set = new HashSet<String>(); //¦s¤J(term,·j´M¼Æ)
-		Map<String, Integer> term_map = new HashMap<String, Integer>(); //­pºâterm¦b¦h¤Ö½g¤å¥ó¥X²{
+		//ï¿½pï¿½ï¿½hï¿½å³¹ï¿½@ï¿½Pï¿½Sï¿½x
+		Set<String> term_set = new HashSet<String>(); //ï¿½sï¿½J(term,ï¿½jï¿½Mï¿½ï¿½)
+		Map<String, Integer> term_map = new HashMap<String, Integer>(); //ï¿½pï¿½ï¿½termï¿½bï¿½hï¿½Ö½gï¿½ï¿½ï¿½Xï¿½{
 		
 		for(int i=0;i<article_list.size();i++){
 			FileReader FileStream;
@@ -54,7 +54,7 @@ public class Concept_similarity extends DBconnect{
 			while ((line = BufferedStream.readLine()) != null) {
 			//	line = line.replace("+"," "); 
 				line = "\""+ line.split(",")[0]+"\""+","+line.split(",")[1];
-				term_set.add(line); //(term,·j´M¼Æ)
+				term_set.add(line); //(term,ï¿½jï¿½Mï¿½ï¿½)
 				if(term_map.get(line.split(",")[0])!=null){
 					int terms = term_map.get(line.split(",")[0]);
 					int f_terms = terms + 1;
@@ -73,10 +73,10 @@ public class Concept_similarity extends DBconnect{
 		for(String term: term_set){
 			bw.write(term);
 			bw.newLine();
-			bw.flush(); // ²MªÅ½w½Ä°Ï
+			bw.flush(); // ï¿½Mï¿½Å½wï¿½Ä°ï¿½
 		}
 		
-		//k-core³B²z
+		//k-coreï¿½Bï¿½z
 		new concept_k_core.Lucene_Search2().doit(concept_id,topic_id);
 		concept_k_core.Stem.stemming(concept_id,topic_id);
 		concept_k_core.NGD_calculate.NGD(concept_id,topic_id);
@@ -84,13 +84,13 @@ public class Concept_similarity extends DBconnect{
 		concept_k_core.K_core kcore= new concept_k_core.K_core();
 		kcore.K_core_cal(concept_id,topic_id);
 		
-		//­pºâstrength
+		//ï¿½pï¿½ï¿½strength
 		strength s_test = new strength();
 		s_test.concept_strength(concept_id, topic_id);
 		
-		//­pºâÅv­«strength*0.5+frequency*0.5
+		//ï¿½pï¿½ï¿½ï¿½vï¿½ï¿½strength*0.5+frequency*0.5
 		FileReader FileStream2;	
-		Map<String, Double> weight_map = new HashMap<String,Double>(); //­pºâterm¦b¦h¤Ö½g¤å¥ó¥X²{
+		Map<String, Double> weight_map = new HashMap<String,Double>(); //ï¿½pï¿½ï¿½termï¿½bï¿½hï¿½Ö½gï¿½ï¿½ï¿½Xï¿½{
 		FileStream2 = new FileReader("D:/DataTemp/Concept_K-core/Strength/"+concept_id + "_" + topic_id + "_strength.txt");
 		BufferedReader BufferedStream2 = new BufferedReader(FileStream2);
 		String line2 = "";
@@ -99,11 +99,11 @@ public class Concept_similarity extends DBconnect{
 			String key = "\""+ line2.split(",")[0]+"\"";
 			double weight = 0.0;
 			if(term_map.get(key)!=null){
-				weight = term_map.get(key)*0.5+Double.parseDouble(line2.split(",")[1])*0.5; //­pºâ³Ì«áÅv­«
+				weight = term_map.get(key)*0.5+Double.parseDouble(line2.split(",")[1])*0.5; //ï¿½pï¿½ï¿½Ì«ï¿½ï¿½vï¿½ï¿½
 				weight_map.put(key, weight);
 			}	
 		}
-		//±Æ§Ç
+		//ï¿½Æ§ï¿½
 		List<Map.Entry<String, Double>> list_Data = new ArrayList<Map.Entry<String, Double>>(
 				weight_map.entrySet());
 		Iterator<Map.Entry<String, Double>> iterator = list_Data.iterator();
@@ -123,7 +123,7 @@ public class Concept_similarity extends DBconnect{
 
 		while (iterator.hasNext()) {
 			Map.Entry<String, Double> entry = iterator.next();
-			System.out.println(entry.getKey() + "," + entry.getValue()); //¥¿³W¤Æ
+			System.out.println(entry.getKey() + "," + entry.getValue()); //ï¿½ï¿½ï¿½Wï¿½ï¿½
 			bw2.write(entry.getKey() + "," + entry.getValue());
 //			rel_loader.rel_map.put(entry.getKey(), entry.getValue());
 			bw2.newLine();
@@ -135,9 +135,9 @@ public class Concept_similarity extends DBconnect{
 	@SuppressWarnings("resource")
 	public void user_weight(int user_id, int concept_id, int topic_id, String article) throws Exception{
 		String [] user_article = article.split(",");
-		Set<String> term_set = new HashSet<String>(); //¦s¤J(term,·j´M¼Æ)
-		Map<String, Integer> term_map = new HashMap<String, Integer>(); //­pºâterm¦b¦h¤Ö½g¤å¥ó¥X²{
-		//­pºâ¤å³¹¦@¦P¯S¼x
+		Set<String> term_set = new HashSet<String>(); //ï¿½sï¿½J(term,ï¿½jï¿½Mï¿½ï¿½)
+		Map<String, Integer> term_map = new HashMap<String, Integer>(); //ï¿½pï¿½ï¿½termï¿½bï¿½hï¿½Ö½gï¿½ï¿½ï¿½Xï¿½{
+		//ï¿½pï¿½ï¿½å³¹ï¿½@ï¿½Pï¿½Sï¿½x
 		for(int i=0;i<user_article.length;i++){
 			FileReader FileStream;
 			FileStream = new FileReader("D:/K-core/Main_word/"+user_article[i]+"_main_word.txt");
@@ -147,7 +147,7 @@ public class Concept_similarity extends DBconnect{
 			while ((line = BufferedStream.readLine()) != null) {
 			//	line = line.replace("+"," "); 
 				line = "\""+ line.split(",")[0]+"\""+","+line.split(",")[1];
-				term_set.add(line); //(term,·j´M¼Æ)
+				term_set.add(line); //(term,ï¿½jï¿½Mï¿½ï¿½)
 				if(term_map.get(line.split(",")[0])!=null){
 					int terms = term_map.get(line.split(",")[0]);
 					int f_terms = terms + 1;
@@ -167,10 +167,10 @@ public class Concept_similarity extends DBconnect{
 		for(String term: term_set){
 			bw.write(term);
 			bw.newLine();
-			bw.flush(); // ²MªÅ½w½Ä°Ï
+			bw.flush(); // ï¿½Mï¿½Å½wï¿½Ä°ï¿½
 		}
 		
-		//­pºâk-core
+		//ï¿½pï¿½ï¿½k-core
 		new user_k_core.Lucene_Search2().doit(user_id,concept_id,topic_id);
 		//google_filter2.search_filter(i);
 		user_k_core.Stem.stemming(user_id,concept_id,topic_id);
@@ -182,9 +182,9 @@ public class Concept_similarity extends DBconnect{
 	}
 	
 	public void user_article_concept(int user_id) throws Exception{
-		//¬d¸ßuser¬Ý¹Lªº¤å³¹
+		//ï¿½dï¿½ï¿½userï¿½Ý¹Lï¿½ï¿½ï¿½å³¹
 		PreparedStatement select_UserActicle = null;
-		select_UserActicle = conn.prepareStatement("select * from behavior where user_id = ?");
+		select_UserActicle = getConn().prepareStatement("select * from behavior where user_id = ?");
 		select_UserActicle.setInt(1, user_id); 
 		ResultSet Uarticlers = select_UserActicle.executeQuery();
 		ArrayList<String> article_list = new ArrayList<String>();
@@ -193,10 +193,10 @@ public class Concept_similarity extends DBconnect{
 		}
 		System.out.println(article_list); 
 		
-		//¬d¸ß¤å³¹ªºconcept
-		Map<String, String> user_concept_map = new HashMap<String, String>(); //­pºâterm¦b¦h¤Ö½g¤å¥ó¥X²{
+		//ï¿½dï¿½ß¤å³¹ï¿½ï¿½concept
+		Map<String, String> user_concept_map = new HashMap<String, String>(); //ï¿½pï¿½ï¿½termï¿½bï¿½hï¿½Ö½gï¿½ï¿½ï¿½Xï¿½{
 		PreparedStatement selsect_UserConcept = null;
-		selsect_UserConcept = conn.prepareStatement("select * from concept_article where article_id = ?");
+		selsect_UserConcept = getConn().prepareStatement("select * from concept_article where article_id = ?");
 		
 		for(int i=0 ;i<article_list.size();i++){
 			String article_id = article_list.get(i);
@@ -233,7 +233,7 @@ public class Concept_similarity extends DBconnect{
 			String articles = entry.getValue();
 			System.out.println(entry.getKey() + "," + entry.getValue());
 			
-			//­pºâconceptÅv­«»Puser_conceptÅv­«
+			//ï¿½pï¿½ï¿½conceptï¿½vï¿½ï¿½ï¿½Puser_conceptï¿½vï¿½ï¿½
 			File file1= new  File( "D:/DataTemp/Concept_K-core//Weight//"+concept_id+"_"+topic_id+"_weight.txt" ); 
 			if(!file1.exists()){
 				concept_weight(concept_id,topic_id);
@@ -244,7 +244,7 @@ public class Concept_similarity extends DBconnect{
 			}
 			
 			
-			//­pºâRF
+			//ï¿½pï¿½ï¿½RF
 			double avg_link = RF(user_id,concept_id,topic_id);
 			bw.write(concept_id+","+topic_id+";"+avg_link);
 			bw.newLine();
@@ -271,7 +271,7 @@ public class Concept_similarity extends DBconnect{
 		String line2 = "";
 		int user_count = 0;
 		int concept_count = 0;
-		int N_weight = 10; //³]©w¨ú´X­Ó¯S¼x
+		int N_weight = 10; //ï¿½]ï¿½wï¿½ï¿½ï¿½Xï¿½Ó¯Sï¿½x
 		ArrayList<String> concept_list = new ArrayList<String>();
 		ArrayList<String> user_list = new ArrayList<String>();
 		
@@ -340,7 +340,7 @@ public class Concept_similarity extends DBconnect{
 	
 	public static void main(String[] args) throws Exception {
 		Concept_similarity test = new Concept_similarity();
-		test.user_article_concept(2); //¿é¤Juser_id¡A²£¥X¨âºØÅv­«
+		test.user_article_concept(2); //ï¿½ï¿½Juser_idï¿½Aï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½vï¿½ï¿½
 	//	test.concept_weight(3, 2);
 	//  test.user_weight(1, 3, 2, "3032,3080,3082");
 	//	test.RF(1, 3, 74);
