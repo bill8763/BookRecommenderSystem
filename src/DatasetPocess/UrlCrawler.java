@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 /**
  * 
  * @author chiang
@@ -23,26 +24,37 @@ public class UrlCrawler {
 
 	static void UrlCrawler(String URL, String output) throws IOException {
 		File file = new File(output);
+		/** å­˜åœ¨è¡¨ç¤ºå·²ç¶“æ‰¾éäº†ï¼Œä¸ç”¨å†æ‰¾ä¸€æ¬¡ */
 		if (!file.exists()) {
 			try {
-				Document Doc = Jsoup.connect(URL).get(); // ¨Ï¥ÎJsoup jar ¥h¸ÑªRºô­¶
-				Elements title = Doc.select("title"); // ­n¸ÑªRªºtag¤¸¯À¬°title
+				Document Doc = Jsoup.connect(URL).get(); // ï¿½Ï¥ï¿½Jsoup jar
+															// ï¿½hï¿½ÑªRï¿½ï¿½ï¿½ï¿½
+				Elements title = Doc.select("title"); // ï¿½nï¿½ÑªRï¿½ï¿½tagï¿½ï¿½ï¿½ï¿½ï¿½ï¿½title
 				Element content = Doc
 						.getElementById("bookDescription_feature_div");// tag id
-				System.out.println("Title is " + title.get(0).text()); // ±o¨ìtitle
-																		// tagªº¤º®e
-				System.out.println("content:" + content.text()); // ±o¨ì tag idªº¤º®e
-
-				BufferedWriter bw = new BufferedWriter(new FileWriter(output,
-						false));
-				bw.write(content.text().replace(" Read more Read less", ""));// ¨ú¥N±¼³Ì«á¦h¨úªº¦r
-				bw.close();
+				System.out.println("Title is " + title.get(0).text()); // ï¿½oï¿½ï¿½title
+				if (content == null) {
+					BufferedWriter bw = new BufferedWriter(new FileWriter(
+							output, false));
+					bw.write("");
+					bw.close();
+				} else {
+					System.out.println("content:" + content.text()); // ï¿½oï¿½ï¿½ tag
+																		// idï¿½ï¿½ï¿½ï¿½ï¿½e
+					BufferedWriter bw = new BufferedWriter(new FileWriter(
+							output, false));
+					bw.write(content.text().replace(" Read more Read less", ""));// ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Ì«ï¿½hï¿½ï¿½ï¿½ï¿½ï¿½r
+					bw.close();
+				}
 				System.out.println("done");
 			} catch (org.jsoup.HttpStatusException e) {
 				System.out.println("Reconnecting...");
 				UrlCrawler(URL, output);
 			} catch (java.net.SocketTimeoutException s) {
 				System.out.println("Time out! Reconnecting...");
+				UrlCrawler(URL, output);
+			} catch (java.net.UnknownHostException u) {
+				System.out.println("Reconnecting...");
 				UrlCrawler(URL, output);
 			}
 		}

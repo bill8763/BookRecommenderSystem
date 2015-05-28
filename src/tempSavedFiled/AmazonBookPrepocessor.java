@@ -32,16 +32,14 @@ public class AmazonBookPrepocessor<V,E> extends PreprocessComponent<V,E> {
 	public Graph<V,E> execute(File doc) {
 		Graph<V,E> documentGraph = null;
 		if(!doc.isFile()){
-			//TODO ?ˆ¤?–·?˜¯?¦?‚º?¯è®?å¯«ä?”ç‚ºtxt ?¦??‡throw Exception
+			//TODO åˆ¤æ–·æ˜¯å¦ç‚ºå¯è®€å¯«ä¸”ç‚ºtxt å¦å‰‡throw Exception
 		}
 		try(BufferedReader r = new BufferedReader(new FileReader(doc));){
 			documentGraph = new UndirectedSparseGraph<V,E>();
 			for(String line=r.readLine();line!=null;line = r.readLine()){
-				line=line.replace("]", "");
-				line=line.replace("[", "");
 
-		        Matcher m = Pattern.compile("[(),.\"\\?!:;]").matcher(line);
-		        line = m.replaceAll("");
+		        Matcher m = Pattern.compile("[^0-9a-zA-Z]").matcher(line);
+		        line = m.replaceAll(" ");
 				V node = this.vertexFactory.create();
 				this.vertexContent.put(node, line);
 				documentGraph.addVertex(node);

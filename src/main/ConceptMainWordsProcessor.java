@@ -73,7 +73,7 @@ System.out.println("ready to search");
 		 * test
 		 */
 		System.out.print(docGraph.getVertexCount());
-		new gerenratingMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
+		//new gerenratingMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
 	}
 	public static void main(String[] args) throws IOException{
 

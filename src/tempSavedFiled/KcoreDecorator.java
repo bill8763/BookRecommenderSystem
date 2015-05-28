@@ -15,12 +15,9 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.UndirectedSparseGraph;
 import edu.uci.ics.jung.graph.util.Pair;
 import tw.edu.ncu.im.Preprocess.PreprocessComponent;
-import tw.edu.ncu.im.Preprocess.graph.KeyTerm;
-import tw.edu.ncu.im.Preprocess.graph.TestEdge;
-import tw.edu.ncu.im.Util.NgdEdgeSorter;
 
 /**
- * ??æ¿¾??‰å?æ–¼??æª»å?¼ç?„é?? ?ˆ©?”¨??„é?degree?‰¾?‡º??„é?k-core?? ??’å?—k-core?? ?ª??™ä?‹æ?å¤§k-core?¼ç?„å?–å½¢
+ * éæ¿¾æ‰å°æ–¼é–€æª»å€¼çš„é‚Š åˆ©ç”¨å„é»degreeæ‰¾å‡ºå„é»k-coreå€¼ æ’åˆ—k-coreå€¼ åªç•™ä¸‹æœ€å¤§k-coreå€¼çš„åœ–å½¢
  * 
  * @author chiang
  *
@@ -29,17 +26,18 @@ import tw.edu.ncu.im.Util.NgdEdgeSorter;
  */
 public class KcoreDecorator<V, E> extends PreprocessDecorator<V, E> {
 	Map<E, Double> ngdMap = new HashMap<E, Double>();
-	private Map<V, Integer> coreMap = new HashMap<V, Integer>();
+	Map<V, Integer> coreMap = new HashMap<V, Integer>();
 	Double edgeThreshold;
-
+	/**
+	 * getter and setter
+	 */
 	public Map<V, Integer> getCoreMap() {
 		return coreMap;
 	}
-
 	public void setCoreMap(Map<V, Integer> coreMap) {
 		this.coreMap = coreMap;
 	}
-
+	
 	public KcoreDecorator(PreprocessComponent<V, E> _component,
 			Map<E, Double> _edgeDistance, Double _edgeThreshold) {
 		super(_component);
@@ -47,13 +45,12 @@ public class KcoreDecorator<V, E> extends PreprocessDecorator<V, E> {
 		this.edgeThreshold = _edgeThreshold;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public Graph<V, E> execute(File doc) {
 		Graph<V, E> originGraph = this.originComponent.execute(doc);
 		Set<V> toRemoveVerteices = new HashSet<V>();
 		Set<E> toRemoveEdges = new HashSet<E>();
-		// å°‡è?…é?é?æª»å?¼ç?„é?Šå? å…¥toRemoveEdgeså¾Œå?å?–å½¢?ˆª?™¤
+		// å°‡è¶…éé–€æª»å€¼çš„é‚ŠåŠ å…¥toRemoveEdgeså¾Œå¾åœ–å½¢åˆªé™¤
 		for (E edge : originGraph.getEdges()) {
 			if (ngdMap.get(edge) - edgeThreshold>0) {
 				toRemoveEdges.add(edge);
@@ -84,12 +81,13 @@ public class KcoreDecorator<V, E> extends PreprocessDecorator<V, E> {
 		}
 		/***/
 
-		setCoreMap(getKcore(tempGraph)); // ?‰¾?‡º??„é?k-core?¼å?Œå?–å?—æ?å¤§ç?„k
-		List<Entry<?, Integer>> sortedKcore = sort(getCoreMap()); // ??’å??
+		setCoreMap(getKcore(tempGraph)); // æ‰¾å‡ºå„é»k-coreå€¼å¾Œå–å¾—æœ€å¤§çš„k
+		List<Entry<?, Integer>> sortedKcore = sort(getCoreMap()); // æ’åº
 		int maxK;
-		maxK = sortedKcore.get(0).getValue(); // ??–å?—æ?å¤§k
+		if (sortedKcore.isEmpty()){maxK=0;}
+		else{maxK = sortedKcore.get(0).getValue();} // å–å¾—æœ€å¤§k
 		/**
-		 * ?ª??™ä?‹K-core??å¤§ç?„å?–å½¢
+		 * åªç•™ä¸‹K-coreæœ€å¤§çš„åœ–å½¢
 		 */
 		for (V node : originGraph.getVertices()) {
 			if (getCoreMap().get(node) != maxK) {
@@ -121,26 +119,26 @@ public class KcoreDecorator<V, E> extends PreprocessDecorator<V, E> {
 
 		Map<V, Integer> outputMap = new HashMap<V, Integer>();
 		Set<V> toRemoveVertexs = new HashSet<V>();
-		while (inputGraph.getVertexCount() > 0) { // ?…¨?ƒ¨k?ƒ½ç®—å?Œæ?‚ï?ŒinputGraph?‚ºç©?
+		while (inputGraph.getVertexCount() > 0) { // å…¨éƒ¨kéƒ½ç®—å®Œæ™‚ï¼ŒinputGraphç‚ºç©º
 			/**
-			 * ?ˆª?™¤degree<k??„node
+			 * åˆªé™¤degree<kçš„node
 			 */
 			boolean statusChange = true;
-			while (statusChange) { // ??‰åˆª?™¤é»è?é?æ–°ç®—degree??åˆª
+			while (statusChange) { // æœ‰åˆªé™¤é»è¦é‡æ–°ç®—degreeå†åˆª
 				statusChange = false;
-				for (V node : inputGraph.getVertices()) { // ??ˆå?˜å…¥toRemoveVertexs
+				for (V node : inputGraph.getVertices()) { // å…ˆå­˜å…¥toRemoveVertexs
 					if (inputGraph.degree(node) < k) {
 						toRemoveVertexs.add(node);
 						statusChange = true;
 					}
 				}
-				for (V node : toRemoveVertexs) { // ??‰ç”±toRemoveVertexs?ˆª??‰graph
+				for (V node : toRemoveVertexs) { // è—‰ç”±toRemoveVertexsåˆªæ‰graph
 													// node
 					inputGraph.removeVertex(node);
 				}
 			}
 			/**
-			 * ?‰©é¤˜node,K-core?¼è‡³å°‘å¤§?–¼k
+			 * å‰©é¤˜node,K-coreå€¼è‡³å°‘å¤§æ–¼k
 			 */
 			for (V node : inputGraph.getVertices()) {
 				outputMap.put(node, k);

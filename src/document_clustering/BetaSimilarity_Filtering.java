@@ -14,10 +14,10 @@ public class BetaSimilarity_Filtering
 {
 	public BetaSimilarity_Filtering(){}
 	
-	public static void BetaSimilarity_Filtering_test(double thr) throws IOException
+	public static void BetaSimilarity_Filtering_test(double thr,String inputFile,String ouputFile) throws IOException
 	{
-		// ¿é¤J	
-		File fr = new File("D:/DataTemp/Processing/Concept/BetaSimilarityResult.txt");
+		// ï¿½ï¿½J	
+		File fr = new File(inputFile);
 		if(fr.exists())
 		{
 			FileReader FileStream = new FileReader(fr);
@@ -46,8 +46,8 @@ public class BetaSimilarity_Filtering
 			BufferedStream.close();
 			
 			
-			// ¿é¥X
-			BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/Processing/Concept/BetaSimilarityMatrix.txt"));
+			// ï¿½ï¿½X
+			BufferedWriter bw = new BufferedWriter(new FileWriter(ouputFile));
 			for(String s: list)
 			{
 				try 
@@ -64,13 +64,13 @@ public class BetaSimilarity_Filtering
 			bw.close();			
 		}
 	}
-	public static void main(double thr)throws IOException
+	public static void main(double thr,String input,String output)throws IOException
 	{
-		BetaSimilarity_Filtering_test(thr);
+		BetaSimilarity_Filtering_test(thr,input,output);
 	}
 	
 	public static void main(String args[])throws IOException
 	{
-		main(Double.valueOf(0.2));   //³]©wªùÂe­È
+		//main(Double.valueOf(0.2));   //ï¿½]ï¿½wï¿½ï¿½ï¿½eï¿½ï¿½
 	}
 }

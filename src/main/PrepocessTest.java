@@ -27,52 +27,80 @@ import tw.edu.ncu.im.Util.EmbeddedIndexSearcher;
 import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
 public class PrepocessTest {
-	public static String path="";
-	public static String ouputPath="";
-	public static  void readFromDTG(File doc, String outputPath) throws IOException{
-		
-		AmazonBookPrepocessor<TermNode,CEdge<Double>> prepocessor = new AmazonBookPrepocessor<TermNode,CEdge<Double>>(new Factory<TermNode>(){
+	public static String path = "";
+	public static String ouputPath = "";
 
-			@Override
-			public TermNode create() {
-				return new TermNode();
-			}
-			
-		},new Factory<CEdge<Double>>(){
+	public static void readFromDTG(File doc, String outputPath)
+			throws IOException {
 
-			@Override
-			public CEdge<Double> create() {
-				return new CEdge<Double>();
-			}
-			
-		});
+		AmazonBookPrepocessor<TermNode, CEdge<Double>> prepocessor = new AmazonBookPrepocessor<TermNode, CEdge<Double>>(
+				new Factory<TermNode>() {
+
+					@Override
+					public TermNode create() {
+						return new TermNode();
+					}
+
+				}, new Factory<CEdge<Double>>() {
+
+					@Override
+					public CEdge<Double> create() {
+						return new CEdge<Double>();
+					}
+
+				});
 		prepocessor.execute(doc);
 
 		HttpIndexSearcher searcher = new HttpIndexSearcher();
-		searcher.url="http://140.115.82.105/searchweb/";
-		PartOfSpeechFilter<TermNode,CEdge<Double>> posComp = new PartOfSpeechFilter<TermNode,CEdge<Double>>(prepocessor, prepocessor.vertexContent);
-		TermToLowerCaseDecorator<TermNode,CEdge<Double>> lowerComp = new TermToLowerCaseDecorator<TermNode,CEdge<Double>>(posComp, posComp.getVertexResultsTerms());
-		FilteredTermLengthDecorator<TermNode,CEdge<Double>> termLengthComp = new FilteredTermLengthDecorator<TermNode,CEdge<Double>>(lowerComp, posComp.getVertexResultsTerms(), 3);
-		
-		StemmingDecorator<TermNode,CEdge<Double>> stemmedC = new StemmingDecorator<TermNode,CEdge<Double>>(termLengthComp, posComp.getVertexResultsTerms());
-		TermFreqDecorator<TermNode,CEdge<Double>> tfComp = new TermFreqDecorator<TermNode,CEdge<Double>>(stemmedC, posComp.getVertexResultsTerms());
+		searcher.url = "http://140.115.82.105/searchweb/";
+		PartOfSpeechFilter<TermNode, CEdge<Double>> posComp = new PartOfSpeechFilter<TermNode, CEdge<Double>>(
+				prepocessor, prepocessor.vertexContent);
+		TermToLowerCaseDecorator<TermNode, CEdge<Double>> lowerComp = new TermToLowerCaseDecorator<TermNode, CEdge<Double>>(
+				posComp, posComp.getVertexResultsTerms());
+		FilteredTermLengthDecorator<TermNode, CEdge<Double>> termLengthComp = new FilteredTermLengthDecorator<TermNode, CEdge<Double>>(
+				lowerComp, posComp.getVertexResultsTerms(), 3);
 
-		SearchResultFilter<TermNode,CEdge<Double>> filitedTermComp = new SearchResultFilter<TermNode,CEdge<Double>>(tfComp,  posComp.getVertexResultsTerms(), 10, 1000, searcher);
-		NGDistanceDecorator<TermNode,CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode,CEdge<Double>>(filitedTermComp,posComp.getVertexResultsTerms(),searcher);
-		NgdEdgeFilter<TermNode,CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode,CEdge<Double>>(ngdComp, ngdComp.getEdgeDistance(), 0.);
-		KcoreDecorator<TermNode,CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode,CEdge<Double>>(ngdflitedComp, ngdflitedComp.getNgdMap(), 1.0);
-		System.out.println("ready to processing:"+doc);
-		Graph<TermNode,CEdge<Double>> docGraph = kcoreComp.execute(doc);
+		StemmingDecorator<TermNode, CEdge<Double>> stemmedC = new StemmingDecorator<TermNode, CEdge<Double>>(
+				termLengthComp, posComp.getVertexResultsTerms());
+		TermFreqDecorator<TermNode, CEdge<Double>> tfComp = new TermFreqDecorator<TermNode, CEdge<Double>>(
+				stemmedC, posComp.getVertexResultsTerms());
 
+		SearchResultFilter<TermNode, CEdge<Double>> filitedTermComp = new SearchResultFilter<TermNode, CEdge<Double>>(
+				tfComp, posComp.getVertexResultsTerms(), 10, 10000, searcher);
+		NGDistanceDecorator<TermNode, CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode, CEdge<Double>>(
+				filitedTermComp, posComp.getVertexResultsTerms(), searcher);
+		NgdEdgeFilter<TermNode, CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode, CEdge<Double>>(
+				ngdComp, ngdComp.getEdgeDistance(), 0.7);
+		KcoreDecorator<TermNode, CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode, CEdge<Double>>(
+				ngdflitedComp, ngdflitedComp.getNgdMap(), 0.7);
+		System.out.println("ready to processing:" + doc);
+		Graph<TermNode, CEdge<Double>> docGraph = kcoreComp.execute(doc);
+		/** 刪掉degree0的點 */
+		HashSet<TermNode> termsToRemove = new HashSet<>();
+		for (TermNode term : docGraph.getVertices()) {
+			if (docGraph.getNeighborCount(term) == 0) {
+				termsToRemove.add(term);
+			}
+		}
+		for (TermNode term : termsToRemove) {
+			docGraph.removeVertex(term);
+			posComp.getVertexResultsTerms().remove(term);
+		}
 		/**
 		 * test
 		 */
 		System.out.print(docGraph.getVertexCount());
-		new gerenratingMainWords(docGraph,posComp.getVertexResultsTerms(),kcoreComp.getCoreMap(),outputPath);
+		if (docGraph.getVertexCount() > 0) {
+			new gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
+					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
+					outputPath);
+		}
 	}
-	public static void main(String[] args) throws IOException{
-		path="D:/dataset/abstract/";
-		ouputPath="D:/dataset/mainWords/";
+
+	public static void main(String[] args) throws IOException {
+		// path="D:/dataset/abstract/";
+		path = "D:/dataset/A14OJS0VWMOSWO_Abstract/";
+		ouputPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
 		File outputDir = new File(ouputPath);
 		if (!outputDir.exists()) {
 			outputDir.mkdirs();
@@ -85,11 +113,14 @@ public class PrepocessTest {
 		List<String> list = null;
 		list = fileList.getFileList(path);
 		File tempFile = null;
-		for(int i=0;i<list.size();i++){
-			tempFile= new File(path+list.get(i));
-			readFromDTG(tempFile,ouputPath+list.get(i));
-			/*if ( new File(ouputPath+list.get(i)).exists()){System.out.println("exists!");}
-			else{readFromDTG(tempFile,ouputPath+list.get(i));}*/
+		for (int i = 0; i < list.size(); i++) {
+			tempFile = new File(path + list.get(i));
+			readFromDTG(tempFile, ouputPath + list.get(i));
+			/*
+			 * if ( new
+			 * File(ouputPath+list.get(i)).exists()){System.out.println(
+			 * "exists!");} else{readFromDTG(tempFile,ouputPath+list.get(i));}
+			 */
 		}
 	}
 }
