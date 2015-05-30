@@ -35,7 +35,7 @@ public class BTRank
 		
 		
 		// Ū��(�������Ӧr���s����Ǧr��)
-		File fr1 = new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt");
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreResult.txt");
 		BufferedReader BufferedStream1 = new BufferedReader(new FileReader(fr1));
 		String line1 = "";
 		String[] arr;	

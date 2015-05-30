@@ -72,8 +72,8 @@ public class TagTree_Number
 		
 		for(String s1: list2)
 		{
-			String father = s1.split("��")[0];
-			String son[] = s1.split("��")[1].split(",");
+			String father = s1.split("-->")[0];
+			String son[] = s1.split("-->")[1].split(",");
 			list = term_list.get(father);
 			
 			for(String s2: son)

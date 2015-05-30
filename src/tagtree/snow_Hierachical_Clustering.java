@@ -24,8 +24,8 @@ import java.util.Iterator;
 public class snow_Hierachical_Clustering
 {
 	public snow_Hierachical_Clustering(){}
-	
-	public static void Hierarchical_Clustering_test(int no,int type)throws IOException
+	public static String mainwordPath = "";
+	public static void Hierarchical_Clustering_test(int no,int type,String dirPath)throws IOException
 	{
 		Hashtable<String,ArrayList<String>> H_DocTerm = new Hashtable<String,ArrayList<String>>();	// 記錄文件對應字詞	
 		Hashtable<String,ArrayList<String>> H_TermDoc = new Hashtable<String,ArrayList<String>>();	// 記錄字詞對應文件
@@ -46,9 +46,9 @@ public class snow_Hierachical_Clustering
 		
 		
 		// 讀檔					
-		FileReader FileStream1 = new FileReader("D:/DataTemp\\Processing\\Concept\\ConceptList.txt");
-		FileReader FileStream2 = new FileReader("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeNumberResult.txt");
-		FileReader FileStream3 = new FileReader("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt");
+		FileReader FileStream1 = new FileReader(dirPath+"Concept\\ConceptList.txt");
+		FileReader FileStream2 = new FileReader(dirPath+"TagTree\\" + no + "_File\\TagTreeNumberResult.txt");
+		FileReader FileStream3 = new FileReader(dirPath+"TagTree\\" + no + "_File\\TagTreeCheckResult.txt");
 		BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
 		BufferedReader BufferedStream2 = new BufferedReader(FileStream2);
 		BufferedReader BufferedStream3 = new BufferedReader(FileStream3);
@@ -87,8 +87,8 @@ public class snow_Hierachical_Clustering
 		
 		while((line3=BufferedStream3.readLine()) != null)
 		{
-			String t = line3.split("→")[0];
-			String arr[] = line3.split("→")[1].split(",");
+			String t = line3.split("-->")[0];
+			String arr[] = line3.split("-->")[1].split(",");
 			A_Child = new ArrayList<String>();
 			
 			for(String s: arr)
@@ -107,9 +107,9 @@ public class snow_Hierachical_Clustering
 			
 			FileReader FileStream;
 			if(type == 1)
-				FileStream = new FileReader("D:/DataTemp\\Processing\\Document\\" + d + "_File\\FilterResult.txt");
+				FileStream = new FileReader(dirPath+"Document\\" + d + "_File\\FilterResult.txt");
 			else
-				FileStream = new FileReader("D:/K-core/Main_word/"+d+"_main_word.txt");
+				FileStream = new FileReader(mainwordPath+d);
 			BufferedReader BufferedStream = new BufferedReader(FileStream);
 			String line="";
 			while((line=BufferedStream.readLine()) != null)
@@ -152,7 +152,7 @@ public class snow_Hierachical_Clustering
 				if(father.equals(""))						// 如果上一層為空，表root
 					continue;
 								
-				while(!father.equals("") && !H_DocTerm.get(d).contains(father))	// 若上一層字詞非空，且該文件沒有此字詞 → 將此字詞加入並繼續往上一層補齊
+				while(!father.equals("") && !H_DocTerm.get(d).contains(father))	// 若上一層字詞非空，且該文件沒有此字詞 --> 將此字詞加入並繼續往上一層補齊
 				{
 					A_Doc = H_TermDoc.get(father);				// 更新該字詞對應文件
 					if(!A_Doc.contains(d))
@@ -234,7 +234,11 @@ public class snow_Hierachical_Clustering
 		
 		// 輸出
 		String output="";
-		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp\\Processing\\Cluster\\HierarchicalClusteringResult.txt",true));;
+		File dir = new File(dirPath+"Cluster");
+		if(!dir.exists()){
+			dir.mkdir();
+		}
+		BufferedWriter bw = new BufferedWriter(new FileWriter(dirPath+"Cluster\\HierarchicalClusteringResult.txt",true));
 		
 		Set<String> set = H_TermDoc.keySet();
 		Iterator iterator = set.iterator();
@@ -384,7 +388,7 @@ public class snow_Hierachical_Clustering
 		{
 			
 			String s = (String)iterator.next();
-			System.out.print(s+" →");
+			System.out.print(s+" -->");
 			ArrayList<String> a = h.get(s);
 			
 			for(String c: a)
@@ -394,14 +398,15 @@ public class snow_Hierachical_Clustering
 		}
 	}
 	
-	public static void main(int no,int type)throws IOException
+	public static void main(int no,int type,String _mainwordPath, String dirPath)throws IOException
 	{
-		Hierarchical_Clustering_test(no,type);
+		mainwordPath=_mainwordPath;
+		Hierarchical_Clustering_test(no,type,dirPath);
 	}
 	
 	
 	public static void main(String args[])throws IOException
 	{
-		main(Integer.parseInt(args[0]),Integer.parseInt(args[0]));
+		//main(Integer.parseInt(args[0]),Integer.parseInt(args[0]));
 	}
 }

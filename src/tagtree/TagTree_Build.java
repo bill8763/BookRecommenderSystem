@@ -139,7 +139,7 @@ public class TagTree_Build
 		{
 			if(H_TermOut.get(A_Term.get(i))!=null && H_TermOut.get(A_Term.get(i)).size() > 0)
 			{
-				output = A_Term.get(i) + "��";
+				output = A_Term.get(i) + "-->";
 				for(int j=0 ; j<H_TermOut.get(A_Term.get(i)).size()-1 ;j++ )
 					output = output + H_TermOut.get(A_Term.get(i)).get(j) + ",";
 					

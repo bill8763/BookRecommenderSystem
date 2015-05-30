@@ -16,7 +16,6 @@ import edu.uci.ics.jung.graph.Graph;
 import tw.edu.ncu.im.Preprocess.AmazonBookPrepocessor;
 import tw.edu.ncu.im.Preprocess.Decorator.FilteredTermLengthDecorator;
 import tw.edu.ncu.im.Preprocess.Decorator.KcoreDecorator;
-import tw.edu.ncu.im.Preprocess.Decorator.NGDistanceDecorator;
 import tw.edu.ncu.im.Preprocess.Decorator.NgdEdgeFilter;
 import tw.edu.ncu.im.Preprocess.Decorator.PartOfSpeechFilter;
 import tw.edu.ncu.im.Preprocess.Decorator.SearchResultFilter;
@@ -77,14 +76,23 @@ public class DocPrepocess {
 		Graph<TermNode, CEdge<Double>> docGraph = kcoreComp.execute(doc);
 		/** 刪掉degree0的點 */
 		HashSet<TermNode> termsToRemove = new HashSet<>();
+		HashSet<Set<TermNode>> setToRemove = new HashSet<>();
 		for (TermNode term : docGraph.getVertices()) {
 			if (docGraph.getNeighborCount(term) == 0) {
 				termsToRemove.add(term);
+				for( Set<TermNode> termSet:ngdComp.pairOfTermsSearchResult.keySet()){
+					if(termSet.contains(term)){
+						setToRemove.add(termSet);
+					}
+				}
 			}
 		}
 		for (TermNode term : termsToRemove) {
 			docGraph.removeVertex(term);
 			posComp.getVertexResultsTerms().remove(term);
+		}
+		for ( Set<TermNode> termSet : setToRemove) {
+			ngdComp.pairOfTermsSearchResult.remove(termSet);
 		}
 		/**
 		 * test
@@ -94,7 +102,7 @@ public class DocPrepocess {
 /*			gerenratingTXT.gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
 					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
 					mainwordsOutputPath);*/
-			gerenratingTXT.gerenratingNumOfPair(docGraph,posComp.getVertexResultsTerms(),ngdComp.getEdgeDistance(),numOfPathOuputPath);
+			gerenratingTXT.gerenratingNumOfPair(docGraph,posComp.getVertexResultsTerms(),ngdComp.pairOfTermsSearchResult,numOfPathOuputPath);
 		}
 	}
 

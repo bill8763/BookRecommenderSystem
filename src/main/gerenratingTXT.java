@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import edu.uci.ics.jung.graph.Graph;
 
@@ -33,16 +35,19 @@ public class gerenratingTXT {
 
 	public static void gerenratingNumOfPair(
 			Graph<TermNode, CEdge<Double>> docGraph,
-			Map<TermNode, String> termMap, Map<CEdge<Double>, Double> edgeMap,
+			Map<TermNode, String> termMap, Map<Set<TermNode>, Long> pairOfTermsSearchResult,
 			String outputPath) throws IOException {
 		BufferedWriter writter = new BufferedWriter(new FileWriter(outputPath,
 				false));
 		for (TermNode term1 : docGraph.getVertices()) {
 			for (TermNode term2 : docGraph.getVertices()) {
 				if (!term1.equals(term2)) {
+					HashSet<TermNode> termSet = new HashSet<>();
+					termSet.add(term1);
+					termSet.add(term2);
 					writter.write("\"" + termMap.get(term1) + "\"+\""
 							+ termMap.get(term2) + "\","
-							+ edgeMap.get(docGraph.findEdge(term1, term2)));
+							+ pairOfTermsSearchResult.get(termSet));
 					writter.newLine();
 					writter.flush(); //
 				}

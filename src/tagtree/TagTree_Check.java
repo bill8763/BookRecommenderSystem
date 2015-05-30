@@ -36,13 +36,13 @@ public class TagTree_Check
 		
 		
 		// ��J
-		// type==2, ���Ҿ�
+		// type==2, �-->Ҿ�
 		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");
 		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
 		File fr3 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreResult.txt");
 		File fr4 = new File(dirPath+"TagTree\\" + no + "_File\\TagTreeBuildResult.txt");
 		
-		// type==3, ����
+		// type==3, -->-->
 		if(type == 3)
 		{
 			fr1 = new File(dirPath+"Document\\" + no + "_File\\FilterResult.txt");
@@ -131,7 +131,7 @@ public class TagTree_Check
 		}
 		
 		
-		// ���V���Y
+		// �-->V�-->Y
 		// PointTo(x,y)
 		int PointTo[][] = new int [oneValue.size()][oneValue.size()];
 		while((line = BufferedStream3.readLine()) != null)
@@ -149,10 +149,10 @@ public class TagTree_Check
 		}
 		
 		
-		// ���Ҿ�
+		// �-->Ҿ�
 		while((line = BufferedStream4.readLine()) != null)
 		{
-			String temp2[] = line.replaceAll("��",",").split(",");
+			String temp2[] = line.replaceAll("-->",",").split(",");
 			if(temp2.length > 1)
 			{
 				int first = oneName.indexOf(temp2[0]);
@@ -166,10 +166,10 @@ public class TagTree_Check
 		
 		
 		// �ˬd
-		double threeTermValue = 0.0;			// �T�r������
-		double twoTermValue = 0.0;			// ���r������
-		boolean change = false;				// �����榸�O�_���ܤ�
-		boolean changeAll = false;			// �O������O�_���ܤ�
+		double threeTermValue = 0.0;			// �T�r����-->
+		double twoTermValue = 0.0;			// �-->r-->-->-->
+		boolean change = false;				// �-->-->榸�O�_�-->ܤ�
+		boolean changeAll = false;			// �O-->-->-->O�_�-->ܤ�
 		for(int j=0 ; j<oneValue.size() ; j++)
 		{
 			ArrayList<Integer> sons = new ArrayList<Integer>();
@@ -194,7 +194,7 @@ public class TagTree_Check
 						change = false;
 						
 						
-						if( PointTo[sons.get(k)][sons.get(l)] > 0)	//k��l��j & k��j
+						if( PointTo[sons.get(k)][sons.get(l)] > 0)	//k-->l-->j & k-->j
 						{
 							
 							//threeTermValue = (twoTermValue.get(k)/total) * CP[j][sons.get(l)] * CP[sons.get(l)][sons.get(k)];	// PLSA
@@ -211,11 +211,11 @@ public class TagTree_Check
 								changeAll = true;	
 							}
 							
-							//System.out.println(oneName.get(sons.get(k))+"��"+oneName.get(sons.get(l))+"��"+oneName.get(j)+":"+threeTermValue);
-							//System.out.println(oneName.get(sons.get(k))+"��"+oneName.get(j)+":"+twoTermValue);
+							//System.out.println(oneName.get(sons.get(k))+"-->"+oneName.get(sons.get(l))+"-->"+oneName.get(j)+":"+threeTermValue);
+							//System.out.println(oneName.get(sons.get(k))+"-->"+oneName.get(j)+":"+twoTermValue);
 							//System.out.println("Change:"+change);
 						}
-						else						//l��k��j & l��j
+						else						//l-->k-->j & l-->j
 						{
 							//threeTermValue = (twoTermValue.get(l)/total) * CP[j][sons.get(k)] * CP[sons.get(k)][sons.get(l)];	// PLSA
 							//twoTermValue = CP[j][sons.get(l)];
@@ -231,8 +231,8 @@ public class TagTree_Check
 								changeAll = true;	
 							}
 							
-							//System.out.println(oneName.get(sons.get(l))+"��"+oneName.get(sons.get(k))+"��"+oneName.get(j)+":"+threeTermValue);
-							//System.out.println(oneName.get(sons.get(l))+"��"+oneName.get(j)+":"+twoTermValue);
+							//System.out.println(oneName.get(sons.get(l))+"-->"+oneName.get(sons.get(k))+"-->"+oneName.get(j)+":"+threeTermValue);
+							//System.out.println(oneName.get(sons.get(l))+"-->"+oneName.get(j)+":"+twoTermValue);
 							//System.out.println("Change:"+change);
 						}					
 					}	
@@ -242,12 +242,12 @@ public class TagTree_Check
 		
 		//System.out.println("ChangeAll:"+changeAll);
 		
-		// ��X
+		// -->X
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\TagTreeCheckResult.txt")));			
 		String output="";
 		for(int i=0 ; i<oneValue.size() ; i++)
 		{
-			output =  oneName.get(i)+ "��";
+			output =  oneName.get(i)+ "-->";
 			for(int j=0 ; j<oneValue.size() ; j++)
 			{
 				if(PointTo[i][j]!=1)
@@ -258,7 +258,7 @@ public class TagTree_Check
 				}		
 			}
 			output = output.substring(0,output.length()-1);
-			if(output.split("��").length > 1)
+			if(output.split("-->").length > 1)
 			{
 				bw.write(output);
 				bw.newLine();	

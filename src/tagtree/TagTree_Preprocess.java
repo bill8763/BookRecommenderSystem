@@ -27,10 +27,11 @@ public class TagTree_Preprocess {
 	private static BufferedReader bufferedStream4;
 	public static String mainwordPath = "";
 	public static String numberOfPairPath = "";
+	public static String dirPath = "";
 	static IndexSearchable searcher;
 
-	public static void TagTree_Preprocess_test(String dirPath) throws Exception {
-		File fr1 = new File(dirPath + "ConceptState.txt");
+	public static void TagTree_Preprocess_test() throws Exception {
+		File fr1 = new File(dirPath + "Concept/ConceptState.txt");
 		FileReader FileStream1 = new FileReader(fr1);
 		BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
 		String line1 = "";
@@ -55,10 +56,10 @@ public class TagTree_Preprocess {
 				for (int i = 0; i < arr1.length; i++)
 					document.add(arr1[i]);
 
-				createConcept(dirPath, concept, document);
+				createConcept(concept, document);
 			} else if (state.equals("D")) // �N��R�������s
 			{
-				deleteConcept(dirPath, concept);
+				deleteConcept(concept);
 			}
 			/*
 			 * else if(state.equals("Y")) // �N���s�����s { String arr1[] =
@@ -72,12 +73,14 @@ public class TagTree_Preprocess {
 	}
 
 	// �إ߸s��
-	public static void createConcept(String conceptDirPath, String concept,
+	public static void createConcept(String concept,
 			LinkedList<String> document) throws Exception {
 
 		System.out.println(document);
 		// ��J
-		File dir = new File(conceptDirPath + concept + "_File");
+		File dirTagTree = new File(dirPath+"TagTree/");
+		dirTagTree.mkdir();
+		File dir = new File(dirPath+"TagTree/" + concept + "_File");
 		dir.mkdir();
 
 		Hashtable<String, String> oneGram = new Hashtable<String, String>(); // ��r��<�r��,�j�M���G��>
@@ -160,7 +163,7 @@ public class TagTree_Preprocess {
 	}
 
 	// �R���s��
-	public static void deleteConcept(String dirPath, String concept) {
+	public static void deleteConcept( String concept) {
 		File dir = new File(dirPath + concept + "_File");
 		String fileList[] = dir.list();
 		for (String str : fileList) {
@@ -170,6 +173,84 @@ public class TagTree_Preprocess {
 		dir.delete();
 	}
 
+
+
+	public static void printHashtable(Hashtable<String, String> h) {
+		Vector<String> v = new Vector<String>(h.keySet());
+		Collections.sort(v);
+		Iterator<String> i = v.iterator();
+		String key = "";
+		String value = "";
+		while (i.hasNext()) {
+			key = (String) i.next();
+			value = h.get(key);
+			System.out.println(key + "," + value);
+		}
+	}
+
+	// ��X
+	public static void outputHashtable(String concept,
+			Hashtable<String, String> oneGram, Hashtable<String, String> twoGram)
+			throws IOException {
+		BufferedWriter bw1 = new BufferedWriter(new FileWriter(dirPath+"TagTree\\" + concept+ "_File\\MergeOneGramResult.txt"));
+		Vector<String> v = new Vector<String>(oneGram.keySet());
+		Collections.sort(v);
+		Iterator<String> i = v.iterator();
+		String key = "";
+		String value = "";
+		String output = "";
+		while (i.hasNext()) {
+			key = (String) i.next();
+			value = oneGram.get(key);
+			output = key + "," + value;
+			try {
+				bw1.write(output);
+				bw1.newLine();
+			} catch (IOException f) {
+				f.printStackTrace();
+			}
+		}
+		bw1.flush();
+		bw1.close();
+
+		BufferedWriter bw2 = new BufferedWriter(new FileWriter(
+				dirPath+"TagTree\\" + concept
+						+ "_File\\MergeTwoGramResult.txt"));
+		v = new Vector<String>(twoGram.keySet());
+		Collections.sort(v);
+		i = v.iterator();
+		while (i.hasNext()) {
+			key = (String) i.next();
+			value = twoGram.get(key);
+			output = key + "," + value;
+			try {
+				bw2.write(output);
+				bw2.newLine();
+			} catch (IOException f) {
+				f.printStackTrace();
+			}
+		}
+		bw2.flush();
+		bw2.close();
+	}
+
+	public static void main(String _dirPath, String _mainwordPath,
+			String _numberOfPairPath, IndexSearchable _searcher)
+			throws Exception {
+		mainwordPath = _mainwordPath;
+		numberOfPairPath = _numberOfPairPath;
+		dirPath=_dirPath;
+		searcher = _searcher;		
+		TagTree_Preprocess_test();
+	}
+	
+/**
+ * 以下tagTree更新功能尚未完成
+ * 
+ */
+	public static void main(String args[]) throws Exception {
+		// main();
+	}
 	// ��s�s��
 	public static void updateConcept(String concept, LinkedList<String> document)
 			throws IOException {
@@ -255,78 +336,5 @@ public class TagTree_Preprocess {
 		// ��X
 		outputHashtable(concept, oneGram, twoGram);
 	}
-
-	public static void printHashtable(Hashtable<String, String> h) {
-		Vector<String> v = new Vector<String>(h.keySet());
-		Collections.sort(v);
-		Iterator<String> i = v.iterator();
-		String key = "";
-		String value = "";
-		while (i.hasNext()) {
-			key = (String) i.next();
-			value = h.get(key);
-			System.out.println(key + "," + value);
-		}
-	}
-
-	// ��X
-	public static void outputHashtable(String concept,
-			Hashtable<String, String> oneGram, Hashtable<String, String> twoGram)
-			throws IOException {
-		BufferedWriter bw1 = new BufferedWriter(new FileWriter(
-				"D:/DataTemp\\Processing\\TagTree\\" + concept
-						+ "_File\\MergeOneGramResult.txt"));
-		Vector<String> v = new Vector<String>(oneGram.keySet());
-		Collections.sort(v);
-		Iterator<String> i = v.iterator();
-		String key = "";
-		String value = "";
-		String output = "";
-		while (i.hasNext()) {
-			key = (String) i.next();
-			value = oneGram.get(key);
-			output = key + "," + value;
-			try {
-				bw1.write(output);
-				bw1.newLine();
-			} catch (IOException f) {
-				f.printStackTrace();
-			}
-		}
-		bw1.flush();
-		bw1.close();
-
-		BufferedWriter bw2 = new BufferedWriter(new FileWriter(
-				"D:/DataTemp\\Processing\\TagTree\\" + concept
-						+ "_File\\MergeTwoGramResult.txt"));
-		v = new Vector<String>(twoGram.keySet());
-		Collections.sort(v);
-		i = v.iterator();
-		while (i.hasNext()) {
-			key = (String) i.next();
-			value = twoGram.get(key);
-			output = key + "," + value;
-			try {
-				bw2.write(output);
-				bw2.newLine();
-			} catch (IOException f) {
-				f.printStackTrace();
-			}
-		}
-		bw2.flush();
-		bw2.close();
-	}
-
-	public static void main(String dirPath, String _mainwordPath,
-			String _numberOfPairPath, IndexSearchable _searcher)
-			throws Exception {
-		mainwordPath = _mainwordPath;
-		numberOfPairPath = _numberOfPairPath;
-		TagTree_Preprocess_test(dirPath);
-		searcher = _searcher;
-	}
-
-	public static void main(String args[]) throws Exception {
-		// main();
-	}
 }
+
