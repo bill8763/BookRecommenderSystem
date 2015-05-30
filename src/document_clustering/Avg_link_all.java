@@ -14,7 +14,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 
-import tagtree.ServerUtil;
 import tw.edu.ncu.im.Util.IndexSearchable;
 
 public class Avg_link_all {

@@ -1,11 +1,11 @@
 package tagtree;
 /*
-¤u§@¡G«Ø¸m¼ÐÅÒ¾ð
-      1.¨C¦^¦X§ä¨ì³Ì¤jBT­Èªº¦rµü
-      2.±N¨ä¨ã³Ì¤jBT­Èªº¦rµü¡A½T©w¨S¦³¨ä¥¦¦rµü¦³³s¦V¥¦©Ò«ü¦Vªº¦rµü
-¨Ó·½¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt	
+ï¿½uï¿½@ï¿½Gï¿½Ø¸mï¿½ï¿½ï¿½Ò¾ï¿½
+      1.ï¿½Cï¿½^ï¿½Xï¿½ï¿½ï¿½Ì¤jBTï¿½Èªï¿½ï¿½rï¿½ï¿½
+      2.ï¿½Nï¿½ï¿½ï¿½Ì¤jBTï¿½Èªï¿½ï¿½rï¿½ï¿½ï¿½Aï¿½Tï¿½wï¿½Sï¿½ï¿½ï¿½ä¥¦ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Vï¿½ï¿½ï¿½Ò«ï¿½ï¿½Vï¿½ï¿½ï¿½rï¿½ï¿½
+ï¿½Ó·ï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt	
       D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt	
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeBuildResult.txt
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeBuildResult.txt
 */
 
 import java.io.BufferedReader;
@@ -20,21 +20,21 @@ public class TagTree_Build
 {
 	public TagTree_Build(){}
 	
-	public static void main(int no) throws IOException
+	public static void main(int no, String dirPath) throws IOException
 	{
-		Hashtable<String,ArrayList<String>> H_TermOut = new Hashtable<String,ArrayList<String>>();	// ¦rµü»P¨ä³s¥Xªº¦rµü<¦rµü,³s¥Xªº¦rµü>
-		Hashtable<String,Boolean> H_Choose = new Hashtable<String,Boolean>();				// §PÂ_¦rµü¬O§_¤w½T©w¶¥¼h<¦rµü,¥¬ªL>
+		Hashtable<String,ArrayList<String>> H_TermOut = new Hashtable<String,ArrayList<String>>();	// ï¿½rï¿½ï¿½ï¿½Pï¿½ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½<ï¿½rï¿½ï¿½,ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½>
+		Hashtable<String,Boolean> H_Choose = new Hashtable<String,Boolean>();				// ï¿½Pï¿½_ï¿½rï¿½ï¿½ï¿½Oï¿½_ï¿½wï¿½Tï¿½wï¿½ï¿½ï¿½h<ï¿½rï¿½ï¿½,ï¿½ï¿½ï¿½L>
 		
-		ArrayList<String> A_Term = new ArrayList<String>();						// ©Ò¦³¦rµü²M³æ
-		ArrayList<Double> A_BTValue = new ArrayList<Double>();						// ©Ò¦³¦rµüªºBT­È²M³æ
-		ArrayList<String> A_TermOut ;									// ³s¥Xªº¦rµü²M³æ
-		ArrayList<String> A_OriTermOut ;								// ³Ì¤jBT­È¨ä³s¥Xªº¦rµü²M³æ
-		ArrayList<String> A_NewTermOut ;								// ³Ì¤jBT­È¨ä§ó·s³s¥Xªº¦rµü²M³æ
+		ArrayList<String> A_Term = new ArrayList<String>();						// ï¿½Ò¦ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
+		ArrayList<Double> A_BTValue = new ArrayList<Double>();						// ï¿½Ò¦ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½BTï¿½È²Mï¿½ï¿½
+		ArrayList<String> A_TermOut ;									// ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
+		ArrayList<String> A_OriTermOut ;								// ï¿½Ì¤jBTï¿½È¨ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
+		ArrayList<String> A_NewTermOut ;								// ï¿½Ì¤jBTï¿½È¨ï¿½ï¿½sï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
 		
 		
-		// ÅªÀÉ	
-		File fr1 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt");		
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt");					
+		// Åªï¿½ï¿½	
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankResult.txt");		
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreResult.txt");					
 		BufferedReader BufferedStream1 = new BufferedReader(new FileReader(fr1));
 		BufferedReader BufferedStream2 = new BufferedReader(new FileReader(fr2));
 		String line1 = "";
@@ -67,11 +67,11 @@ public class TagTree_Build
 		BufferedStream2.close();
 		
 		
-		// ÀË¬d
-		double max = 0.0;								// ³Ì¤jBT­È
-		int index = 0;									// ¤U¼Ð
-		String term = "";								// ³Ì¤jBT­Èªº¦rµü
-		String out = "";								// ³Ì¤jBT­Èªº¦rµü¨ä³s¥Xªº¬Y¤@¦rµü
+		// ï¿½Ë¬d
+		double max = 0.0;								// ï¿½Ì¤jBTï¿½ï¿½
+		int index = 0;									// ï¿½Uï¿½ï¿½
+		String term = "";								// ï¿½Ì¤jBTï¿½Èªï¿½ï¿½rï¿½ï¿½
+		String out = "";								// ï¿½Ì¤jBTï¿½Èªï¿½ï¿½rï¿½ï¿½ï¿½ï¿½sï¿½Xï¿½ï¿½ï¿½Yï¿½@ï¿½rï¿½ï¿½
 		
 		while(H_Choose.contains(false) && max >=0.0)
 		{
@@ -83,7 +83,7 @@ public class TagTree_Build
 			A_OriTermOut = new ArrayList<String>();
 			A_NewTermOut = new ArrayList<String>();
 			
-			// §ä¨ì³Ì¤jªºBT­È
+			// ï¿½ï¿½ï¿½Ì¤jï¿½ï¿½BTï¿½ï¿½
 			for(int i=0 ; i< A_BTValue.size() ; i++)
 			{
 				if( A_BTValue.get(i) > max )
@@ -93,7 +93,7 @@ public class TagTree_Build
 				}
 			}
 			
-			// ±N¨ä¨ã³Ì¤jBT­Èªº¦rµü¡A½T©w¨S¦³¨ä¥¦¦rµü¦³³s¦V¥¦©Ò«ü¦Vªº¦rµü
+			// ï¿½Nï¿½ï¿½ï¿½Ì¤jBTï¿½Èªï¿½ï¿½rï¿½ï¿½ï¿½Aï¿½Tï¿½wï¿½Sï¿½ï¿½ï¿½ä¥¦ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½sï¿½Vï¿½ï¿½ï¿½Ò«ï¿½ï¿½Vï¿½ï¿½ï¿½rï¿½ï¿½
 			if(max > 0.0)
 			{
 				A_BTValue.set(index,-1.0);
@@ -105,24 +105,24 @@ public class TagTree_Build
 					for(int j=0 ; j<A_OriTermOut.size() ; j++)
 					{
 						out = A_OriTermOut.get(j);
-						if(H_Choose.get(out) == false)	// ¥Nªí¸Ó¦rµüÁÙ¥¼³Q½T©w¶¥¼h
+						if(H_Choose.get(out) == false)	// ï¿½Nï¿½ï¿½Ó¦rï¿½ï¿½ï¿½Ù¥ï¿½ï¿½Qï¿½Tï¿½wï¿½ï¿½ï¿½h
 						{
 							H_Choose.put(out,true);
 							A_NewTermOut.add(out);
 						}
 					}
-					H_TermOut.put(term,A_NewTermOut);		// ­«·s§ó·s¥¿½Tªº¶¥¼h
+					H_TermOut.put(term,A_NewTermOut);		// ï¿½ï¿½ï¿½sï¿½ï¿½sï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½h
 				}
 			}
 		}
 		
 		/*
-		// ¦C¦L
+		// ï¿½Cï¿½L
 		for(int i=0 ; i<A_Term.size() ; i++)
 		{
 			if(H_TermOut.get(A_Term.get(i))!=null && H_TermOut.get(A_Term.get(i)).size() > 0)
 			{
-				System.out.print(A_Term.get(i)+"¡÷");
+				System.out.print(A_Term.get(i)+"ï¿½ï¿½");
 				for(int j=0 ; j<H_TermOut.get(A_Term.get(i)).size()-1 ;j++ )
 					System.out.print(H_TermOut.get(A_Term.get(i)).get(j)+",");
 					
@@ -132,14 +132,14 @@ public class TagTree_Build
 		}
 		*/
 		
-		// ¿é¥X
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeBuildResult.txt")));			
+		// ï¿½ï¿½X
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\TagTreeBuildResult.txt")));			
 		String output="";
 		for(int i=0 ; i<A_Term.size() ; i++)
 		{
 			if(H_TermOut.get(A_Term.get(i))!=null && H_TermOut.get(A_Term.get(i)).size() > 0)
 			{
-				output = A_Term.get(i) + "¡÷";
+				output = A_Term.get(i) + "ï¿½ï¿½";
 				for(int j=0 ; j<H_TermOut.get(A_Term.get(i)).size()-1 ;j++ )
 					output = output + H_TermOut.get(A_Term.get(i)).get(j) + ",";
 					
@@ -154,6 +154,6 @@ public class TagTree_Build
 	
 	public static void main(String args[]) throws IOException
 	{
-		main(Integer.parseInt(args[0]));
+		//main(Integer.parseInt(args[0]));
 	}
 }

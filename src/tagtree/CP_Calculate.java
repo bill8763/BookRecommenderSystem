@@ -1,12 +1,12 @@
 package tagtree;
 /*
-¤u§@¡G­pºâ¨â¨â¦rµü¶¡ªºConditional Probability­È
-¤½¦¡¡Gp(x|y)=P(x^y)/P(y) 	
-¨Ó·½¡G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt			(¤ÀÃþ¾ð)
-       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt			(¤ÀÃþ¾ð)
-	3.D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt				(¹êÅç)
-	  D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt			(¹êÅç)
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt			
+ï¿½uï¿½@ï¿½Gï¿½pï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Conditional Probabilityï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½Gp(x|y)=P(x^y)/P(y) 	
+ï¿½Ó·ï¿½ï¿½G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt			(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt			(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	3.D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt				(ï¿½ï¿½ï¿½ï¿½)
+	  D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt			(ï¿½ï¿½ï¿½ï¿½)
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt			
 */
 
 import java.io.BufferedReader;
@@ -22,26 +22,26 @@ public class CP_Calculate
 {
 	public CP_Calculate() {}
 	
-	public static void CP_Calculate_test(int no,int type,double thr) throws IOException
+	public static void CP_Calculate_test(int no,int type,double thr,String dirPath) throws IOException
 	{	
 		ArrayList<String> list1 = new ArrayList<String>();	
 		ArrayList<String> list2 = new ArrayList<String>();	
-		ArrayList<String> oneName = new ArrayList<String>();	// ³æ¦rµü¦WºÙ
-		ArrayList<String> twoName = new ArrayList<String>();	// Âù¦rµü¦WºÙ
-		ArrayList<Double> oneNum = new ArrayList<Double>();	// ³æ¦rµü­È
-		ArrayList<Double> twoNum = new ArrayList<Double>();	// Âù¦rµü­È
+		ArrayList<String> oneName = new ArrayList<String>();	// ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<String> twoName = new ArrayList<String>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<Double> oneNum = new ArrayList<Double>();	// ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
+		ArrayList<Double> twoNum = new ArrayList<Double>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 		
 		
-		// ÅªÀÉ
-		// type==2, ¤ÀÃþ¾ð
-		File fr1 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt");
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
+		// Åªï¿½ï¿½
+		// type==2, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
 		
-		// type==3, ¹êÅç
+		// type==3, ï¿½ï¿½ï¿½ï¿½
 		if(type==3)
 		{
-			fr1 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt");
-			fr2 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt");
+			fr1 = new File(dirPath+"Document\\" + no + "_File\\FilterResult.txt");
+			fr2 = new File(dirPath+"Document\\" + no + "_File\\FilterResult2.txt");
 		}
 		
 		FileReader FileStream1 = new FileReader(fr1);
@@ -63,9 +63,9 @@ public class CP_Calculate
 		BufferedStream2.close();
 		
 		
-		// ³æ¦rµü³B²z
+		// ï¿½ï¿½rï¿½ï¿½ï¿½Bï¿½z
 		// p(x) = g(x) /g(N)
-		final double total = 25;			// ¥NªíGoogle ¸ê®Æ®wÁ`¼Æ	
+		final double total = 25;			// ï¿½Nï¿½ï¿½Google ï¿½ï¿½Æ®wï¿½`ï¿½ï¿½	
 		for (int i = 0; i < datas1.length; i++) 
 		{
 			String key = ((String)datas1[i]).split(",")[0];
@@ -78,7 +78,7 @@ public class CP_Calculate
 		}
 		
 		
-		// Âù¦rµü³B²z
+		// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Bï¿½z
 		// p(x,y) = g(x,y) / g(N) 	
 		for (int i = 0; i < datas2.length; i++) 
 		{
@@ -97,7 +97,7 @@ public class CP_Calculate
 		}
 		
 		
-		// ­pºâCP
+		// ï¿½pï¿½ï¿½CP
 		// p(x|y)=P(x^y)/P(y) 		
 		double preCP[][] = new double [oneNum.size()][oneNum.size()];
 	
@@ -135,7 +135,7 @@ public class CP_Calculate
 		}
 				
 		
-		// ¤ñ¸û
+		// ï¿½ï¿½ï¿½
 		for(int i=0 ; i<oneNum.size() ; i++)
 		{
 			for(int j=0 ; j<oneNum.size() ; j++)
@@ -152,12 +152,12 @@ public class CP_Calculate
 		}
 		
 			
-		// ªùÂe­È³]©w
-		double threshold = thr;					// CPªùÂe­È
-		double CPMax = 0.0;					// CP³Ì¤j­È
-		double CPMin = 1.0;					// CP³Ì¤p­È
-		double CPMid = 0.0;					// CP¤¤¶¡­È
-		double CPAvg = 0.0;					// CP¥­§¡­È
+		// ï¿½ï¿½ï¿½eï¿½È³]ï¿½w
+		double threshold = thr;					// CPï¿½ï¿½ï¿½eï¿½ï¿½
+		double CPMax = 0.0;					// CPï¿½Ì¤jï¿½ï¿½
+		double CPMin = 1.0;					// CPï¿½Ì¤pï¿½ï¿½
+		double CPMid = 0.0;					// CPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		double CPAvg = 0.0;					// CPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		for(int i=0 ; i<oneNum.size() ; i++)
 		{
@@ -178,7 +178,7 @@ public class CP_Calculate
 		CPAvg = CPAvg/ ((oneNum.size()*(oneNum.size()-1))/2);
 		
 		
-		// ¹LÂo
+		// ï¿½Lï¿½o
 		if(thr == 1.0)
 			threshold = CPMid;
 		if(thr == 2.0)
@@ -200,10 +200,10 @@ public class CP_Calculate
 		}
 		
 		
-		// ¿é¥X
+		// ï¿½ï¿½X
 		Object[] objs = oneName.toArray();
 		String objs_out = "";
-		BufferedWriter 	bw = new BufferedWriter(new FileWriter("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt"));
+		BufferedWriter 	bw = new BufferedWriter(new FileWriter(dirPath+"TagTree\\" + no + "_File\\CPResult.txt"));
 		for(int i=0 ; i<oneNum.size() ; i++)
 		{
 			for(int j=0 ; j<oneNum.size() ; j++)
@@ -228,15 +228,15 @@ public class CP_Calculate
 		bw.close();
 	}
 	
-	public static void main(int no,int type,double thr)throws IOException
+	public static void main(int no,int type,double thr,String dirPath)throws IOException
 	{
-		CP_Calculate_test(no,type,thr);
+		CP_Calculate_test(no,type,thr,dirPath);
 	}
 	
 	public static void main(String args[])throws IOException
 	{
 		for(int i=1;i<=6;i++){
-			main(i,2,0.3);
+			//main(i,2,0.3);
 		}
 	//	main(Integer.parseInt(args[0]),Integer.parseInt(args[1]),Double.parseDouble(args[2]));
 	}

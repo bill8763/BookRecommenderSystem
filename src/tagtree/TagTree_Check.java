@@ -1,10 +1,10 @@
 package tagtree;
 /*
-¤u§@¡GÀË¬d¼ÐÅÒ¾ð
-      ¤ñ¸û¨â¦rµü»P¤T¦rµüªº CP/NGD ­È
-      k¡÷l¡÷j & k¡÷j
-      l¡÷k¡÷j & l¡÷j
-¨Ó·½¡G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt	
+ï¿½uï¿½@ï¿½Gï¿½Ë¬dï¿½ï¿½ï¿½Ò¾ï¿½
+      ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Pï¿½Tï¿½rï¿½ï¿½ï¿½ï¿½ CP/NGD ï¿½ï¿½
+      kï¿½ï¿½lï¿½ï¿½j & kï¿½ï¿½j
+      lï¿½ï¿½kï¿½ï¿½j & lï¿½ï¿½j
+ï¿½Ó·ï¿½ï¿½G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt	
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TaggingTreeResult.txt	
@@ -12,7 +12,7 @@ package tagtree;
       	  D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeBuildResult.txt	
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt
 */
 
 import java.io.BufferedReader;
@@ -27,26 +27,26 @@ public class TagTree_Check
 {
 	public TagTree_Check(){}
 	
-	public static void TagTree_Check_test(int no,int type) throws IOException
+	public static void TagTree_Check_test(int no,int type, String dirPath) throws IOException
 	{
-		ArrayList<String> oneName = new ArrayList<String>();	// ³æ¦rµü¦WºÙ
-		ArrayList<String> twoName = new ArrayList<String>();	// Âù¦rµü¦WºÙ
-		ArrayList<Double> oneValue = new ArrayList<Double>();	// ³æ¦rµü­È
-		ArrayList<Double> twoValue = new ArrayList<Double>();	// Âù¦rµü­È
+		ArrayList<String> oneName = new ArrayList<String>();	// ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<String> twoName = new ArrayList<String>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<Double> oneValue = new ArrayList<Double>();	// ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
+		ArrayList<Double> twoValue = new ArrayList<Double>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 		
 		
-		// ¿é¤J
-		// type==2, ¼ÐÅÒ¾ð
-		File fr1 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt");
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
-		File fr3 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt");
-		File fr4 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeBuildResult.txt");
+		// ï¿½ï¿½J
+		// type==2, ï¿½ï¿½ï¿½Ò¾ï¿½
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
+		File fr3 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreResult.txt");
+		File fr4 = new File(dirPath+"TagTree\\" + no + "_File\\TagTreeBuildResult.txt");
 		
-		// type==3, ¹êÅç
+		// type==3, ï¿½ï¿½ï¿½ï¿½
 		if(type == 3)
 		{
-			fr1 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt");
-			fr2 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt");	
+			fr1 = new File(dirPath+"Document\\" + no + "_File\\FilterResult.txt");
+			fr2 = new File(dirPath+"Document\\" + no + "_File\\FilterResult2.txt");	
 		}	
 		
 		FileReader FileStream1 = new FileReader(fr1);
@@ -75,7 +75,7 @@ public class TagTree_Check
 		}
 		
 		
-		// CP³B²z
+		// CPï¿½Bï¿½z
 		// CP(x,y)=p(x|y)=f(x,y)/f(y) 			
 		double CP[][] = new double [oneValue.size()][oneValue.size()];
 		int p =0;
@@ -100,7 +100,7 @@ public class TagTree_Check
 		}
 		
 		
-		// NGD³B²z
+		// NGDï¿½Bï¿½z
 		// NGD(x,y) = {M[f(x),f(y)] - f(x,y)} / {f(N) - m[f(x),f(y)]}			
 		double NGD[][] = new double [oneValue.size()][oneValue.size()];
 		double total = 30.0;
@@ -119,7 +119,7 @@ public class TagTree_Check
 		}
 		
 		
-		// CN³B²z
+		// CNï¿½Bï¿½z
 		// CN(x,y) = CP(x,y) / NGD(x,y);
 		double CN[][] = new double [oneValue.size()][oneValue.size()];
 		for(int i=0 ; i<oneValue.size() ; i++)
@@ -131,7 +131,7 @@ public class TagTree_Check
 		}
 		
 		
-		// «ü¦VÃö«Y
+		// ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Y
 		// PointTo(x,y)
 		int PointTo[][] = new int [oneValue.size()][oneValue.size()];
 		while((line = BufferedStream3.readLine()) != null)
@@ -149,10 +149,10 @@ public class TagTree_Check
 		}
 		
 		
-		// ¼ÐÅÒ¾ð
+		// ï¿½ï¿½ï¿½Ò¾ï¿½
 		while((line = BufferedStream4.readLine()) != null)
 		{
-			String temp2[] = line.replaceAll("¡÷",",").split(",");
+			String temp2[] = line.replaceAll("ï¿½ï¿½",",").split(",");
 			if(temp2.length > 1)
 			{
 				int first = oneName.indexOf(temp2[0]);
@@ -165,11 +165,11 @@ public class TagTree_Check
 		}
 		
 		
-		// ÀË¬d
-		double threeTermValue = 0.0;			// ¤T¦rµüªº­È
-		double twoTermValue = 0.0;			// Âù¦rµüªº­È
-		boolean change = false;				// ¬ö¿ý³æ¦¸¬O§_¦³ÅÜ¤Æ
-		boolean changeAll = false;			// °O¿ý¾ãÅé¬O§_¦³ÅÜ¤Æ
+		// ï¿½Ë¬d
+		double threeTermValue = 0.0;			// ï¿½Tï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		double twoTermValue = 0.0;			// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		boolean change = false;				// ï¿½ï¿½ï¿½ï¿½ï¿½æ¦¸ï¿½Oï¿½_ï¿½ï¿½ï¿½Ü¤ï¿½
+		boolean changeAll = false;			// ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½_ï¿½ï¿½ï¿½Ü¤ï¿½
 		for(int j=0 ; j<oneValue.size() ; j++)
 		{
 			ArrayList<Integer> sons = new ArrayList<Integer>();
@@ -194,7 +194,7 @@ public class TagTree_Check
 						change = false;
 						
 						
-						if( PointTo[sons.get(k)][sons.get(l)] > 0)	//k¡÷l¡÷j & k¡÷j
+						if( PointTo[sons.get(k)][sons.get(l)] > 0)	//kï¿½ï¿½lï¿½ï¿½j & kï¿½ï¿½j
 						{
 							
 							//threeTermValue = (twoTermValue.get(k)/total) * CP[j][sons.get(l)] * CP[sons.get(l)][sons.get(k)];	// PLSA
@@ -211,11 +211,11 @@ public class TagTree_Check
 								changeAll = true;	
 							}
 							
-							//System.out.println(oneName.get(sons.get(k))+"¡÷"+oneName.get(sons.get(l))+"¡÷"+oneName.get(j)+":"+threeTermValue);
-							//System.out.println(oneName.get(sons.get(k))+"¡÷"+oneName.get(j)+":"+twoTermValue);
+							//System.out.println(oneName.get(sons.get(k))+"ï¿½ï¿½"+oneName.get(sons.get(l))+"ï¿½ï¿½"+oneName.get(j)+":"+threeTermValue);
+							//System.out.println(oneName.get(sons.get(k))+"ï¿½ï¿½"+oneName.get(j)+":"+twoTermValue);
 							//System.out.println("Change:"+change);
 						}
-						else						//l¡÷k¡÷j & l¡÷j
+						else						//lï¿½ï¿½kï¿½ï¿½j & lï¿½ï¿½j
 						{
 							//threeTermValue = (twoTermValue.get(l)/total) * CP[j][sons.get(k)] * CP[sons.get(k)][sons.get(l)];	// PLSA
 							//twoTermValue = CP[j][sons.get(l)];
@@ -231,8 +231,8 @@ public class TagTree_Check
 								changeAll = true;	
 							}
 							
-							//System.out.println(oneName.get(sons.get(l))+"¡÷"+oneName.get(sons.get(k))+"¡÷"+oneName.get(j)+":"+threeTermValue);
-							//System.out.println(oneName.get(sons.get(l))+"¡÷"+oneName.get(j)+":"+twoTermValue);
+							//System.out.println(oneName.get(sons.get(l))+"ï¿½ï¿½"+oneName.get(sons.get(k))+"ï¿½ï¿½"+oneName.get(j)+":"+threeTermValue);
+							//System.out.println(oneName.get(sons.get(l))+"ï¿½ï¿½"+oneName.get(j)+":"+twoTermValue);
 							//System.out.println("Change:"+change);
 						}					
 					}	
@@ -242,12 +242,12 @@ public class TagTree_Check
 		
 		//System.out.println("ChangeAll:"+changeAll);
 		
-		// ¿é¥X
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt")));			
+		// ï¿½ï¿½X
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\TagTreeCheckResult.txt")));			
 		String output="";
 		for(int i=0 ; i<oneValue.size() ; i++)
 		{
-			output =  oneName.get(i)+ "¡÷";
+			output =  oneName.get(i)+ "ï¿½ï¿½";
 			for(int j=0 ; j<oneValue.size() ; j++)
 			{
 				if(PointTo[i][j]!=1)
@@ -258,7 +258,7 @@ public class TagTree_Check
 				}		
 			}
 			output = output.substring(0,output.length()-1);
-			if(output.split("¡÷").length > 1)
+			if(output.split("ï¿½ï¿½").length > 1)
 			{
 				bw.write(output);
 				bw.newLine();	
@@ -274,15 +274,15 @@ public class TagTree_Check
 		
 	}
 	
-	public static void main(int no,int type)throws IOException
+	public static void main(int no,int type,String dirPath)throws IOException
 	{
-		TagTree_Check_test(no,type);
+		TagTree_Check_test(no,type,dirPath);
 	}
 	
 	public static void main(String args[])throws IOException
 	{
-		for(int i=1;i<=6;i++)
-			main(i,2);
+		for(int i=1;i<=6;i++){}
+			//main(i,2);
 		//main(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
 	}
 } 

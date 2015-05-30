@@ -1,10 +1,10 @@
 package tagtree;
 /*
-¤u§@¡G¼Ð¸¹¼ÐÅÒ¾ð¡A±N¦rµü§@¶¥¼hªº½s¸¹
-¨Ó·½¡GD:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt	
+ï¿½uï¿½@ï¿½Gï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ò¾ï¿½Aï¿½Nï¿½rï¿½ï¿½ï¿½@ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½sï¿½ï¿½
+ï¿½Ó·ï¿½ï¿½GD:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt	
       D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt			
       D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt	
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeNumberResult.txt
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeNumberResult.txt
 */
 
 import java.io.BufferedReader;
@@ -24,13 +24,13 @@ public class TagTree_Number
 {
 	public TagTree_Number(){}
 	
-	public static void TagTree_Number_test(int no) throws IOException
+	public static void TagTree_Number_test(int no,String dirPath) throws IOException
 	{
-		// ¿é¤J
+		// ï¿½ï¿½J
 		//File fr1 = new File("D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt");	
-		File fr1 = new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt");	
-		File fr2 = new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt");			
-		File fr3 = new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt");	
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");	
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\TagTreeCheckResult.txt");			
+		File fr3 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankResult.txt");	
 		FileReader FileStream1 = new FileReader(fr1);
 		FileReader FileStream2 = new FileReader(fr2);
 		FileReader FileStream3 = new FileReader(fr3);
@@ -56,12 +56,12 @@ public class TagTree_Number
 		BufferedStream3.close();
 		
 		
-		// ³B²z
-		Hashtable<String,ArrayList<String>> term_list = new Hashtable<String,ArrayList<String>>();	// ¦rµü»P«ü¦Vªº¦rµü²M³æ<¦rµü,¦rµü²M³æ>
-		Hashtable<String,String> term_num = new Hashtable<String,String>();				// ¦rµü»P¶¥¼h½s¸¹<¦rµü,½s¸¹>
-		ArrayList<String> list;										// «ü¦Vªº¦rµü²M³æ
-		String rootTerm = "";										// °O¿ýÀY¦rµü
-		double rootValue = 0.0;										// °O¿ýÀY¦rµüªº­È
+		// ï¿½Bï¿½z
+		Hashtable<String,ArrayList<String>> term_list = new Hashtable<String,ArrayList<String>>();	// ï¿½rï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½<ï¿½rï¿½ï¿½,ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½>
+		Hashtable<String,String> term_num = new Hashtable<String,String>();				// ï¿½rï¿½ï¿½ï¿½Pï¿½ï¿½ï¿½hï¿½sï¿½ï¿½<ï¿½rï¿½ï¿½,ï¿½sï¿½ï¿½>
+		ArrayList<String> list;										// ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
+		String rootTerm = "";										// ï¿½Oï¿½ï¿½ï¿½Yï¿½rï¿½ï¿½
+		double rootValue = 0.0;										// ï¿½Oï¿½ï¿½ï¿½Yï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		for(String s1: list1)
 		{
@@ -72,8 +72,8 @@ public class TagTree_Number
 		
 		for(String s1: list2)
 		{
-			String father = s1.split("¡÷")[0];
-			String son[] = s1.split("¡÷")[1].split(",");
+			String father = s1.split("ï¿½ï¿½")[0];
+			String son[] = s1.split("ï¿½ï¿½")[1].split(",");
 			list = term_list.get(father);
 			
 			for(String s2: son)
@@ -94,7 +94,7 @@ public class TagTree_Number
 		}
 		
 		
-		// §ä¥X½s¸¹
+		// ï¿½ï¿½Xï¿½sï¿½ï¿½
 		term_num.put(rootTerm,"1");
 		LinkedList<String> queue = new LinkedList<String>();
 		queue.addLast(rootTerm);
@@ -118,8 +118,8 @@ public class TagTree_Number
 		}
 		
 		
-		// ±Æ§Ç
-		Hashtable<String,String> num_term = new Hashtable<String,String>();		// ¶¥¼h½s¸¹»P¦rµü<½s¸¹,¦rµü>
+		// ï¿½Æ§ï¿½
+		Hashtable<String,String> num_term = new Hashtable<String,String>();		// ï¿½ï¿½ï¿½hï¿½sï¿½ï¿½ï¿½Pï¿½rï¿½ï¿½<ï¿½sï¿½ï¿½,ï¿½rï¿½ï¿½>
 		Set<String> set1 = term_num.keySet();
 		Iterator iterator1 = set1.iterator();
 		while(iterator1.hasNext())
@@ -141,8 +141,8 @@ public class TagTree_Number
 		Collections.sort(sort);
 		
 		
-		// ¿é¥X	
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeNumberResult.txt")));			
+		// ï¿½ï¿½X	
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\TagTreeNumberResult.txt")));			
 		String output="";
 		for(String s1: sort)
 		{	
@@ -155,13 +155,13 @@ public class TagTree_Number
 		bw.close();
 	}
 	
-	public static void main(int no)throws IOException
+	public static void main(int no,String dirPath)throws IOException
 	{
-		TagTree_Number_test(no);
+		TagTree_Number_test(no,dirPath);
 	}
 	
 	public static void main(String args[])throws IOException
 	{
-		main(Integer.parseInt(args[0]));
+		//main(Integer.parseInt(args[0]));
 	}
 } 

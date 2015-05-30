@@ -11,104 +11,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 public class NGD_calculate {
-
-	@SuppressWarnings("resource")
-	public static void NGD(int no) {
-		try {
-			FileReader FileStream1;
-
-			FileStream1 = new FileReader("D:/K-core/Number_of_pair/" + no + "_"
-					+ "number_of_pair.txt");
-
-			BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
-			String e1 = "";
-
-			ArrayList<String> pairlist = new ArrayList<String>();
-			while ((e1 = BufferedStream1.readLine()) != null) {
-
-				pairlist.add(e1);
-			}
-
-			FileReader FileStream = new FileReader("D:/K-core/Stem/" + no + "_"
-					+ "stem.txt");
-			BufferedReader BufferedStream = new BufferedReader(FileStream);
-			String e = "";
-
-			ArrayList<String> termlist = new ArrayList<String>();
-			while ((e = BufferedStream.readLine()) != null) {
-
-				termlist.add(e);
-
-			}
-
-			Object[] datas = termlist.toArray();
-			LinkedHashSet<String> set = new LinkedHashSet<String>();
-			for (int i = 0; i < datas.length; i++) {
-				String key1 = String.valueOf(datas[i]).split(",")[0];
-				double x = Double.parseDouble(String.valueOf(datas[i]).split(
-						",")[1]);
-				for (int j = i + 1; j < datas.length; j++) {
-					String key2 = String.valueOf(datas[j]).split(",")[0];
-					double y = Double.parseDouble(String.valueOf(datas[j])
-							.split(",")[1]);
-					double m = 0;
-					for (String o : pairlist) {
-						if (o.contains("\"" + key1 + "\"+\"" + key2 + "\"")
-								|| o.contains("\"" + key2 + "\"+\"" + key1
-										+ "\""))
-						// if(o.contains(key1+"+"+key2)||o.contains(key2+"+"+key1))
-						{
-							m = Double.parseDouble(o.split(",")[1]);
-							// System.out.println("get m="+m);
-							break;
-						}
-					}
-					System.out.println("x=" + x + " y=" + y + " m=" + m);
-//					double logX = Math.log10(x);
-//					double logY = Math.log10(y);
-//					double logM = Math.log10(m);
-//					double logN = 9.906;
-//					// double logN = 10;
-//					double NGD = (Math.max(logX, logY) - logM)
-//							/ (logN - Math.min(logX, logY));
-					double NGD=NGD_cal(x,y,m);
-					System.out.println(key1 + "," + key2 + ";" + NGD);
-					set.add(key1 + "," + key2 + ";" + NGD);
-				}
-			}
-			Object[] objs = set.toArray();
-			File file = new File("D:/K-core/NGD/" + no + "_" + "nNGD.txt");
-			file.delete();
-			BufferedWriter bw;
-			bw = new BufferedWriter(new FileWriter("D:/K-core/NGD/" + no + "_"
-					+ "nNGD.txt", false));
-			for (int j = 0; j < objs.length; j++) {
-
-				System.out.println(objs[j]);
-				String objs_out = (String) objs[j];
-
-				try {
-
-					bw.write(objs_out);
-					bw.newLine();
-					bw.flush(); // ²MªÅ½w½Ä°Ï
-
-				} catch (IOException f) {
-					// TODO Auto-generated catch block
-					f.printStackTrace();
-				}
-
-			}
-			bw.close(); // Ãö³¬BufferedWriterª«¥ó
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	static double NGD_cal(double x, double y, double m) {
 		double logX = Math.log10(x);
@@ -122,34 +24,29 @@ public class NGD_calculate {
 		
 		return NGD;
 	}
-
-	public static void main(String args[]) throws IOException {
-		NGD(500);
-	}
-
 	
 	
-	public static void main(int no, int z, int type, double pNGD) throws IOException {
+	public static void main(int no, int z, int type, double pNGD,String dirPath) throws IOException {
 		// TODO Auto-generated method stub
-		// NGD­pºâ(¼ÐÅÒ¾ð½s¸¹,µL,¨Ï¥Î«¬ºA,NGD ªùÂe­È)(0=«e³B²z,1=·§©À¤À¸s,2=¼ÐÅÒ¾ð,3=¹êÅç)
+		// NGDï¿½pï¿½ï¿½(ï¿½ï¿½ï¿½Ò¾ï¿½sï¿½ï¿½,ï¿½L,ï¿½Ï¥Î«ï¿½ï¿½A,NGD ï¿½ï¿½ï¿½eï¿½ï¿½)(0=ï¿½eï¿½Bï¿½z,1=ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½s,2=ï¿½ï¿½ï¿½Ò¾ï¿½,3=ï¿½ï¿½ï¿½ï¿½)
 		ArrayList<String> list1 = new ArrayList<String>();	
 		ArrayList<String> list2 = new ArrayList<String>();	
-		ArrayList<String> oneName = new ArrayList<String>();	// ³æ¦rµü¦WºÙ
-		ArrayList<String> twoName = new ArrayList<String>();	// Âù¦rµü¦WºÙ
-		ArrayList<Double> oneNum = new ArrayList<Double>();	// ³æ¦rµü­È
-		ArrayList<Double> twoNum = new ArrayList<Double>();	// Âù¦rµü­È
+		ArrayList<String> oneName = new ArrayList<String>();	// ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<String> twoName = new ArrayList<String>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
+		ArrayList<Double> oneNum = new ArrayList<Double>();	// ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
+		ArrayList<Double> twoNum = new ArrayList<Double>();	// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½
 		
 		
-		// ÅªÀÉ
-		// type==2, ¤ÀÃþ¾ð
-		File fr1 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt");
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
+		// Åªï¿½ï¿½
+		// type==2, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\MergeTwoGramResult.txt");
 		
-		// type==3, ¹êÅç
+		// type==3, ï¿½ï¿½ï¿½ï¿½
 		if(type==3)
 		{
-			fr1 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt");
-			fr2 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult2.txt");
+			fr1 = new File(dirPath+"Document\\" + no + "_File\\FilterResult.txt");
+			fr2 = new File(dirPath+"Document\\" + no + "_File\\FilterResult2.txt");
 		}
 		
 		FileReader FileStream1 = new FileReader(fr1);
@@ -171,7 +68,7 @@ public class NGD_calculate {
 		BufferedStream2.close();
 		
 
-		// Âù¦rµü³B²z
+		// ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Bï¿½z
 		for (int i = 0; i < datas2.length; i++) 
 		{
 			String key = ((String)datas2[i]).split(",")[0];
@@ -181,7 +78,7 @@ public class NGD_calculate {
 			twoNum.add(value);
 		}
 
-		// ³æ¦rµü³B²z
+		// ï¿½ï¿½rï¿½ï¿½ï¿½Bï¿½z
 		for (int i = 0; i < datas1.length; i++) {
 			String outkey="";
 			String key = ((String)datas1[i]).split(",")[0];
@@ -207,12 +104,12 @@ public class NGD_calculate {
 			}
 		}
 		
-		// ¿é¥X
+		// ï¿½ï¿½X
 		Object[] objs = oneName.toArray();
 		Object[] objsnum = oneNum.toArray();
 
 		String objs_out = "";
-		BufferedWriter 	bw = new BufferedWriter(new FileWriter("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\NGDResult.txt"));
+		BufferedWriter 	bw = new BufferedWriter(new FileWriter(dirPath+"TagTree\\" + no + "_File\\NGDResult.txt"));
 		for(int i=0 ; i<oneNum.size() ; i++)
 		{
 				objs_out = (String) objs[i] + "," + objsnum[i];		

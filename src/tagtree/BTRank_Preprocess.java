@@ -1,15 +1,15 @@
 package tagtree;
 /*
-¤u§@¡GBTrank«e³B²z¡C
-      1.­pºâ CP/NGD ­È
-      2.§ä¨ì¥¿½Tªº¦rµü¶¡Ãö«Y
-¨Ó·½¡G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt
+ï¿½uï¿½@ï¿½GBTrankï¿½eï¿½Bï¿½zï¿½C
+      1.ï¿½pï¿½ï¿½ CP/NGD ï¿½ï¿½
+      2.ï¿½ï¿½ì¥¿ï¿½Tï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Y
+ï¿½Ó·ï¿½ï¿½G	2.D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\NGDResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt
       	3.D:\\DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\NGDResult.txt
       	  D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreValueResult.txt
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreValueResult.txt
       D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt
 */
 
@@ -26,34 +26,34 @@ public class BTRank_Preprocess
 {
 	public BTRank_Preprocess(){}
 	
-	public static void main(int no,int type) throws IOException
+	public static void main(int no,int type,String dirPath) throws IOException
 	{
-		Hashtable<String,ArrayList<String>> H_TermNGD = new Hashtable<String,ArrayList<String>>();			// NGDÃö«Y<¦rµü,»P¨ä¥¦¦rµüªºNGD­È>
-		Hashtable<String,ArrayList<String>> H_TermCP = new Hashtable<String,ArrayList<String>>();			// CPÃö«Y<¦rµü,»P¨ä¥¦¦rµüªºCP«ü¦V>
-		Hashtable<String,ArrayList<String>> H_TermOut = new Hashtable<String,ArrayList<String>>();			// NGDÃö«YªºCP«ü¦V<¦rµü,»P¨ä¥¦¦rµüÃö«Y«ü¦V>
+		Hashtable<String,ArrayList<String>> H_TermNGD = new Hashtable<String,ArrayList<String>>();			// NGDï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,ï¿½Pï¿½ä¥¦ï¿½rï¿½ï¿½ï¿½ï¿½NGDï¿½ï¿½>
+		Hashtable<String,ArrayList<String>> H_TermCP = new Hashtable<String,ArrayList<String>>();			// CPï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,ï¿½Pï¿½ä¥¦ï¿½rï¿½ï¿½ï¿½ï¿½CPï¿½ï¿½ï¿½V>
+		Hashtable<String,ArrayList<String>> H_TermOut = new Hashtable<String,ArrayList<String>>();			// NGDï¿½ï¿½ï¿½Yï¿½ï¿½CPï¿½ï¿½ï¿½V<ï¿½rï¿½ï¿½,ï¿½Pï¿½ä¥¦ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½ï¿½V>
 		ArrayList<String> A_NGD;
 		ArrayList<String> A_CP;
 		ArrayList<String> A_Out;
-		ArrayList<String> A_Term = new ArrayList<String>();								// ¦rµü¦WºÙ
+		ArrayList<String> A_Term = new ArrayList<String>();								// ï¿½rï¿½ï¿½ï¿½Wï¿½ï¿½
 		
-		Hashtable<String,Hashtable<String,Double>> H_TermNGDValue = new Hashtable<String,Hashtable<String,Double>>();	// NGDÃö«Y<¦rµü,<¦rµü,NGD­È>>
-		Hashtable<String,Hashtable<String,Double>> H_TermCPValue = new Hashtable<String,Hashtable<String,Double>>();	// CPÃö«Y<¦rµü,<¦rµü,CP­È>>
-		Hashtable<String,Double> H_NGD;											// NGDÃö«Y<¦rµü,NGD­È>
-		Hashtable<String,Double> H_CP;											// CPÃö«Y<¦rµü,CP­È>
+		Hashtable<String,Hashtable<String,Double>> H_TermNGDValue = new Hashtable<String,Hashtable<String,Double>>();	// NGDï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,<ï¿½rï¿½ï¿½,NGDï¿½ï¿½>>
+		Hashtable<String,Hashtable<String,Double>> H_TermCPValue = new Hashtable<String,Hashtable<String,Double>>();	// CPï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,<ï¿½rï¿½ï¿½,CPï¿½ï¿½>>
+		Hashtable<String,Double> H_NGD;											// NGDï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,NGDï¿½ï¿½>
+		Hashtable<String,Double> H_CP;											// CPï¿½ï¿½ï¿½Y<ï¿½rï¿½ï¿½,CPï¿½ï¿½>
 		
 		double  value1 = 0.0;
 		double  value2 = 0.0;
 		double	result = 0.0;
 		
 		
-		// ÅªÀÉ
-		// type==2, ¤ÀÃþ¾ð
-		File fr1 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\MergeOneGramResult.txt");			
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\NGDResult.txt");				
-		File fr3 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\CPResult.txt");	
-		// type==3, ¹êÅç
+		// Åªï¿½ï¿½
+		// type==2, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		File fr1 = new File(dirPath+"TagTree\\" + no + "_File\\MergeOneGramResult.txt");			
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\NGDResult.txt");				
+		File fr3 = new File(dirPath+"TagTree\\" + no + "_File\\CPResult.txt");	
+		// type==3, ï¿½ï¿½ï¿½ï¿½
 		if(type == 3)
-			fr1 = new File("D:/DataTemp\\Processing\\Document\\" + no + "_File\\FilterResult.txt");
+			fr1 = new File(dirPath+"Document\\" + no + "_File\\FilterResult.txt");
 		
 		BufferedReader BufferedStream1 = new BufferedReader(new FileReader(fr1));
 		BufferedReader BufferedStream2 = new BufferedReader(new FileReader(fr2));
@@ -66,7 +66,7 @@ public class BTRank_Preprocess
 		String arr3 [];
 		
 		
-		// ³B²z
+		// ï¿½Bï¿½z
 		while((line1=BufferedStream1.readLine()) != null)
 		{
 			A_NGD = new ArrayList<String>();
@@ -76,7 +76,7 @@ public class BTRank_Preprocess
 			H_NGD = new Hashtable<String,Double>(); 
 			H_CP = new Hashtable<String,Double>();
 			
-			arr1 = line1.split(","); //³æµü
+			arr1 = line1.split(","); //ï¿½ï¿½ï¿½
 			A_Term.add(arr1[0]);
 			H_TermNGD.put(arr1[0],A_NGD);
 			H_TermCP.put(arr1[0],A_CP);
@@ -87,7 +87,7 @@ public class BTRank_Preprocess
 		}
 		
 		
-		// NGD³B²z
+		// NGDï¿½Bï¿½z
 		while((line2=BufferedStream2.readLine()) != null)
 		{
 			arr2=line2.split(",");
@@ -108,7 +108,7 @@ public class BTRank_Preprocess
 		}
 		
 		
-		// CP³B²z
+		// CPï¿½Bï¿½z
 		while((line3=BufferedStream3.readLine()) != null)
 		{
 			arr3=line3.split(",");
@@ -133,11 +133,11 @@ public class BTRank_Preprocess
 		BufferedStream3.close();
 		
 		
-		// §PÂ_¨â­Ó¬ÛÃöªº¦rµü¨ä¥¿½Tªº«ü¦VÃö«Y¡A¨Ã±N (CP/NGD) ­È¿é¥X
+		// ï¿½Pï¿½_ï¿½ï¿½Ó¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ä¥¿ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½Yï¿½Aï¿½Ã±N (CP/NGD) ï¿½È¿ï¿½X
 		String  first  = "";
 		String  second = "";
 		
-		BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreValueResult.txt")));
+		BufferedWriter bw1 = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreValueResult.txt")));
 		String output1="";
 		
 		for(int i=0 ; i<A_Term.size() ; i++)
@@ -163,8 +163,8 @@ public class BTRank_Preprocess
 		bw1.close();
 		
 		
-		// ¿é¥X
-		BufferedWriter bw2 = new BufferedWriter(new FileWriter(new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt")));
+		// ï¿½ï¿½X
+		BufferedWriter bw2 = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreResult.txt")));
 		String output="";
 		for(int i=0 ; i<A_Term.size() ; i++)
 		{
@@ -184,16 +184,16 @@ public class BTRank_Preprocess
 	{
 		for(int i=0 ; i<a.size() ; i++)
 		{
-			System.out.print(a.get(i)+"¡÷");
+			System.out.print(a.get(i)+"ï¿½ï¿½");
 			for(int j=0 ; j<h.get(a.get(i)).size() ;j++ )
 				System.out.print(h.get(a.get(i)).get(j)+" ");
 			System.out.println();
 		}	
 	}
 	
-	public static void main(String args[]) throws IOException
+/*	public static void main(String args[]) throws IOException
 	{
 		for(int i=1;i<=6;i++)main(i,2);
 		main(Integer.parseInt(args[0]),Integer.parseInt(args[1]));
-	}
+	}*/
 }

@@ -28,9 +28,9 @@ import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
 public class DocPrepocess {
 	public static String path = "";
-	public static String ouputPath = "";
-
-	public static void readFromDTG(File doc, String outputPath)
+	public static String mainWordsOutputPath = "";
+	public static String numOfPathOuputPath = "";
+	public static void readFromDTG(File doc, String mainwordsOutputPath,String numOfPathOuputPath)
 			throws IOException {
 
 		AmazonBookPrepocessor<TermNode, CEdge<Double>> prepocessor = new AmazonBookPrepocessor<TermNode, CEdge<Double>>(
@@ -91,31 +91,32 @@ public class DocPrepocess {
 		 */
 		System.out.print(docGraph.getVertexCount());
 		if (docGraph.getVertexCount() > 0) {
-			new gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
+/*			gerenratingTXT.gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
 					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
-					outputPath);
+					mainwordsOutputPath);*/
+			gerenratingTXT.gerenratingNumOfPair(docGraph,posComp.getVertexResultsTerms(),ngdComp.getEdgeDistance(),numOfPathOuputPath);
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
 		// path="D:/dataset/abstract/";
 		path = "D:/dataset/A14OJS0VWMOSWO_Abstract/";
-		ouputPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
-		File outputDir = new File(ouputPath);
+		mainWordsOutputPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+		File outputDir = new File(mainWordsOutputPath);
 		if (!outputDir.exists()) {
 			outputDir.mkdirs();
-			try {
-				outputDir.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
+		numOfPathOuputPath="D:/dataset/A14OJS0VWMOSWO_numOfPair/";
+		File numOfPathOuputDir = new File(numOfPathOuputPath);
+		if (!numOfPathOuputDir.exists()) {
+			numOfPathOuputDir.mkdirs();
+		}		
 		List<String> list = null;
 		list = fileList.getFileList(path);
 		File tempFile = null;
 		for (int i = 0; i < list.size(); i++) {
 			tempFile = new File(path + list.get(i));
-			readFromDTG(tempFile, ouputPath + list.get(i));
+			readFromDTG(tempFile, mainWordsOutputPath + list.get(i),numOfPathOuputPath+list.get(i));
 			/*
 			 * if ( new
 			 * File(ouputPath+list.get(i)).exists()){System.out.println(

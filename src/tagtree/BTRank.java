@@ -1,10 +1,10 @@
 package tagtree;
 /*
-¤u§@¡G­pºâ¦U­Ó¦rµüªºBTrank­È
-¤½¦¡¡GPR(A)=(1-d)/n + d*{PR(T1)/I(T1)+PR(T2)/I(T2)+...+PR(Tn)/I(Tn)}      
-¨Ó·½¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt	
+ï¿½uï¿½@ï¿½Gï¿½pï¿½ï¿½Uï¿½Ó¦rï¿½ï¿½ï¿½ï¿½BTrankï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½GPR(A)=(1-d)/n + d*{PR(T1)/I(T1)+PR(T2)/I(T2)+...+PR(Tn)/I(Tn)}      
+ï¿½Ó·ï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt	
       D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreValueResult.txt	
-¥Øªº¡GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt
+ï¿½Øªï¿½ï¿½GD:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt
 */
 
 
@@ -19,22 +19,22 @@ import java.util.ArrayList;
 
 public class BTRank 
 {
-	public static void main(int no) throws Exception 
+	public static void main(int no,String dirPath) throws Exception 
 	{							
-		Hashtable<String,Integer> H_TermID = new Hashtable<String,Integer>(); 						// ¦rµü»P¥N¸¹<¦rµü,¥N¸¹>
-		Hashtable<Integer,ArrayList<String>> H_IdOutTerm = new Hashtable<Integer,ArrayList<String>>();			// ¦rµü»P¨ä³s¥Xªº¦rµü<¥N¸¹,³s¥Xªº¦rµü>
-		ArrayList<String> A_OutTerm;											// ³s¥Xªº¦rµü²M³æ
-		ArrayList<String> A_Term = new ArrayList<String>();								// ©Ò¦³ªº¦rµü²M³æ				
+		Hashtable<String,Integer> H_TermID = new Hashtable<String,Integer>(); 						// ï¿½rï¿½ï¿½ï¿½Pï¿½Nï¿½ï¿½<ï¿½rï¿½ï¿½,ï¿½Nï¿½ï¿½>
+		Hashtable<Integer,ArrayList<String>> H_IdOutTerm = new Hashtable<Integer,ArrayList<String>>();			// ï¿½rï¿½ï¿½ï¿½Pï¿½ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½<ï¿½Nï¿½ï¿½,ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½>
+		ArrayList<String> A_OutTerm;											// ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½
+		ArrayList<String> A_Term = new ArrayList<String>();								// ï¿½Ò¦ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½Mï¿½ï¿½				
 		
-		Hashtable<String,Hashtable<String,Double>> H_TermOutValue = new Hashtable<String,Hashtable<String,Double>>();	// ¦rµü»P¨ä³s¥Xªº¦rµü¤§­È(CP/NGD)<¦rµü,<³s¥Xªº¦rµü,­È>>
-		Hashtable<String,Double> H_Value;										// ³s¥Xªº¦rµü¤§­È<³s¥Xªº¦rµü,­È>
+		Hashtable<String,Hashtable<String,Double>> H_TermOutValue = new Hashtable<String,Hashtable<String,Double>>();	// ï¿½rï¿½ï¿½ï¿½Pï¿½ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(CP/NGD)<ï¿½rï¿½ï¿½,<ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½,ï¿½ï¿½>>
+		Hashtable<String,Double> H_Value;										// ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½<ï¿½sï¿½Xï¿½ï¿½ï¿½rï¿½ï¿½,ï¿½ï¿½>
 		
-		int total = 0;													// ¬ö¿ý¦rµü¼Æ(¥N¸¹)
-		int outdegree = 0;												// ³s¥X¼Æ¶q
-		int indegree =0;												// ³s¤J¼Æ¶q
+		int total = 0;													// ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½(ï¿½Nï¿½ï¿½)
+		int outdegree = 0;												// ï¿½sï¿½Xï¿½Æ¶q
+		int indegree =0;												// ï¿½sï¿½Jï¿½Æ¶q
 		
 		
-		// ÅªÀÉ(¬ö¿ý­þ­Ó¦rµü³s¨ì­þ¨Ç¦rµü)
+		// Åªï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦rï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Ç¦rï¿½ï¿½)
 		File fr1 = new File("D:\\DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreResult.txt");
 		BufferedReader BufferedStream1 = new BufferedReader(new FileReader(fr1));
 		String line1 = "";
@@ -53,10 +53,10 @@ public class BTRank
 				outdegree = arr.length - 1;
 				for(int j = 1; j < arr.length; j++) 
 				{
-					if(arr[j].equals(arr[0]))			// ¦Û¤v³s¦Û¤v¤£ºâ
+					if(arr[j].equals(arr[0]))			// ï¿½Û¤vï¿½sï¿½Û¤vï¿½ï¿½ï¿½ï¿½
 				 		outdegree--;
 				 	else
-				 		A_OutTerm.add(arr[j]);			// °O¿ý¦b³s¥X¦rµü
+				 		A_OutTerm.add(arr[j]);			// ï¿½Oï¿½ï¿½ï¿½bï¿½sï¿½Xï¿½rï¿½ï¿½
 				}
 				
 				if (arr[0] != null) 
@@ -67,7 +67,7 @@ public class BTRank
 					
 					H_TermOutValue.put(arr[0],H_Value);
 					
-					//System.out.print("¦rµü" + arr[0] + "ªº³s¥X«×¬°" + H_IdOutTerm.get(total).size() +"¡A³sµ²¤F¡G");
+					//System.out.print("ï¿½rï¿½ï¿½" + arr[0] + "ï¿½ï¿½ï¿½sï¿½Xï¿½×¬ï¿½" + H_IdOutTerm.get(total).size() +"ï¿½Aï¿½sï¿½ï¿½ï¿½Fï¿½G");
 					//for(int j = 0; j < H_IdOutTerm.get(total).size(); j++)
 						//System.out.print(H_IdOutTerm.get(total).get(j)+" ");
 					
@@ -77,8 +77,8 @@ public class BTRank
 		}
 				
 		
-		// ÅªÀÉ(¬ö¿ý­þ­Ó¦rµü³s¨ì­þ¨Ç¦rµüªº­È(CP/NGD))
-		File fr2 = new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankPreValueResult.txt");
+		// Åªï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦rï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Ç¦rï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(CP/NGD))
+		File fr2 = new File(dirPath+"TagTree\\" + no + "_File\\BTRankPreValueResult.txt");
 		BufferedReader BufferedStream2 = new BufferedReader(new FileReader(fr2));
 		String line2="";
 		
@@ -100,38 +100,38 @@ public class BTRank
 		BufferedStream2.close();
 		
 				
-		// ­pºâBTRank
+		// ï¿½pï¿½ï¿½BTRank
 		if (total > 0) 
 		{
 			
-			float[] BTRank = new float[total + 1]; 				// ¦s©ñ©Ò¦³¦rµüªºPR­È
-			float[] BTOut  = new float[total + 1]; 				// ³s¥X¦rµüªº­pºâÁ`©M
-			float fatherRank = 1f;							// ·í«e¦rµüªºPR­È
-			float alpha = 0.85f;							// ªý¥§«Y¼Æd
-			int father = 0;								// ¼È¦s«ü¼Ð¡A·í«e¦rµü
-			int son = 0; 								// ¼È¦s«ü¼Ð¡A³s¤Jfather¦rµü
-			int iterator = 100;							// Å|¥N¦¸¼Æ
+			float[] BTRank = new float[total + 1]; 				// ï¿½sï¿½ï¿½Ò¦ï¿½ï¿½rï¿½ï¿½ï¿½ï¿½PRï¿½ï¿½
+			float[] BTOut  = new float[total + 1]; 				// ï¿½sï¿½Xï¿½rï¿½ï¿½ï¿½ï¿½ï¿½pï¿½ï¿½ï¿½`ï¿½M
+			float fatherRank = 1f;							// ï¿½ï¿½eï¿½rï¿½ï¿½ï¿½ï¿½PRï¿½ï¿½
+			float alpha = 0.85f;							// ï¿½ï¿½ï¿½ï¿½ï¿½Yï¿½ï¿½d
+			int father = 0;								// ï¿½È¦sï¿½ï¿½ï¿½Ð¡Aï¿½ï¿½eï¿½rï¿½ï¿½
+			int son = 0; 								// ï¿½È¦sï¿½ï¿½ï¿½Ð¡Aï¿½sï¿½Jfatherï¿½rï¿½ï¿½
+			int iterator = 100;							// ï¿½|ï¿½Nï¿½ï¿½ï¿½ï¿½
 			
-			for (int i = 1; i <= total; ++i) 					// ³]¸mªì©l­È¬°1.0f
+			for (int i = 1; i <= total; ++i) 					// ï¿½]ï¿½mï¿½ï¿½lï¿½È¬ï¿½1.0f
 			{
 				BTRank[i] = 1.0f;
 				BTOut[i] = 0.0f;
 			}
 
-			// ¶i¦æÅ|¥N¦¸¼Æ¹Bºâ
+			// ï¿½iï¿½ï¿½ï¿½|ï¿½Nï¿½ï¿½ï¿½Æ¹Bï¿½ï¿½
 			for (int i = 0; i < iterator; i++) 
 			{ 
 				father = 1;
 				
-				// Åª¥Xdocid©Moutdegree©Msons
+				// Åªï¿½Xdocidï¿½Moutdegreeï¿½Msons
 				while (father!=total+1) 
 				{ 	
 					indegree=0;
 								
-					// PR(Ti)¡G³s¥XªÌªºPR­È
-					// C(Ti) ¡G¸Ó³s¥XªÌªºIndegree
+					// PR(Ti)ï¿½Gï¿½sï¿½Xï¿½Ìªï¿½PRï¿½ï¿½
+					// C(Ti) ï¿½Gï¿½Ó³sï¿½Xï¿½Ìªï¿½Indegree
 										
-					for(int j=1;j<=H_IdOutTerm.size();j++)			// ­pºâfatherªºIndegree
+					for(int j=1;j<=H_IdOutTerm.size();j++)			// ï¿½pï¿½ï¿½fatherï¿½ï¿½Indegree
 					{
 						if(H_IdOutTerm.get(j).contains(A_Term.get(father-1)))	
 							indegree++;	
@@ -140,7 +140,7 @@ public class BTRank
 					fatherRank = BTRank[father] / indegree;		// PR(Ti) / C(Ti)
 					//System.out.println(A_Term.get(father-1)+" "+indegree+" "+fatherRank);
 											
-					for(int k=1 ; k<=H_IdOutTerm.size() ; k++)		// §ä¥X¦³½Ö³s¦Vfather
+					for(int k=1 ; k<=H_IdOutTerm.size() ; k++)		// ï¿½ï¿½Xï¿½ï¿½ï¿½Ö³sï¿½Vfather
 					{
 						if(k==father)
 							continue;
@@ -149,7 +149,7 @@ public class BTRank
 							son = k;
 							//BTOut[son] += fatherRank;
 							
-							// ¥[¤J(CP/NGD)­pºâBTrank
+							// ï¿½[ï¿½J(CP/NGD)ï¿½pï¿½ï¿½BTrank
 							BTOut[son] += fatherRank * Double.parseDouble(H_TermOutValue.get(A_Term.get(son-1)).get(A_Term.get(father-1)).toString());	
 						}
 					}	
@@ -157,16 +157,16 @@ public class BTRank
 					father++;
 				}
 
-				// ·Ç³Æ¤U¦¸Å|¥N¹Bºâªºªì©l­È
+				// ï¿½Ç³Æ¤Uï¿½ï¿½ï¿½|ï¿½Nï¿½Bï¿½âªºï¿½ï¿½lï¿½ï¿½
 				for (int l = 1; l <= total; l++) 	
 				{
-					// PR¤½¦¡1
+					// PRï¿½ï¿½ï¿½ï¿½1
 					//BTOut[l] = 0.15f + alpha * BTOut[l];
 					
-					// PR¤½¦¡2
+					// PRï¿½ï¿½ï¿½ï¿½2
 					BTOut[l] = 0.15f / total + alpha * BTOut[l]; 
 
-					// ¨C¦¸¤ÏÂÐ¹Bºâ«áªº¯u¥¿pr­È
+					// ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Bï¿½ï¿½áªºï¿½uï¿½ï¿½prï¿½ï¿½
 					BTRank[l] = BTOut[l]; 
 
 					BTOut[l] = 0.0f;
@@ -174,8 +174,8 @@ public class BTRank
 			}
 			
 			
-			// ¿é¥X
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\BTRankResult.txt")));
+			// ï¿½ï¿½X
+			BufferedWriter bw = new BufferedWriter(new FileWriter(new File(dirPath+"TagTree\\" + no + "_File\\BTRankResult.txt")));
 					
 			for (int i = 1; i <= total; i++) 
 			{
@@ -191,6 +191,6 @@ public class BTRank
 	
 	public static void main(String args[]) throws Exception
 	{
-		main(Integer.parseInt(args[0]));	
+		//main(Integer.parseInt(args[0]));	
 	}
 }

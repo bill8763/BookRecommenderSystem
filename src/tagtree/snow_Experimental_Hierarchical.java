@@ -9,13 +9,7 @@ public class snow_Experimental_Hierarchical {
 	{
 		System.out.println("Experimental_Hierarchical_Test Running");
 		
-		Scanner sc = new Scanner(System.in);
 		System.out.print("Input the start number of file:");					
-		int start = sc.nextInt();					// ¶}©l½s¸¹
-		//System.out.print("Input the   end number of file:");					
-		int end = sc.nextInt();						// µ²§ô½s¸¹	
-		
-		
 		sonw_test sonw = new sonw_test();
 		
 		double PNGD[] = {7};
@@ -24,16 +18,16 @@ public class snow_Experimental_Hierarchical {
 		//double TCP[] = {0.1,0.2,0.3};
 		for(int i=0;i<PNGD.length;i++){
 			for(int j=0;j<TCP.length;j++){
-				sonw.test(TCP[j], PNGD[i],0); //§ï¹êÅç¸ô®|¦a¤è 1«H¤Ò
-				System.out.println("TCP­È¡G"+TCP[j]);
-				System.out.println("PNGD­È¡G"+PNGD[i]);
-//				double fmeasure = Experimental_Cluster_FScore.Experimental_Cluster_FScore_test(1);		// ­pºâF-measure
-//				double fcubed = Experimental_Cluster_FCubed.Experimental_Cluster_FCubed_test(start,end,1);	// ­pºâF-cubed		
+				sonw.test(TCP[j], PNGD[i],0); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½aï¿½ï¿½ 1ï¿½Hï¿½ï¿½
+				System.out.println("TCPï¿½È¡G"+TCP[j]);
+				System.out.println("PNGDï¿½È¡G"+PNGD[i]);
+//				double fmeasure = Experimental_Cluster_FScore.Experimental_Cluster_FScore_test(1);		// ï¿½pï¿½ï¿½F-measure
+//				double fcubed = Experimental_Cluster_FCubed.Experimental_Cluster_FCubed_test(start,end,1);	// ï¿½pï¿½ï¿½F-cubed		
 			}
 		}
 		
-//		double fmeasure = Experimental_Cluster_FScore.Experimental_Cluster_FScore_test(1);		// ­pºâF-measure
-//		double fcubed = Experimental_Cluster_FCubed.Experimental_Cluster_FCubed_test(start,end,1);	// ­pºâF-cubed		
+//		double fmeasure = Experimental_Cluster_FScore.Experimental_Cluster_FScore_test(1);		// ï¿½pï¿½ï¿½F-measure
+//		double fcubed = Experimental_Cluster_FCubed.Experimental_Cluster_FCubed_test(start,end,1);	// ï¿½pï¿½ï¿½F-cubed		
 		
 	}
 
