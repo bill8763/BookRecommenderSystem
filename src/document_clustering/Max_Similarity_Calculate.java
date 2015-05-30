@@ -19,16 +19,16 @@ public class Max_Similarity_Calculate
 	
 	
 	@SuppressWarnings("rawtypes")
-	public static void Max_Similarity_Calculate_test(int no1)throws IOException
+	public static void Max_Similarity_Calculate_test(String fileID,String maxPath, String betaPath)throws IOException
 	{
-		// ¿é¤J
-		File fr1 = new File("D:/DataTemp/Processing/Concept/MaxSimilarityMatrix.txt");
-		File fr2 = new File("D:/DataTemp/Processing/Concept/BetaSimilarityMatrix.txt");
+		// ï¿½ï¿½J
+		File maxFile = new File(maxPath);
+		File betaFile = new File(betaPath);
 		
-		if(!fr1.exists())	// ¥Nªí¬°²Ä¤@½g¤å¥ó
+		if(!maxFile.exists())	// ï¿½Nï¿½ï¿½ï¿½Ä¤@ï¿½gï¿½ï¿½ï¿½
 		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/Processing/Concept/MaxSimilarityMatrix.txt"));	
-			String output = no1+","+no1+":0.0";
+			BufferedWriter bw = new BufferedWriter(new FileWriter(maxPath));	
+			String output = fileID+","+fileID+":0.0";
 			try 
 			{
 				bw.write(output);
@@ -43,14 +43,14 @@ public class Max_Similarity_Calculate
 		}
 		else
 		{
-			FileReader FileStream1 = new FileReader(fr1);
+			FileReader FileStream1 = new FileReader(maxFile);
 			BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
 			String line1 = "";
 			ArrayList<String> list1 = new ArrayList<String>();
 			while((line1=BufferedStream1.readLine())!=null)
 				list1.add(line1);
 			
-			FileReader FileStream2 = new FileReader(fr2);
+			FileReader FileStream2 = new FileReader(betaFile);
 			BufferedReader BufferedStream2 = new BufferedReader(FileStream2);
 			String line2 = "";
 			ArrayList<String> list2 = new ArrayList<String>();
@@ -60,10 +60,10 @@ public class Max_Similarity_Calculate
 			BufferedStream1.close();
 			BufferedStream2.close();
 			
-			// ³B²z
-			Hashtable<String,String> oldDocumentMax = new Hashtable<String,String>();		// <ÂÂ¤å¥ó»P¨ä³Ì¤j¬Û¦ü«×¤å¥ó,³Ì¤j¬Û¦ü«×­È>
-			Hashtable<String,String> newDocumentMax = new Hashtable<String,String>();		// <·s¤å¥ó»P¨ä³Ì¤j¬Û¦ü«×¤å¥ó,³Ì¤j¬Û¦ü«×­È>
-			Hashtable<String,String> newDocumentValue = new Hashtable<String,String>();		// <·s¤å¥ó»P¨ä¥¦ÂÂ¤å¥ó,¬Û¦ü«×­È>
+			// ï¿½Bï¿½z
+			Hashtable<String,String> oldDocumentMax = new Hashtable<String,String>();		// <ï¿½Â¤ï¿½ï¿½Pï¿½ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×¤ï¿½ï¿½,ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×­ï¿½>
+			Hashtable<String,String> newDocumentMax = new Hashtable<String,String>();		// <ï¿½sï¿½ï¿½ï¿½Pï¿½ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×¤ï¿½ï¿½,ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×­ï¿½>
+			Hashtable<String,String> newDocumentValue = new Hashtable<String,String>();		// <ï¿½sï¿½ï¿½ï¿½Pï¿½ä¥¦ï¿½Â¤ï¿½ï¿½,ï¿½Û¦ï¿½ï¿½×­ï¿½>
 			for(String str1:list1)
 			{
 				oldDocumentMax.put(str1.split(":")[0],str1.split(":")[1]);
@@ -71,12 +71,12 @@ public class Max_Similarity_Calculate
 			}
 			for(String str2:list2)
 			{
-				if(Integer.parseInt(str2.split(",")[0]) == no1 && Double.parseDouble(str2.split(":")[1]) != 0.0)
+				if( str2.split(",")[0].equals(fileID) && Double.parseDouble(str2.split(":")[1]) != 0.0)
 					newDocumentValue.put(str2.split(":")[0],str2.split(":")[1]);
 			}
 		
 			
-			// §ä¨ì·s¤å¥ó¨ä³Ì¤j¬Û¦ü«×¤å¥ó¨Ã¥[¤J¨ì newDocumentMax
+			// ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×¤ï¿½ï¿½Ã¥[ï¿½Jï¿½ï¿½ newDocumentMax
 			Set<String> newSet = newDocumentValue.keySet();
 			Iterator iterator1 = newSet.iterator();
 			double maxValue = 0.0;
@@ -95,12 +95,12 @@ public class Max_Similarity_Calculate
         			}
         		}
         		if(newDocumentValue.size()==0)
-      				newDocumentMax.put(no1 +","+no1,"0.0");
+      				newDocumentMax.put(fileID +","+fileID,"0.0");
         		else
         			newDocumentMax.put(maxDocument,Double.toString(maxValue));
         		
         	
-        		// §ó·sÂÂ¤å¥ó¨ä³Ì¤j¬Û¦ü«×¤å¥ó
+        		// ï¿½ï¿½sï¿½Â¤ï¿½ï¿½ï¿½Ì¤jï¿½Û¦ï¿½ï¿½×¤ï¿½ï¿½
 	        	iterator1 = newSet.iterator();
        		 	Set<String> oldSet = oldDocumentMax.keySet();
        		 	Iterator iterator2;
@@ -127,10 +127,10 @@ public class Max_Similarity_Calculate
         		}
         		
         	
-        		// ¿é¥X
+        		// ï¿½ï¿½X
         		oldSet = newDocumentMax.keySet();
 			iterator2 = oldSet.iterator();
-			BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/Processing/Concept/MaxSimilarityMatrix.txt"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(maxPath));
 			while(iterator2.hasNext())
 			{
 				String outDocument = (String)iterator2.next();
@@ -155,19 +155,12 @@ public class Max_Similarity_Calculate
 	
 	public static void main(int no1)throws IOException
 	{
-		Max_Similarity_Calculate_test(no1);
+		//Max_Similarity_Calculate_test(no1);
 		
 	}
 	
 	public static void main(String args[])throws IOException
 	{
-		//main(Integer.parseInt(args[0]));
-		//int start = Integer.valueOf(args[0]);
-		//int end = Integer.valueOf(args[1]);
-		int start =3001;
-		int end = 3010;
-		for(int i=start;i<=end;i++){
-			Max_Similarity_Calculate_test(i);
-		}      
+
 	}
 }

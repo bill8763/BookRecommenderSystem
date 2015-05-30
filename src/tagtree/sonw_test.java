@@ -6,49 +6,49 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
 public class sonw_test {
 	private static BufferedReader bufferedStream;
 	public void test(double TCP,double PNGD,int type) throws Exception
 	{
 		
-//		double PNGD = 7.0;						// NGD ªùÂe­È	 //¾Çªø¹w¿ï2
-//		double TCP = 0.9;						// CP  ªùÂe­È            //¾Çªø¹w¿ï0.9
-		
-		TagTree_Preprocess.main();				// ¼ĞÅÒ¾ğ«e³B²z
-		ArrayList<String> tagTreeList = getTagTreeList();	// ¼ĞÅÒ¾ğ²M³æ
+//		double PNGD = 7.0;						// NGD é–€æª»å€¼	 //å­¸é•·é é¸2
+//		double TCP = 0.9;						// CP  é–€æª»å€¼            //å­¸é•·é é¸0.9
+		String dir = "D:/DataSet/Processing/Concept/";
+		ArrayList<String> tagTreeList = getTagTreeList(dir+"ConceptState.txt");	// æ¨™ç±¤æ¨¹æ¸…å–®
+		TagTree_Preprocess.main();				// æ¨™ç±¤æ¨¹å‰è™•ç†
+
 		for(String tree: tagTreeList)
 		{
 			int treeNum = Integer.parseInt(tree);
 			
 			// b.NGD 
 //			System.out.println("NGD_Caculate Running");	
-			NGD_calculate.main(treeNum,0,2,PNGD);		// NGD­pºâ(¼ĞÅÒ¾ğ½s¸¹,µL,¨Ï¥Î«¬ºA,NGD ªùÂe­È)(0=«e³B²z,1=·§©À¤À¸s,2=¼ĞÅÒ¾ğ,3=¹êÅç)
+			NGD_calculate.main(treeNum,0,2,PNGD);		// NGDè¨ˆç®—(æ¨™ç±¤æ¨¹ç·¨è™Ÿ,ç„¡,ä½¿ç”¨å‹æ…‹,NGD é–€æª»å€¼)(0=å‰è™•ç†,1=æ¦‚å¿µåˆ†ç¾¤,2=æ¨™ç±¤æ¨¹,3=å¯¦é©—)
 			
 			// c.Conditional probability
 //			System.out.println("CP_Caculate Running");	
-			CP_Calculate.main(treeNum,2,TCP);		// CP­pºâ(¼ĞÅÒ¾ğ½s¸¹,¨Ï¥Î«¬ºA,ªùÂe­È)(0=«e³B²z,1=·§©À¤À¸s,2=¼ĞÅÒ¾ğ,3=¹êÅç)
+			CP_Calculate.main(treeNum,2,TCP);		// CPè¨ˆç®—(æ¨™ç±¤æ¨¹ç·¨è™Ÿ,ä½¿ç”¨å‹æ…‹,é–€æª»å€¼)(0=å‰è™•ç†,1=æ¦‚å¿µåˆ†ç¾¤,2=æ¨™ç±¤æ¨¹,3=å¯¦é©—)
 
 			// d.BTRank
 //			System.out.println("PageRank_Preprocess Running");
-			BTRank_Preprocess.main(treeNum,2);		// Pagerank«e³B²z(¼ĞÅÒ¾ğ½s¸¹,¨Ï¥Î«¬ºA)(0=«e³B²z,1=·§©À¤À¸s,2=¼ĞÅÒ¾ğ,3=¹êÅç)
+			BTRank_Preprocess.main(treeNum,2);		// Pagerankå‰è™•ç†(æ¨™ç±¤æ¨¹ç·¨è™Ÿ,ä½¿ç”¨å‹æ…‹)(0=å‰è™•ç†,1=æ¦‚å¿µåˆ†ç¾¤,2=æ¨™ç±¤æ¨¹,3=å¯¦é©—)
 				
 //			System.out.println("PageRank Running");		
-			BTRank.main(treeNum);				// Pagerank­pºâ(¼ĞÅÒ¾ğ½s¸¹)
+			BTRank.main(treeNum);				// Pagerankè¨ˆç®—(æ¨™ç±¤æ¨¹ç·¨è™Ÿ)
 			
 			// e.TagTree
 //			System.out.println("TagTree_Build Running");
-			TagTree_Build.main(treeNum);			// «Ø¸m¼ĞÅÒ¾ğ(¼ĞÅÒ¾ğ½s¸¹)		
+			TagTree_Build.main(treeNum);			// å»ºç½®æ¨™ç±¤æ¨¹(æ¨™ç±¤æ¨¹ç·¨è™Ÿ)		
 		
 //			System.out.println("TagTree_Check Running");	
-			TagTree_Check.main(treeNum,2);			// ÀË¬d¼ĞÅÒ¾ğ(¼ĞÅÒ¾ğ½s¸¹,¨Ï¥Î«¬ºA)(0=«e³B²z,1=·§©À¤À¸s,2=¼ĞÅÒ¾ğ,3=¹êÅç)	
+			TagTree_Check.main(treeNum,2);			// æª¢æŸ¥æ¨™ç±¤æ¨¹(æ¨™ç±¤æ¨¹ç·¨è™Ÿ,ä½¿ç”¨å‹æ…‹)(0=å‰è™•ç†,1=æ¦‚å¿µåˆ†ç¾¤,2=æ¨™ç±¤æ¨¹,3=å¯¦é©—)	
 		
 //			System.out.println("TagTree_Number Running");	
-			TagTree_Number.main(treeNum);			// ¼Ğ¸¹¼ĞÅÒ¾ğ(¼ĞÅÒ¾ğ½s¸¹)
+			TagTree_Number.main(treeNum);			// æ¨™è™Ÿæ¨™ç±¤æ¨¹(æ¨™ç±¤æ¨¹ç·¨è™Ÿ)
 		}
 		
 		
-		// 4.¶¥¼h¤À¸s
+		// 4.éšå±¤åˆ†ç¾¤
 		File f = new File("D:/DataTemp\\Processing\\Cluster\\HierarchicalClusteringResult.txt");
 		if(f.exists())
 			f.delete();
@@ -61,14 +61,14 @@ public class sonw_test {
 		}
 		
 	}
-	public static ArrayList<String> getTagTreeList() throws IOException 
+	public static ArrayList<String> getTagTreeList(String conceptStatePath) throws IOException 
 	{		
-		File file= new File("D:/DataTemp\\Processing\\Concept\\ConceptState.txt");
+		File file= new File(conceptStatePath);
 		FileReader FileStream = new FileReader(file);
 		bufferedStream = new BufferedReader(FileStream);
 		String line="";
 		
-		ArrayList<String> tagTreeList = new ArrayList<String>();	// ¼ĞÅÒ¾ğ²M³æ
+		ArrayList<String> tagTreeList = new ArrayList<String>();	// æ¨™ç±¤æ¨¹æ¸…å–®
 		while((line=bufferedStream.readLine()) != null)
 		{
 			String state = line.split(":")[0].split(",")[1];

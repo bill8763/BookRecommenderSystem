@@ -1,12 +1,11 @@
 package tagtree;
-
 /*
-¤u§@¡G¨Ì·Ó¼ĞÅÒ±N¸s¶°§@¤l¤À¸s
-      	1.¼ĞÅÒ¸É»ô
-	2.¼ĞÅÒ¦X¨Ö
-	3.¤å¥ó¤À¸s
-¨Ó·½¡G
-¥Øªº¡G
+å·¥ä½œï¼šä¾ç…§æ¨™ç±¤å°‡ç¾¤é›†ä½œå­åˆ†ç¾¤
+      	1.æ¨™ç±¤è£œé½Š
+	2.æ¨™ç±¤åˆä½µ
+	3.æ–‡ä»¶åˆ†ç¾¤
+ä¾†æºï¼š
+ç›®çš„ï¼š
 */
 
 import java.io.BufferedReader;
@@ -28,25 +27,25 @@ public class snow_Hierachical_Clustering
 	
 	public static void Hierarchical_Clustering_test(int no,int type)throws IOException
 	{
-		Hashtable<String,ArrayList<String>> H_DocTerm = new Hashtable<String,ArrayList<String>>();	// °O¿ı¤å¥ó¹ïÀ³¦rµü	
-		Hashtable<String,ArrayList<String>> H_TermDoc = new Hashtable<String,ArrayList<String>>();	// °O¿ı¦rµü¹ïÀ³¤å¥ó
-		Hashtable<String,String> H_TermLevel = new Hashtable<String,String>();				// °O¿ı¦rµü¹ïÀ³¶¥¼h
-		Hashtable<String,String> H_LevelTerm = new Hashtable<String,String>();				// °O¿ı¶¥¼h¹ïÀ³¦rµü
-		Hashtable<String,ArrayList<String>> H_TermChild = new Hashtable<String,ArrayList<String>>();	// °O¿ı¦rµü¹ïÀ³¨à¤l
+		Hashtable<String,ArrayList<String>> H_DocTerm = new Hashtable<String,ArrayList<String>>();	// è¨˜éŒ„æ–‡ä»¶å°æ‡‰å­—è©	
+		Hashtable<String,ArrayList<String>> H_TermDoc = new Hashtable<String,ArrayList<String>>();	// è¨˜éŒ„å­—è©å°æ‡‰æ–‡ä»¶
+		Hashtable<String,String> H_TermLevel = new Hashtable<String,String>();				// è¨˜éŒ„å­—è©å°æ‡‰éšå±¤
+		Hashtable<String,String> H_LevelTerm = new Hashtable<String,String>();				// è¨˜éŒ„éšå±¤å°æ‡‰å­—è©
+		Hashtable<String,ArrayList<String>> H_TermChild = new Hashtable<String,ArrayList<String>>();	// è¨˜éŒ„å­—è©å°æ‡‰å…’å­
 		
-		ArrayList<String> A_Term;									// °O¿ı¹ïÀ³¦rµü
-		ArrayList<String> A_Doc;									// °O¿ı¹ïÀ³¤å¥ó	
-		ArrayList<String> A_Child;									// °O¿ı©Ò¦³¨à¤l
+		ArrayList<String> A_Term;									// è¨˜éŒ„å°æ‡‰å­—è©
+		ArrayList<String> A_Doc;									// è¨˜éŒ„å°æ‡‰æ–‡ä»¶	
+		ArrayList<String> A_Child;									// è¨˜éŒ„æ‰€æœ‰å…’å­
 		
-		ArrayList<String> term = new ArrayList<String>();						// °O¿ı©Ò¦³¦rµü
-		ArrayList<String> doc = new ArrayList<String>();						// °O¿ı©Ò¦³¤å¥ó
+		ArrayList<String> term = new ArrayList<String>();						// è¨˜éŒ„æ‰€æœ‰å­—è©
+		ArrayList<String> doc = new ArrayList<String>();						// è¨˜éŒ„æ‰€æœ‰æ–‡ä»¶
 		
-		// ¼ĞÅÒ¦X¨Ö±M¥Î
-		Hashtable<String,Boolean> H_Done = new Hashtable<String,Boolean>();				// °O¿ı¬O§_¤w¦X¨Ö¹L
-		Hashtable<String,ArrayList<String>> H_Merge = new Hashtable<String,ArrayList<String>>();	// °O¿ı·s¦X¨Öªº¼ĞÅÒ
+		// æ¨™ç±¤åˆä½µå°ˆç”¨
+		Hashtable<String,Boolean> H_Done = new Hashtable<String,Boolean>();				// è¨˜éŒ„æ˜¯å¦å·²åˆä½µé
+		Hashtable<String,ArrayList<String>> H_Merge = new Hashtable<String,ArrayList<String>>();	// è¨˜éŒ„æ–°åˆä½µçš„æ¨™ç±¤
 		
 		
-		// ÅªÀÉ					
+		// è®€æª”					
 		FileReader FileStream1 = new FileReader("D:/DataTemp\\Processing\\Concept\\ConceptList.txt");
 		FileReader FileStream2 = new FileReader("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeNumberResult.txt");
 		FileReader FileStream3 = new FileReader("D:/DataTemp\\Processing\\TagTree\\" + no + "_File\\TagTreeCheckResult.txt");
@@ -82,14 +81,14 @@ public class snow_Hierachical_Clustering
 			A_Doc = new ArrayList<String>();
 			H_TermDoc.put(t,A_Doc);
 			
-			// ¦X¨Ö±M¥Î
+			// åˆä½µå°ˆç”¨
 			H_Done.put(t,false);
 		}
 		
 		while((line3=BufferedStream3.readLine()) != null)
 		{
-			String t = line3.split("¡÷")[0];
-			String arr[] = line3.split("¡÷")[1].split(",");
+			String t = line3.split("â†’")[0];
+			String arr[] = line3.split("â†’")[1].split(",");
 			A_Child = new ArrayList<String>();
 			
 			for(String s: arr)
@@ -101,7 +100,7 @@ public class snow_Hierachical_Clustering
 		}
 				
 		
-		// ³B²z¤å¥ó¹ïÀ³¦rµü
+		// è™•ç†æ–‡ä»¶å°æ‡‰å­—è©
 		for(String d: doc)
 		{
 			A_Term = H_DocTerm.get(d);
@@ -125,7 +124,7 @@ public class snow_Hierachical_Clustering
 		}
 		
 		
-		// ³B²z¦rµü¹ïÀ³¤å¥ó
+		// è™•ç†å­—è©å°æ‡‰æ–‡ä»¶
 		for(String t: term)
 		{
 			A_Doc = H_TermDoc.get(t);
@@ -142,60 +141,60 @@ public class snow_Hierachical_Clustering
 		}
 		
 		
-		// Step 1:¼ĞÅÒ¸É»ô
-		for(String d: doc)								// ¹ï©ó©Ò¦³ªº¤å¥ó
+		// Step 1:æ¨™ç±¤è£œé½Š
+		for(String d: doc)								// å°æ–¼æ‰€æœ‰çš„æ–‡ä»¶
 		{
 			A_Term = H_DocTerm.get(d);						
 			
-			for(String t: A_Term)							// ¹ï©ó¸Ó¤å¥ó¾Ö¦³ªº¦rµü
+			for(String t: A_Term)							// å°æ–¼è©²æ–‡ä»¶æ“æœ‰çš„å­—è©
 			{
-				String father = findFather(t,H_TermLevel,H_LevelTerm);		// §ä¨ì¤W¤@¼h¦rµü
-				if(father.equals(""))						// ¦pªG¤W¤@¼h¬°ªÅ¡Aªíroot
+				String father = findFather(t,H_TermLevel,H_LevelTerm);		// æ‰¾åˆ°ä¸Šä¸€å±¤å­—è©
+				if(father.equals(""))						// å¦‚æœä¸Šä¸€å±¤ç‚ºç©ºï¼Œè¡¨root
 					continue;
 								
-				while(!father.equals("") && !H_DocTerm.get(d).contains(father))	// ­Y¤W¤@¼h¦rµü«DªÅ¡A¥B¸Ó¤å¥ó¨S¦³¦¹¦rµü ¡÷ ±N¦¹¦rµü¥[¤J¨ÃÄ~Äò©¹¤W¤@¼h¸É»ô
+				while(!father.equals("") && !H_DocTerm.get(d).contains(father))	// è‹¥ä¸Šä¸€å±¤å­—è©éç©ºï¼Œä¸”è©²æ–‡ä»¶æ²’æœ‰æ­¤å­—è© â†’ å°‡æ­¤å­—è©åŠ å…¥ä¸¦ç¹¼çºŒå¾€ä¸Šä¸€å±¤è£œé½Š
 				{
-					A_Doc = H_TermDoc.get(father);				// §ó·s¸Ó¦rµü¹ïÀ³¤å¥ó
+					A_Doc = H_TermDoc.get(father);				// æ›´æ–°è©²å­—è©å°æ‡‰æ–‡ä»¶
 					if(!A_Doc.contains(d))
 					{	
 						A_Doc.add(d);
 						H_TermDoc.put(father,A_Doc);
 					}
-					father = findFather(father,H_TermLevel,H_LevelTerm);	// ¤U¤@­Ó¤W¤@¼h¦rµü
+					father = findFather(father,H_TermLevel,H_LevelTerm);	// ä¸‹ä¸€å€‹ä¸Šä¸€å±¤å­—è©
 				}
 			}	
 		}
 		
 		
-		// Step 2:¼ĞÅÒ¦X¨Ö
-		LinkedList<String> queue = new LinkedList<String>();				// ³B²z¶¶§Ç
+		// Step 2:æ¨™ç±¤åˆä½µ
+		LinkedList<String> queue = new LinkedList<String>();				// è™•ç†é †åº
 		queue.addLast(H_LevelTerm.get("1"));
-		boolean happen = false;								// §PÂ_¦³µL¦X¨Öµo¥Í
+		boolean happen = false;								// åˆ¤æ–·æœ‰ç„¡åˆä½µç™¼ç”Ÿ
 		
 		while(queue.size()!=0)
 		{
 			String curTerm = queue.pollFirst();
 			
-			if(H_Done.get(curTerm) || !H_TermChild.containsKey(curTerm))		// ªí¥Ü¤w³Q¦X¨Ö¹L©Î³Ì©³¼h
+			if(H_Done.get(curTerm) || !H_TermChild.containsKey(curTerm))		// è¡¨ç¤ºå·²è¢«åˆä½µéæˆ–æœ€åº•å±¤
 				continue;
 			else
 			{
-				A_Child = H_TermChild.get(curTerm);				// ¸Ó¦rªº©Ò¦³Child
+				A_Child = H_TermChild.get(curTerm);				// è©²å­—çš„æ‰€æœ‰Child
 				
 				for(int i=0; i<A_Child.size(); i++)
 				{
 					happen = false;
-					String first = A_Child.get(i);				// ²Ä¤@­ÓChild
+					String first = A_Child.get(i);				// ç¬¬ä¸€å€‹Child
 					queue.addLast(first);
 					
-					A_Doc = H_TermDoc.get(first);				// ²Ä¤@­ÓChild¾Ö¦³ªº¤å¥ó
-					String merge = first;					// ¦X¨Ö¦rµü
+					A_Doc = H_TermDoc.get(first);				// ç¬¬ä¸€å€‹Childæ“æœ‰çš„æ–‡ä»¶
+					String merge = first;					// åˆä½µå­—è©
 					
 					for(int j=i+1; j<A_Child.size(); j++)
 					{
 						String second = A_Child.get(j);
 						
-						// ¾Ö¦³ªº¤å¥ó¼Æ¤@¼Ë¥B¸Ó¦rµü¥¼³Q¦X¨Ö¹L
+						// æ“æœ‰çš„æ–‡ä»¶æ•¸ä¸€æ¨£ä¸”è©²å­—è©æœªè¢«åˆä½µé
 						if(!H_Done.get(second) && sameDoc(first,second,H_TermDoc))
 						{						
 							merge = merge + "&" + second;
@@ -211,7 +210,7 @@ public class snow_Hierachical_Clustering
 		}
 		
 		
-		// ·s¼W¦X¨Öªº¼ĞÅÒ¡A§R°£ÂÂªº¼ĞÅÒ
+		// æ–°å¢åˆä½µçš„æ¨™ç±¤ï¼Œåˆªé™¤èˆŠçš„æ¨™ç±¤
 		if(H_Merge.size() != 0)
 		{
 			Set<String> set = H_Merge.keySet();
@@ -233,14 +232,14 @@ public class snow_Hierachical_Clustering
 		}
 		
 		
-		// ¿é¥X
+		// è¼¸å‡º
 		String output="";
 		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp\\Processing\\Cluster\\HierarchicalClusteringResult.txt",true));;
 		
 		Set<String> set = H_TermDoc.keySet();
 		Iterator iterator = set.iterator();
 		
-		// ¥ş³¡¦b¦¹·§©Àªº¤å¥ó
+		// å…¨éƒ¨åœ¨æ­¤æ¦‚å¿µçš„æ–‡ä»¶
 		output = no+"_concept:"+doc.get(0);
 		for(int i=1; i<doc.size(); i++)
 		{
@@ -256,7 +255,7 @@ public class snow_Hierachical_Clustering
 			f.printStackTrace();
 		}
 		
-		// ¶¥¼h¤À¸sªºµ²ªG
+		// éšå±¤åˆ†ç¾¤çš„çµæœ
 		while(iterator.hasNext())
 		{
 			try{
@@ -283,7 +282,7 @@ public class snow_Hierachical_Clustering
 		bw.close();
 		
 				
-		// ¦C¦L
+		// åˆ—å°
 		//printOut(H_DocTerm,doc);
 		//printOut(H_TermDoc,term);
 		//printOut(H_TermLevel);
@@ -306,7 +305,7 @@ public class snow_Hierachical_Clustering
 	
 	
 	
-	// ´M§ä¦rµüªº¤÷¿Ë
+	// å°‹æ‰¾å­—è©çš„çˆ¶è¦ª
 	public static String findFather(String term , Hashtable<String,String> H_TermLevel, Hashtable<String,String> H_LevelTerm)
 	{
 		String term_level = H_TermLevel.get(term);
@@ -328,7 +327,7 @@ public class snow_Hierachical_Clustering
 	}
 	
 	
-	// §PÂ_¨â¦rµü¾Ö¦³ªº¤å¥ó¬O§_¬Û¦P
+	// åˆ¤æ–·å…©å­—è©æ“æœ‰çš„æ–‡ä»¶æ˜¯å¦ç›¸åŒ
 	public static boolean sameDoc(String first,String second,Hashtable<String,ArrayList<String>> h)
 	{
 		ArrayList<String> first_doc = h.get(first);
@@ -349,7 +348,7 @@ public class snow_Hierachical_Clustering
 	}
 		
 		
-	// ¦C¦L H_DocTerm ¡B H_TermDoc
+	// åˆ—å° H_DocTerm ã€ H_TermDoc
 	public static void printOut(Hashtable<String,ArrayList<String>> h , ArrayList<String> a)
 	{
 		for(String s: a)
@@ -364,7 +363,7 @@ public class snow_Hierachical_Clustering
 		}	
 	}
 	
-	// ¦C¦L H_TermLevel ¡B H_LevelTerm
+	// åˆ—å° H_TermLevel ã€ H_LevelTerm
 	public static void printOut(Hashtable<String,String> h)
 	{
 		Set<String> set = h.keySet();
@@ -376,7 +375,7 @@ public class snow_Hierachical_Clustering
 		}
 	}
 	
-	// ¦C¦L H_TermChild
+	// åˆ—å° H_TermChild
 	public static void printOut2(Hashtable<String,ArrayList<String>> h)
 	{
 		Set<String> set = h.keySet();
@@ -385,7 +384,7 @@ public class snow_Hierachical_Clustering
 		{
 			
 			String s = (String)iterator.next();
-			System.out.print(s+" ¡÷");
+			System.out.print(s+" â†’");
 			ArrayList<String> a = h.get(s);
 			
 			for(String c: a)

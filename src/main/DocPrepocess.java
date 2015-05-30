@@ -26,7 +26,7 @@ import tw.edu.ncu.im.Preprocess.Decorator.TermToLowerCaseDecorator;
 import tw.edu.ncu.im.Util.EmbeddedIndexSearcher;
 import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
-public class PrepocessTest {
+public class DocPrepocess {
 	public static String path = "";
 	public static String ouputPath = "";
 
@@ -70,7 +70,7 @@ public class PrepocessTest {
 		NGDistanceDecorator<TermNode, CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode, CEdge<Double>>(
 				filitedTermComp, posComp.getVertexResultsTerms(), searcher);
 		NgdEdgeFilter<TermNode, CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode, CEdge<Double>>(
-				ngdComp, ngdComp.getEdgeDistance(), 0.7);
+				ngdComp, ngdComp.getEdgeDistance(), 0.6);
 		KcoreDecorator<TermNode, CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode, CEdge<Double>>(
 				ngdflitedComp, ngdflitedComp.getNgdMap(), 0.7);
 		System.out.println("ready to processing:" + doc);

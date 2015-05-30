@@ -23,7 +23,7 @@ public class Avg_link_all {
 	/**
 	 * @param args
 	 */
-	public void two_article(String filePath1, String filePath2,
+	public void two_article(String fileDir, String fileID1, String fileID2,
 			String outputFilePath, IndexSearchable searcher) throws Exception {
 		this.searcher = searcher;
 		Set<String> termset1 = new HashSet<String>();
@@ -34,12 +34,12 @@ public class Avg_link_all {
 		int count = 0;
 		double sim = 0;
 		// -----------�P�_�ɮ׬O�_�s�b----------------------------
-		File a = new File(filePath1);
+		File a = new File(fileDir+fileID1);
 		BufferedWriter bw2 = null;
 		if (a.exists())
-			FileStream1 = new FileReader(filePath1);
+			FileStream1 = new FileReader(fileDir+fileID1);
 		else {
-			bw2 = new BufferedWriter(new FileWriter(filePath1, false));
+			bw2 = new BufferedWriter(new FileWriter(fileDir+fileID1, false));
 			bw2.flush();
 			bw2.close();
 		}
@@ -55,13 +55,13 @@ public class Avg_link_all {
 		BufferedStream1.close();
 		// -----------�P�_�ɮ׬O�_�s�b----------------------------
 		FileReader FileStream2 = null;
-		File b = new File(filePath2);
+		File b = new File(fileDir+fileID2);
 		BufferedWriter bw3;
 
 		if (b.exists())
-			FileStream2 = new FileReader(filePath2);
+			FileStream2 = new FileReader(fileDir+fileID2);
 		else {
-			bw3 = new BufferedWriter(new FileWriter(filePath2, false));
+			bw3 = new BufferedWriter(new FileWriter(fileDir+fileID2, false));
 			bw3.flush();
 			bw3.close();
 		}
@@ -123,7 +123,7 @@ public class Avg_link_all {
 			else
 				sim = 1 - ((double) 1 / (count)) * allNGD;
 
-			String output = filePath1 + "," + filePath2 + ":" + sim;
+			String output = fileID1 + "," + fileID2 + ":" + sim;
 			BufferedWriter bw;
 
 			try {
