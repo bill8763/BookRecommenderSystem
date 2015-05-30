@@ -17,7 +17,7 @@ public class ontology_transform extends DBconnect{
 	}
 	public void ontology_to_database(int no) throws IOException, SQLException{ //��Jtagtree�s��(��concept��id)
 		FileReader FileStream;
-		FileStream = new FileReader("D:/DataTemp/Processing/TagTree/" + no + "_File/TagTreeNumberResult.txt");
+		FileStream = new FileReader("D:/dataset/Processing/TagTree/" + no + "_File/TagTreeNumberResult.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream = new BufferedReader(FileStream);
 		String line = "";
@@ -58,7 +58,7 @@ public class ontology_transform extends DBconnect{
 				stmt.executeUpdate(parent_update);
 			}
 		}
-		getConn().close();
+
 	//�]for~> �Pconcept �M���topic �Q�ΤU���@�q�{���X
 		
 	}
@@ -80,8 +80,23 @@ public class ontology_transform extends DBconnect{
 	}
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, SQLException {
 		ontology_transform test = new ontology_transform();
-		
-			test.ontology_to_database(4);
+
+		@SuppressWarnings("resource")
+		BufferedReader BufferedStream = new BufferedReader(
+				new FileReader(
+						"D:/dataset/Processing/Cluster/HierarchicalClusteringResult.txt"));
+		String line = "";
+		ArrayList<Integer> conceptList = new ArrayList<>();
+		while ((line = BufferedStream.readLine()) != null) {
+			if(line.contains("_concept")){
+				conceptList.add(Integer.parseInt(line.split("_")[0]));
+			}
+		}
+		for(int i:conceptList){
+			test.ontology_to_database(i);
+		}
+		getConn().close();
+//		test.ontology_to_database(2);
 		
 	}
 

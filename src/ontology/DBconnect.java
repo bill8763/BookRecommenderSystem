@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBconnect {
-	String user = "bill8763";
-    String pass = "Tall928";
-    String database = "user_profile";
-    String url = "jdbc:mysql://127.0.0.1/user_profile";
+	String user = "mgtadmin";
+    String pass = "1qa2ws3ed";
+    String database = "bookrating";
+    String url = "jdbc:mysql://localhost/bookrating";
     String driver = "com.mysql.jdbc.Driver";
     private static Connection conn;
 	protected Statement stmt;

@@ -17,7 +17,7 @@ public class article_to_ontology  extends DBconnect{
 	}
 	public void article_to_database() throws IOException, SQLException{
 		FileReader FileStream;
-		FileStream = new FileReader("D:/DataTemp/Processing/Cluster/HierarchicalClusteringResult.txt");
+		FileStream = new FileReader("D:/dataset/Processing/Cluster/HierarchicalClusteringResult.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream = new BufferedReader(FileStream);
 		String line = "";
