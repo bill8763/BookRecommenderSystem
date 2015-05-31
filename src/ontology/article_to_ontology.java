@@ -30,37 +30,39 @@ public class article_to_ontology  extends DBconnect{
 			}
 			if(line.contains("_concept")){
 				if(Integer.parseInt(line.split("_")[0])!=1){
-					concept_num = Integer.parseInt(line.split("_")[0])-1;
-					concept_list.add(concept_num+"%"+temp);
-					System.out.println(concept_num+"%"+temp);
+					concept_list.add(concept_num+"%"+temp);				
+					System.out.println(concept_num+"%"+temp);					
+					concept_num = Integer.parseInt(line.split("_")[0]);
+
 					temp = "";
 				}
 			}
 		}
-		concept_list.add((concept_num+1)+"%"+temp); //�̫�@��concept
-		System.out.println((concept_num+1)+"%"+temp);
-//-------------------------��Ƽg�J����-------------------------------
+		concept_list.add((concept_num)+"%"+temp); //最後一個concept
+		System.out.println((concept_num)+"%"+temp);
+//-------------------------資料寫入部份-------------------------------
 		PreparedStatement select_topic = null; 
 		PreparedStatement insert_article_to_topic = null;
 		select_topic = getConn().prepareStatement("select * from ontology where concept_id = ? and topic_name = ?");
 		insert_article_to_topic = getConn().prepareStatement("insert into concept_article" + "(concept_id,topic_id,article_id)"
 	  				   +"values ( ?, ?, ? )");
 		
-		String concept_id = concept_list.get(1).split("%")[0]; //�Ȯɥ��] concept
-		String[] concept_article = (concept_list.get(1).split("%")[1]).split("#"); //�Ȯɥ��] concept
+
 		
-		
+		for(int m=1;m<concept_list.size();m++){
+			String concept_id = concept_list.get(m).split("%")[0]; //暫時先跑 concept
+			String[] concept_article = (concept_list.get(m).split("%")[1]).split("#"); //暫時先跑 concept			
 		for(int i=0;i<concept_article.length;i++){
 
-			if(concept_article[i].contains("&")){ //���h�D�D
+			if(concept_article[i].contains("&")){ //有多主題
 				String[] topic_temp= concept_article[i].split(":")[0].split("&");
 				for(int j=0;j<topic_temp.length;j++){
 					select_topic.setString(1,concept_id);
 					select_topic.setString(2,topic_temp[j]);
 					ResultSet topicrs = select_topic.executeQuery();
 					topicrs.next();
-					String topic_id = topicrs.getString("topic_id"); //�۹�����topic_id
-					if(concept_article[i].contains(",")){ //�D�D�U���h�g�峹
+					String topic_id = topicrs.getString("topic_id"); //相對應的topic_id
+					if(concept_article[i].contains(",")){ //主題下有多篇文章
 						String[] article_temp = concept_article[i].split(":")[1].split(",");
 						for( int k=0;k<article_temp.length;k++){
 							insert_article_to_topic.setString(1,concept_id);
@@ -69,7 +71,7 @@ public class article_to_ontology  extends DBconnect{
 							insert_article_to_topic.executeUpdate(); 
 						}
 					}
-					else{ //�D�D�U�u���@�g�峹
+					else{ //主題下只有一篇文章
 						insert_article_to_topic.setString(1,concept_id);
 						insert_article_to_topic.setString(2,topic_id);
 						insert_article_to_topic.setString(3,concept_article[i].split(":")[1]);
@@ -83,8 +85,8 @@ public class article_to_ontology  extends DBconnect{
 				select_topic.setString(2,concept_article[i].split(":")[0]);
 				ResultSet topicrs = select_topic.executeQuery();
 				topicrs.next();
-				String topic_id = topicrs.getString("topic_id"); //�۹�����topic_id
-				if(concept_article[i].contains(",")){ //�D�D�U���h�g�峹
+				String topic_id = topicrs.getString("topic_id"); //相對應的topic_id
+				if(concept_article[i].contains(",")){ //主題下有多篇文章
 					String[] article_temp = concept_article[i].split(":")[1].split(",");
 					for( int k=0;k<article_temp.length;k++){
 						insert_article_to_topic.setString(1,concept_id);
@@ -93,7 +95,7 @@ public class article_to_ontology  extends DBconnect{
 						insert_article_to_topic.executeUpdate(); 
 					}
 				}
-				else{ //�D�D�U�u���@�g�峹
+				else{ //主題下只有一篇文章
 					insert_article_to_topic.setString(1,concept_id);
 					insert_article_to_topic.setString(2,topic_id);
 					insert_article_to_topic.setString(3,concept_article[i].split(":")[1]);
@@ -103,7 +105,7 @@ public class article_to_ontology  extends DBconnect{
 			}
 	
 		}
-		
+		}
 	}
 	public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, SQLException {
 		article_to_ontology test = new article_to_ontology();
