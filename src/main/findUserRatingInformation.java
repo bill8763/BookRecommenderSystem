@@ -3,18 +3,21 @@ package main;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.sun.tools.javac.util.Pair;
 
-import ontology.DBconnect;
+import database.DBconnect;
 
 public class findUserRatingInformation {
 	public static void main(String args[]) {
-
+		
 	}
 
 /**
@@ -53,8 +56,9 @@ public class findUserRatingInformation {
  * @param article
  * @return
  * @throws SQLException
+ * @throws ParseException 
  */
-	public static String getRatingStemp(String user, String article) throws SQLException{
+	public static String getRatingStemp(String user, String article) throws SQLException, ParseException{
 		PreparedStatement selectRatingTime = null;
 		selectRatingTime = DBconnect
 				.getConn()
@@ -63,20 +67,30 @@ public class findUserRatingInformation {
 		selectRatingTime.setString(1, user);
 		selectRatingTime.setString(2, article);
 		ResultSet ratingTime = selectRatingTime.executeQuery();
-		if(ratingTime.isLast())
-			return ratingTime.getString("ratingTime");
-		else
-			return ratingTime.getString("ratingTime");
+		String temp="";
+		while (ratingTime.next()){
+			temp = ratingTime.getDate("ratingTime").toString();
+		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = dateFormat.parse(temp);
+		long time = (long) date.getTime();
+		temp = Long.toString(time);
+		System.out.println(temp);
+		return temp;
 	}
 /**
  * 取得使用者有涉及的概念Set: concept_id,topic_id
  * @param user
  * @return
  * @throws SQLException 
+ * @throws ClassNotFoundException 
+ * @throws IllegalAccessException 
+ * @throws InstantiationException 
  */
-	public static Set<String> getConcept(String user) throws SQLException {
+	public static Set<String> getConcept(String user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Set<String> outputSet = new HashSet<String>();
 		PreparedStatement selectConcept = null;
+		new DBconnect();
 		selectConcept = DBconnect
 				.getConn()
 				.prepareStatement(

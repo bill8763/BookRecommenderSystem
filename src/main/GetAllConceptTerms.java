@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import ontology.DBconnect;
+import database.DBconnect;
 /**
  * 	將所有該概念內文章的核心字詞納入
  * @author chiang

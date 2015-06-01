@@ -10,18 +10,18 @@ import java.util.Date;
  */
 public class CalculatePeriod {
 	public static int periodCalculator(String timestamp1,String timestamp2) { //計算相差日期
-		Long time1=Long.valueOf(timestamp1);
-		Long time2=Long.valueOf(timestamp2);
+		long time1=Long.parseLong(timestamp1);
+		long time2=Long.parseLong(timestamp2);
 	    long dateDiff = 0;
 	    if(time1<time2) {
-	        dateDiff = ((time2-time1)/(24*60*60));
+	        dateDiff = ((time2-time1)/(24*60*60*1000));
 	    }
 	    else {
-	        dateDiff = ((time1-time2)/(24*60*60));
+	        dateDiff = ((time1-time2)/(24*60*60*1000));
 	    }
 	    return (int) dateDiff;
 	}
 	public static void main(String[] args){
-		System.out.println(periodCalculator("949536000","949622400") );
+		System.out.println(periodCalculator("949536000000","949622400000") );
 	}
 }

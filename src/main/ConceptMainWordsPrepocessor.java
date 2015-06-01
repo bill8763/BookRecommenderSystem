@@ -13,10 +13,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ontology.DBconnect;
-
 import org.apache.commons.collections15.Factory;
 
+import database.DBconnect;
 import tw.edu.ncu.im.Preprocess.PreprocessComponent;
 import tw.edu.ncu.im.Preprocess.graph.*;
 import edu.uci.ics.jung.graph.Graph;

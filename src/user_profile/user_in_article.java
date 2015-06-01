@@ -10,7 +10,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ontology.DBconnect;
+import database.DBconnect;
 
 public class user_in_article extends DBconnect {
 

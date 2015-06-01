@@ -17,7 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import ontology.DBconnect;
+
+import database.DBconnect;
 
 public class Concept_similarity extends DBconnect{
 	public Concept_similarity() throws InstantiationException,
