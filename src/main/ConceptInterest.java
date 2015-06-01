@@ -2,28 +2,27 @@ package main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.sun.tools.javac.util.Pair;
-
 import database.DBconnect;
+import document_clustering.Avg_link_all;
 import processingUtil.CalculatePeriod;
+import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
 public class ConceptInterest {
-	public static void main(String[] args) throws SQLException, ParseException,
-			InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
+	static String path = "D:/dataset/";
+	static String articlePath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+
+	public static void main(String[] args) throws Exception {
 
 		String userID = "A14OJS0VWMOSWO";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2001/01/01";
+		String startDateString = "2001/01/03";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
@@ -39,8 +38,9 @@ public class ConceptInterest {
 	}
 
 	static void ConceptInterestCalculate(String user, String processingStemp,
-			double phi) throws SQLException, InstantiationException,
-			IllegalAccessException, ClassNotFoundException, ParseException {
+			double phi) throws Exception {
+		HttpIndexSearcher searcher = new HttpIndexSearcher();
+		searcher.url = "http://140.115.82.105/searchweb/";
 		String concept = "";
 		String topic = "";
 		/** 取得user有涉及的概念 */
@@ -56,8 +56,9 @@ public class ConceptInterest {
 			Double articleInterest = 0.0;
 			for (String article : articleList) {
 				/** 計算文章與該概念的相似度 */
-				Double sim = ConceptsSimilarity.articleSimilarity(article,
-						concept, topic);
+				Avg_link_all docLink = new Avg_link_all();
+				Double sim = docLink.conceptArticleSim(path, concept, topic,
+						articlePath + article, searcher);
 				/** 文章評價日期 */
 				String ratingStemp = findUserRatingInformation.getRatingStemp(
 						user, article);
@@ -69,31 +70,37 @@ public class ConceptInterest {
 				System.out.println(sim);
 				articleInterest += sim * 1 / Math.pow(dayDistance, 1 / phi);
 			}
+			articleInterest = articleInterest/articleList.size();
 			/** 判斷有無資料，來選擇更新或插入 */
 			PreparedStatement selectProfile = null;
 			selectProfile = DBconnect
 					.getConn()
 					.prepareStatement(
 							"select count(*) from profile "
-									+ "where user_id = ? and concpet_id=? and topic_id=? ");
+									+ "where user_id = ? and concept_id=? and topic_id=? ");
 			selectProfile.setString(1, user);
 			selectProfile.setInt(2, Integer.parseInt(concept));
 			selectProfile.setInt(3, Integer.parseInt(topic));
 			ResultSet existState = selectProfile.executeQuery();
 			/** 已存在則更新 */
-			if (existState.equals(0)) {
+			if (!existState.wasNull()) {
 				PreparedStatement updateProfile = null;
 				/** TO DO:資料庫鍵完在確認一次欄位 */
 				updateProfile = DBconnect
 						.getConn()
 						.prepareStatement(
-								"update interest from profile "
-										+ "where user_id = ? and concpet_id=? and topic_id=? and process_time=?");
+								"update  profile "
+										+ "set user_id = ? , concept_id=? , topic_id=? , interest=? , process_time=?"
+										+ "where user_id = ? and concept_id=? and topic_id=?");
 				updateProfile.setString(1, user);
 				updateProfile.setInt(2, Integer.parseInt(concept));
 				updateProfile.setInt(3, Integer.parseInt(topic));
-				updateProfile.setTimestamp(4,
+				updateProfile.setDouble(4, articleInterest);
+				updateProfile.setTimestamp(5,
 						new Timestamp(Long.parseLong(processingStemp)));
+				updateProfile.setString(6, user);
+				updateProfile.setInt(7, Integer.parseInt(concept));
+				updateProfile.setInt(8, Integer.parseInt(topic));
 				updateProfile.executeUpdate();
 			}
 			/** 不存在則插入 */
@@ -101,7 +108,7 @@ public class ConceptInterest {
 				PreparedStatement insertProfile = null;
 				/** TO DO:資料庫鍵完在確認一次欄位 */
 				insertProfile = DBconnect.getConn().prepareStatement(
-						"insert into profile (user_id,concpet_id,topic_id,interest,process_time) "
+						"insert into profile (user_id,concept_id,topic_id,interest,process_time) "
 								+ "values (?,?,?,?,?)");
 				insertProfile.setString(1, user);
 				insertProfile.setInt(2, Integer.parseInt(concept));

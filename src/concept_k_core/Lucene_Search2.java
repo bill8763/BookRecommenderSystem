@@ -51,15 +51,15 @@ public class Lucene_Search2  {
 				long SearchResult = 0;		
 		for (int i = 0; i < obj.length; i++) {
 			for (int j = i + 1; j < obj.length; j++) {
+					String temp1 = obj[i].toString().replace("\"", "");
+					String temp2 = obj[j].toString().replace("\"", "");
 				try {
 					SearchResult = searcher
-							.searchMultipleTerm(new String[] {
-									obj[i].toString(), obj[j].toString() });
+							.searchMultipleTerm(new String[] {temp1,temp2});
 				} catch (SolrServerException e) {// Retry
 					try {
 						SearchResult = searcher
-								.searchMultipleTerm(new String[] {
-										obj[i].toString(), obj[j].toString() });
+								.searchMultipleTerm(new String[] {temp1,temp2});
 					} catch (SolrServerException e1) {
 						e1.printStackTrace();
 					}
