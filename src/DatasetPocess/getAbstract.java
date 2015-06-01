@@ -39,7 +39,7 @@ public class getAbstract {
 		String line = "";
 		while ((line = in.readLine()) != null) {
 			String BookId = line.split(" :: ")[0];
-			UrlCrawler.UrlCrawler("http://www.amazon.com/dp/" + BookId, dir
+			UrlCrawler.getBookDescription("http://www.amazon.com/dp/" + BookId, dir
 					+ "/" + BookId + ".txt");
 			System.out.println(dir + "/" + BookId + ".txt is done!");
 		}
@@ -65,7 +65,7 @@ public class getAbstract {
 					.valueOf(timeStart) && Long.valueOf(line.split("  ")[2]) <= Long
 					.valueOf(timeEnd)) {
 				String BookId = line.split("  ")[0];
-				UrlCrawler.UrlCrawler("http://www.amazon.com/dp/" + BookId, dir
+				UrlCrawler.getBookDescription("http://www.amazon.com/dp/" + BookId, dir
 						+ "/" + BookId + ".txt");
 				System.out.println(dir + "/" + BookId + ".txt is done!");
 			}

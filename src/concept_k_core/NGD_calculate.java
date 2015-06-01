@@ -13,11 +13,11 @@ import java.util.LinkedHashSet;
 public class NGD_calculate {
 
 	@SuppressWarnings("resource")
-	public static void NGD(int concept_id,int topic_id) {
+	public static void NGD(int concept_id,int topic_id, String path) {
 		try {
 			FileReader FileStream1;
 
-			FileStream1 = new FileReader("D:/DataTemp/Concept_K-core/Number_of_pair/" + concept_id + "_" +topic_id
+			FileStream1 = new FileReader(path+"Number_of_pair/" + concept_id + "_" +topic_id
 					+ "_number_of_pair.txt");
 
 			BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
@@ -29,7 +29,7 @@ public class NGD_calculate {
 				pairlist.add(e1);
 			}
 
-			FileReader FileStream = new FileReader("D:/DataTemp/Concept_K-core/Stem/" + concept_id + "_" +topic_id
+			FileReader FileStream = new FileReader(path+"Stem/" + concept_id + "_" +topic_id
 					+ "_stem.txt");
 			BufferedReader BufferedStream = new BufferedReader(FileStream);
 			String e = "";
@@ -77,10 +77,14 @@ public class NGD_calculate {
 				}
 			}
 			Object[] objs = set.toArray();
-			File file = new File("D:/DataTemp/Concept_K-core/NGD/" + concept_id + "_" + topic_id +"_nNGD.txt");
+			File file = new File(path+"NGD/" + concept_id + "_" + topic_id +"_nNGD.txt");
 			file.delete();
+			File test = new File(path+"NGD/");
+			if (!test.exists()) {
+				test.mkdirs();
+			}
 			BufferedWriter bw;
-			bw = new BufferedWriter(new FileWriter("D:/DataTemp/Concept_K-core/NGD/" + concept_id + "_" + topic_id +"_nNGD.txt", false));
+			bw = new BufferedWriter(new FileWriter(path+"NGD/" + concept_id + "_" + topic_id +"_nNGD.txt", false));
 			for (int j = 0; j < objs.length; j++) {
 
 				System.out.println(objs[j]);
@@ -90,7 +94,7 @@ public class NGD_calculate {
 
 					bw.write(objs_out);
 					bw.newLine();
-					bw.flush(); // ²MªÅ½w½Ä°Ï
+					bw.flush(); // ï¿½Mï¿½Å½wï¿½Ä°ï¿½
 
 				} catch (IOException f) {
 					// TODO Auto-generated catch block
@@ -98,7 +102,7 @@ public class NGD_calculate {
 				}
 
 			}
-			bw.close(); // Ãö³¬BufferedWriterª«¥ó
+			bw.close(); // ï¿½ï¿½ï¿½ï¿½BufferedWriterï¿½ï¿½ï¿½ï¿½
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -123,7 +127,7 @@ public class NGD_calculate {
 	}
 
 	public static void main(String args[]) throws IOException {
-		NGD(3,2);
+		//NGD(3,2);
 	}
 
 }

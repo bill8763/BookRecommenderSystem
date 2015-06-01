@@ -32,7 +32,7 @@ public class ConceptInterest {
 		long endTime = (long) endDate.getTime();
 
 		while (startTime < endTime) {
-			ConceptInterestCalculate(userID, Long.toString(startTime), 0.5);
+			ConceptInterestCalculate(userID, Long.toString(startTime), 1.0);
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
 
