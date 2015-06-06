@@ -13,8 +13,8 @@ import java.util.Date;
 public class behaviorTransformer {
 	static String userID = "A14OJS0VWMOSWO";
 	static String path = "D:/dataset/userRatingTimeOrder/" + userID + ".txt";
-	static String timeStart = "2001/01/01";
-	static String timeEnd = "2001/02/01";
+	static String timeStart = "2001/01/15";
+	static String timeEnd = "2001/01/16";/**需要設定成結束日+1*/
 
 	public static void main(String[] args) throws IOException, ParseException,
 			SQLException, InstantiationException, IllegalAccessException,
@@ -38,8 +38,8 @@ public class behaviorTransformer {
 		long endTime = (long) endDate.getTime() / 1000;
 
 		while ((line = BufferedStream.readLine()) != null) {
-			if (Long.parseLong(line.split("  ")[2]) > startTime
-					&& Long.parseLong(line.split("  ")[2]) < endTime) {
+			if (Long.parseLong(line.split("  ")[2]) >= startTime
+					&& Long.parseLong(line.split("  ")[2]) <= endTime) {
 				PreparedStatement insertBehavior = null;
 				insertBehavior = DBconnect.getConn().prepareStatement(
 						"INSERT INTO `behavior`(`user_id`, `article_id`, `ratingTime`)"

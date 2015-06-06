@@ -22,16 +22,17 @@ public class ConceptInterest {
 		String userID = "A14OJS0VWMOSWO";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2001/01/03";
+		String startDateString = "2001/01/15";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
-		String endDateString = "2001/02/01";
+		String endDateString = "2001/01/16";
 		Date endDate = dateFormat.parse(endDateString);
 		long endTime = (long) endDate.getTime();
 
 		while (startTime < endTime) {
 			ConceptInterestCalculate(userID, Long.toString(startTime), 1.0);
+			
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
 
@@ -71,53 +72,27 @@ public class ConceptInterest {
 				articleInterest += sim * 1 / Math.pow(dayDistance, 1 / phi);
 			}
 			articleInterest = articleInterest/articleList.size();
-			/** 判斷有無資料，來選擇更新或插入 */
-			PreparedStatement selectProfile = null;
-			selectProfile = DBconnect
-					.getConn()
-					.prepareStatement(
-							"select count(*) from profile "
-									+ "where user_id = ? and concept_id=? and topic_id=? ");
-			selectProfile.setString(1, user);
-			selectProfile.setInt(2, Integer.parseInt(concept));
-			selectProfile.setInt(3, Integer.parseInt(topic));
-			ResultSet existState = selectProfile.executeQuery();
-			/** 已存在則更新 */
-			if (!existState.wasNull()) {
-				PreparedStatement updateProfile = null;
-				/** TO DO:資料庫鍵完在確認一次欄位 */
-				updateProfile = DBconnect
-						.getConn()
-						.prepareStatement(
-								"update  profile "
-										+ "set user_id = ? , concept_id=? , topic_id=? , interest=? , process_time=?"
-										+ "where user_id = ? and concept_id=? and topic_id=?");
-				updateProfile.setString(1, user);
-				updateProfile.setInt(2, Integer.parseInt(concept));
-				updateProfile.setInt(3, Integer.parseInt(topic));
-				updateProfile.setDouble(4, articleInterest);
-				updateProfile.setTimestamp(5,
-						new Timestamp(Long.parseLong(processingStemp)));
-				updateProfile.setString(6, user);
-				updateProfile.setInt(7, Integer.parseInt(concept));
-				updateProfile.setInt(8, Integer.parseInt(topic));
-				updateProfile.executeUpdate();
-			}
-			/** 不存在則插入 */
-			else {
+		
+			/** 插入 */
+	
 				PreparedStatement insertProfile = null;
 				/** TO DO:資料庫鍵完在確認一次欄位 */
 				insertProfile = DBconnect.getConn().prepareStatement(
 						"insert into profile (user_id,concept_id,topic_id,interest,process_time) "
-								+ "values (?,?,?,?,?)");
+								+ "values (?,?,?,?,?)"
+								+ "ON DUPLICATE KEY UPDATE interest=?,process_time=?");
 				insertProfile.setString(1, user);
 				insertProfile.setInt(2, Integer.parseInt(concept));
 				insertProfile.setInt(3, Integer.parseInt(topic));
 				insertProfile.setDouble(4, articleInterest);
 				insertProfile.setTimestamp(5,
 						new Timestamp(Long.parseLong(processingStemp)));
+				insertProfile.setDouble(6, articleInterest);
+				insertProfile.setTimestamp(7,
+						new Timestamp(Long.parseLong(processingStemp)));
 				insertProfile.executeUpdate();
-			}
+			
+			
 		}
 		/** 算完概念的興趣 */
 

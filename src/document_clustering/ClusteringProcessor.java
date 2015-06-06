@@ -28,27 +28,27 @@ public class ClusteringProcessor {
 		}
 		List<String> list = null;
 		list = fileList.getFileList(path);
-//		/** 算每篇文件相似度 */
-//		Avg_link_all docLink = new Avg_link_all();
-//		for (int i = 0; i < list.size(); i++) {
-//			for (int j = i + 1; j < list.size(); j++) {
-//				docLink.two_article(path,list.get(i),list.get(j),
-//						ouputDir + "BetaSimilarityResult.txt", searcher);
-//			}
-//		}
-//		/** 過濾 */
-//		BetaSimilarity_Filtering.main(0.2, ouputDir
-//				+ "BetaSimilarityResult.txt", ouputDir
-//				+ "BetaSimilarityMatrix.txt");
-//		/** 只保留最大邊 */
-//		for (int i = 0; i < list.size(); i++) {
-//			Max_Similarity_Calculate.Max_Similarity_Calculate_test(
-//					list.get(i), ouputDir + "MaxSimilarityMatrix.txt",
-//					ouputDir + "BetaSimilarityResult.txt");
-//		}
-//		/** 找出主星 */
-//		Star_Cover.Star_Cover_test(ouputDir + "MaxSimilarityMatrix.txt",
-//				ouputDir + "StarCoverGraph.txt");
+		/** 算每篇文件相似度 */
+		Avg_link_all docLink = new Avg_link_all();
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = i + 1; j < list.size(); j++) {
+				docLink.two_article(path,list.get(i),list.get(j),
+						ouputDir + "BetaSimilarityResult.txt", searcher);
+			}
+		}
+		/** 過濾 */
+		BetaSimilarity_Filtering.main(0.2, ouputDir
+				+ "BetaSimilarityResult.txt", ouputDir
+				+ "BetaSimilarityMatrix.txt");
+		/** 只保留最大邊 */
+		for (int i = 0; i < list.size(); i++) {
+			Max_Similarity_Calculate.Max_Similarity_Calculate_test(
+					list.get(i), ouputDir + "MaxSimilarityMatrix.txt",
+					ouputDir + "BetaSimilarityResult.txt");
+		}
+		/** 找出主星 */
+		Star_Cover.Star_Cover_test(ouputDir + "MaxSimilarityMatrix.txt",
+				ouputDir + "StarCoverGraph.txt");
 		/** 篩選主星 */
 		Experiment e = new Experiment();
 		e.excute();

@@ -69,7 +69,7 @@ public class DocPrepocess {
 		NGDistanceDecorator<TermNode, CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode, CEdge<Double>>(
 				filitedTermComp, posComp.getVertexResultsTerms(), searcher);
 		NgdEdgeFilter<TermNode, CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode, CEdge<Double>>(
-				ngdComp, ngdComp.getEdgeDistance(), 0.6);
+				ngdComp, ngdComp.getEdgeDistance(), 0.5);
 		KcoreDecorator<TermNode, CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode, CEdge<Double>>(
 				ngdflitedComp, ngdflitedComp.getNgdMap(), 0.7);
 		System.out.println("ready to processing:" + doc);
@@ -99,16 +99,16 @@ public class DocPrepocess {
 		 */
 		System.out.print(docGraph.getVertexCount());
 		if (docGraph.getVertexCount() > 0) {
-/*			gerenratingTXT.gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
+		gerenratingTXT.gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
 					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
-					mainwordsOutputPath);*/
+					mainwordsOutputPath);
 			gerenratingTXT.gerenratingNumOfPair(docGraph,posComp.getVertexResultsTerms(),ngdComp.pairOfTermsSearchResult,numOfPathOuputPath);
 		}
 	}
 
 	public static void main(String[] args) throws IOException {
 		// path="D:/dataset/abstract/";
-		path = "D:/dataset/A14OJS0VWMOSWO_Abstract/";
+		path = "D:/dataset/Abstract/";
 		mainWordsOutputPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
 		File outputDir = new File(mainWordsOutputPath);
 		if (!outputDir.exists()) {

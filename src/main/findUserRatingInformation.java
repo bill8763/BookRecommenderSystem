@@ -1,8 +1,11 @@
 package main;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,30 +19,36 @@ import com.sun.tools.javac.util.Pair;
 import database.DBconnect;
 
 public class findUserRatingInformation {
-	public static void main(String args[]) {
-		
+	public static void main(String args[]) throws Exception {
+		String processDateString = "2001/01/16";
+		/** 結束日+1 */
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		Date processDate = dateFormat.parse(processDateString);
+		long processTime = (long) processDate.getTime();
+		System.out.println(getUserArticle("A14OJS0VWMOSWO",
+				Long.toString(processTime),"D:/dataset/A14OJS0VWMOSWO_mainWords/"));
 	}
 
-/**
- *取得 使用者於概念內評價的文章
- * @param user
- * @param concept Domain
- * @param topic Node
- * @return
- * @throws SQLException
- */
-	public static List<String> getArticleList(String user, String concept, String topic)
-			throws SQLException {
+	/**
+	 * 取得 使用者於概念內評價的文章
+	 * 
+	 * @param user
+	 * @param concept
+	 *            Domain
+	 * @param topic
+	 *            Node
+	 * @return
+	 * @throws SQLException
+	 */
+	public static List<String> getArticleList(String user, String concept,
+			String topic) throws SQLException {
 		List<String> outputList = new ArrayList<String>();
 		PreparedStatement select_UserActicle = null;
-		select_UserActicle = DBconnect
-				.getConn()
-				.prepareStatement(
-						"select * from behavior,concept_article "
+		select_UserActicle = DBconnect.getConn().prepareStatement(
+				"select * from behavior,concept_article "
 						+ "where behavior.user_id = ? "
 						+ "and behavior.article_id=concept_article.article_id "
-						+ "and concept_id = ? "
-						+ "and  topic_id = ?");
+						+ "and concept_id = ? " + "and  topic_id = ?");
 		select_UserActicle.setString(1, user);
 		select_UserActicle.setString(2, concept);
 		select_UserActicle.setString(3, topic);
@@ -50,25 +59,26 @@ public class findUserRatingInformation {
 		System.out.println(outputList);
 		return outputList;
 	}
-/**
- * 取得使用者評價文章的時間
- * @param user
- * @param article
- * @return
- * @throws SQLException
- * @throws ParseException 
- */
-	public static String getRatingStemp(String user, String article) throws SQLException, ParseException{
+
+	/**
+	 * 取得使用者評價文章的時間
+	 * 
+	 * @param user
+	 * @param article
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public static String getRatingStemp(String user, String article)
+			throws SQLException, ParseException {
 		PreparedStatement selectRatingTime = null;
-		selectRatingTime = DBconnect
-				.getConn()
-				.prepareStatement(
-						"select * from behavior where user_id = ? and article_id = ?");
+		selectRatingTime = DBconnect.getConn().prepareStatement(
+				"select * from behavior where user_id = ? and article_id = ?");
 		selectRatingTime.setString(1, user);
 		selectRatingTime.setString(2, article);
 		ResultSet ratingTime = selectRatingTime.executeQuery();
-		String temp="";
-		while (ratingTime.next()){
+		String temp = "";
+		while (ratingTime.next()) {
 			temp = ratingTime.getDate("ratingTime").toString();
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,16 +88,62 @@ public class findUserRatingInformation {
 		System.out.println(temp);
 		return temp;
 	}
-/**
- * 取得使用者有涉及的概念Set: concept_id,topic_id
- * @param user
- * @return
- * @throws SQLException 
- * @throws ClassNotFoundException 
- * @throws IllegalAccessException 
- * @throws InstantiationException 
- */
-	public static Set<String> getConcept(String user) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+
+	/**
+	 * 取得使用者評價的文章
+	 * 
+	 * @param user
+	 * @param processingStemp
+	 * @param articlePath
+	 * @return
+	 * @throws SQLException
+	 * @throws ParseException
+	 * @throws Exception
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public static List<String> getUserArticle(String user,
+			String processingStemp, String articlePath) throws SQLException,
+			ParseException, InstantiationException, IllegalAccessException,
+			Exception {
+		ArrayList<String> articleList = new ArrayList<>();
+		new DBconnect();
+		PreparedStatement selectBehavior = null;
+		selectBehavior = DBconnect.getConn().prepareStatement(
+				"select * from behavior where user_id = ?");
+		selectBehavior.setString(1, user);
+		ResultSet behaviorSet = selectBehavior.executeQuery();
+
+		while (behaviorSet.next()) {
+			File tempFile = new File(articlePath);
+			if (tempFile.exists()) {
+				long preocessingTime = Long.parseLong(processingStemp);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date startDate = dateFormat.parse(behaviorSet
+						.getString("ratingTime"));
+				long ratingTime = (long) startDate.getTime() / 1000;
+				if (ratingTime < preocessingTime) {
+					articleList.add(behaviorSet.getString("article_id"));
+				}
+			}
+		}
+
+		return articleList;
+	}
+
+	/**
+	 * 取得使用者有涉及的概念Set: concept_id,topic_id
+	 * 
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public static Set<String> getConcept(String user) throws SQLException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
 		Set<String> outputSet = new HashSet<String>();
 		PreparedStatement selectConcept = null;
 		new DBconnect();
@@ -95,13 +151,14 @@ public class findUserRatingInformation {
 				.getConn()
 				.prepareStatement(
 						"select * from behavior,concept_article "
-						+ "where behavior.user_id = ? "
-						+ "and behavior.article_id=concept_article.article_id ");
+								+ "where behavior.user_id = ? "
+								+ "and behavior.article_id=concept_article.article_id ");
 		selectConcept.setString(1, user);
 
 		ResultSet Uarticlers = selectConcept.executeQuery();
 		while (Uarticlers.next()) {
-			outputSet.add(Uarticlers.getString("concept_id")+","+Uarticlers.getString("topic_id"));
+			outputSet.add(Uarticlers.getString("concept_id") + ","
+					+ Uarticlers.getString("topic_id"));
 		}
 		System.out.println(outputSet);
 		return outputSet;
