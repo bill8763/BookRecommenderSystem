@@ -22,11 +22,11 @@ public class ConceptInterest {
 		String userID = "A14OJS0VWMOSWO";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2001/01/15";
+		String startDateString = "2001/01/21";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
-		String endDateString = "2001/01/16";
+		String endDateString = "2001/01/22";
 		Date endDate = dateFormat.parse(endDateString);
 		long endTime = (long) endDate.getTime();
 

@@ -18,7 +18,8 @@ import org.jsoup.select.Elements;
  */
 public class UrlCrawler {
 	public static void main(String args[]) throws IOException {
-		String URL = "http://www.amazon.com/Business-Security-T-A-Brown/dp/0974343897";
+		String URL = "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=0812916883";
+//		String URL="http://www.amazon.com/dp/0974343897";
 		String output = "D:/dataset/6_Abstract.txt";
 		getBookCategory(URL);
 		//		getBookDescription(URL, output);
@@ -30,27 +31,21 @@ public class UrlCrawler {
 		try {
 			Document Doc = Jsoup.connect(URL).get(); // Jsoup jar
 			Elements title = Doc.select("title"); // 抓title
-			Element categorydiv=Doc.getElementById("wayfinding-breadcrumbs_container");
-			Elements cate = Doc.getElementsByClass("a-list-item");
-			Elements cc = Doc.select("div");
-			 Elements scriptElements = Doc.getElementsByTag("script");
-
-			 for (Element element :scriptElements ){                
-			        for (DataNode node : element.dataNodes()) {
-			            System.out.println(node.getWholeData());
-			        }
-			        System.out.println("-------------------");            
-			  }
+			Elements cate = Doc.getElementsByClass("refinementLink");			
+//			Elements cate = Doc.getElementsByClass("zg_hrsr_ladder");	
+//			Element categorydiv=Doc.getElementById("wayfinding-breadcrumbs_container");
+//			Elements span = Doc.select("span");			
+//			Elements cc = Doc.select("div");
+//			Elements scriptElements = Doc.getElementsByTag("script");
+//			Elements content = Doc.select("li");
+//		.getElementById("wayfinding-breadcrumbs_feature_div");// tag
+																				// id
 			if (title.get(0).equals("404 - Document Not Found")) {
 				category = "";
 			} else {
-				Elements content = Doc.select("li");
-						//.getElementById("wayfinding-breadcrumbs_feature_div");// tag
-																				// id
 				System.out.println("Title is " + title.get(0).text()); // �o��title
-
 				System.out.println("done");
-				category = categorydiv.toString();
+				category = cate.toString();
 				System.out.println(category);
 			}
 		} catch (org.jsoup.HttpStatusException e) {
@@ -63,7 +58,9 @@ public class UrlCrawler {
 			System.out.println("Reconnecting...");
 			getBookCategory(URL);
 		}
-		return category;
+		String output =category.split("</span>")[0].replaceAll("<span class=\"refinementLink\">", "").replaceAll("&amp","");
+		System.out.print(output);
+		return output;
 	}
 
 	/** 抓取書籍簡介 */

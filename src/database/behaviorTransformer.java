@@ -11,9 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class behaviorTransformer {
-	static String userID = "A14OJS0VWMOSWO";
+	static String userID = "AFVQZQ8PW0L";
+	//A14OJS0VWMOSWO
 	static String path = "D:/dataset/userRatingTimeOrder/" + userID + ".txt";
-	static String timeStart = "2001/01/15";
+	static String timeStart = "2001/01/01";
 	static String timeEnd = "2001/01/16";/**需要設定成結束日+1*/
 
 	public static void main(String[] args) throws IOException, ParseException,

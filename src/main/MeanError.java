@@ -15,7 +15,9 @@ import database.DBconnect;
 import document_clustering.Avg_link_all;
 
 public class MeanError {
-	static String userID = "A14OJS0VWMOSWO";
+	static String userID = "AFVQZQ8PW0L";
+	//A14OJS0VWMOSWO
+	//AFVQZQ8PW0L
 	static String path = "D:/dataset/userRatingTimeOrder/" + userID + ".txt";
 	static String dir = "D:/dataset/";
 	static String timeStart = "2001/01/16";
@@ -108,7 +110,7 @@ public class MeanError {
 			
 			/** 5.0可能是80%~100% 
 			 * so 取平均值 5.0 --> 0.9*/
-			double error = Math.abs( (Double.parseDouble(row.split("  ")[1])-0.5)/5 - (conceptInterest/0.6402) );
+			double error = Math.abs( (Double.parseDouble(row.split("  ")[1])-0.5)/5 - (conceptInterest/0.29) );
 			sumOfError = sumOfError + error ;
 			count++;
 			System.out.println(conceptInterest+" "+sumOfError +" -->"+sumOfError/count);

@@ -25,8 +25,10 @@ public class findUserRatingInformation {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date processDate = dateFormat.parse(processDateString);
 		long processTime = (long) processDate.getTime();
+		System.out.println(getEarliestTime("A14OJS0VWMOSWO", "3", "1"));
 		System.out.println(getUserArticle("A14OJS0VWMOSWO",
-				Long.toString(processTime),"D:/dataset/A14OJS0VWMOSWO_mainWords/"));
+				Long.toString(processTime),
+				"D:/dataset/A14OJS0VWMOSWO_mainWords/"));
 	}
 
 	/**
@@ -122,8 +124,12 @@ public class findUserRatingInformation {
 				Date startDate = dateFormat.parse(behaviorSet
 						.getString("ratingTime"));
 				long ratingTime = (long) startDate.getTime() / 1000;
-				if (ratingTime < preocessingTime) {
-					articleList.add(behaviorSet.getString("article_id"));
+				File test = new File(articlePath
+						+ behaviorSet.getString("article_id"));
+				if (test.exists()) {
+					if (ratingTime < preocessingTime) {
+						articleList.add(behaviorSet.getString("article_id"));
+					}
 				}
 			}
 		}
@@ -164,4 +170,46 @@ public class findUserRatingInformation {
 		return outputSet;
 	}
 
+	public static Set<String> getAllConcept() throws SQLException,
+			InstantiationException, IllegalAccessException,
+			ClassNotFoundException {
+		Set<String> outputSet = new HashSet<String>();
+		PreparedStatement selectConcept = null;
+		new DBconnect();
+		selectConcept = DBconnect.getConn().prepareStatement(
+				"select * from ontology");
+
+		ResultSet Uarticlers = selectConcept.executeQuery();
+		while (Uarticlers.next()) {
+			outputSet.add(Uarticlers.getString("concept_id") + ","
+					+ Uarticlers.getString("topic_id"));
+		}
+		System.out.println(outputSet);
+		return outputSet;
+	}
+
+	/**
+	 * 找出最早評價時間
+	 * 
+	 * @throws Exception
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 */
+	public static Timestamp getEarliestTime(String user, String concept,
+			String topic) throws InstantiationException,
+			IllegalAccessException, Exception {
+		PreparedStatement selectConcept = null;
+		new DBconnect();
+		selectConcept = DBconnect.getConn().prepareStatement(
+				"select * from behavior,concept_article "
+						+ "where behavior.user_id = ? "
+						+ "and behavior.article_id=concept_article.article_id "
+						+ "order by ratingTime ASC");
+		selectConcept.setString(1, user);
+
+		ResultSet behavior = selectConcept.executeQuery();
+		behavior.next();
+
+		return behavior.getTimestamp("ratingTime");
+	}
 }
