@@ -71,7 +71,7 @@ public class DocPrepocess {
 		NgdEdgeFilter<TermNode, CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode, CEdge<Double>>(
 				ngdComp, ngdComp.getEdgeDistance(), 0.5);
 		KcoreDecorator<TermNode, CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode, CEdge<Double>>(
-				ngdflitedComp, ngdflitedComp.getNgdMap(), 0.7);
+				ngdflitedComp, ngdflitedComp.getNgdMap(), 1.0);
 		System.out.println("ready to processing:" + doc);
 		Graph<TermNode, CEdge<Double>> docGraph = kcoreComp.execute(doc);
 		/** 刪掉degree0的點 */
@@ -109,12 +109,12 @@ public class DocPrepocess {
 	public static void main(String[] args) throws IOException {
 		// path="D:/dataset/abstract/";
 		path = "D:/dataset/Abstract/";
-		mainWordsOutputPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+		mainWordsOutputPath = "D:/dataset/mainWords/";
 		File outputDir = new File(mainWordsOutputPath);
 		if (!outputDir.exists()) {
 			outputDir.mkdirs();
 		}
-		numOfPathOuputPath="D:/dataset/A14OJS0VWMOSWO_numOfPair/";
+		numOfPathOuputPath="D:/dataset/numOfPair/";
 		File numOfPathOuputDir = new File(numOfPathOuputPath);
 		if (!numOfPathOuputDir.exists()) {
 			numOfPathOuputDir.mkdirs();

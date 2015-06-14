@@ -28,7 +28,7 @@ public class findUserRatingInformation {
 		System.out.println(getEarliestTime("A14OJS0VWMOSWO", "3", "1"));
 		System.out.println(getUserArticle("A14OJS0VWMOSWO",
 				Long.toString(processTime),
-				"D:/dataset/A14OJS0VWMOSWO_mainWords/"));
+				"D:/dataset/mainWords/"));
 	}
 
 	/**
@@ -58,6 +58,8 @@ public class findUserRatingInformation {
 		while (Uarticlers.next()) {
 			outputList.add(Uarticlers.getString("article_id"));
 		}
+		Uarticlers.close();
+		select_UserActicle.close();
 		System.out.println(outputList);
 		return outputList;
 	}
@@ -88,6 +90,7 @@ public class findUserRatingInformation {
 		long time = (long) date.getTime();
 		temp = Long.toString(time);
 		System.out.println(temp);
+		selectRatingTime.close();
 		return temp;
 	}
 
@@ -133,7 +136,8 @@ public class findUserRatingInformation {
 				}
 			}
 		}
-
+		behaviorSet.close();
+		selectBehavior.close();
 		return articleList;
 	}
 
@@ -166,6 +170,8 @@ public class findUserRatingInformation {
 			outputSet.add(Uarticlers.getString("concept_id") + ","
 					+ Uarticlers.getString("topic_id"));
 		}
+		Uarticlers.close();
+		selectConcept.close();
 		System.out.println(outputSet);
 		return outputSet;
 	}
@@ -185,6 +191,8 @@ public class findUserRatingInformation {
 					+ Uarticlers.getString("topic_id"));
 		}
 		System.out.println(outputSet);
+		Uarticlers.close();
+		selectConcept.close();
 		return outputSet;
 	}
 

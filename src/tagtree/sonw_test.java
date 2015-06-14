@@ -17,8 +17,8 @@ public class sonw_test {
 		HttpIndexSearcher searcher = new HttpIndexSearcher();
 		searcher.url = "http://140.115.82.105/searchweb/";
 		String dirPath = "D:/dataset/Processing/";
-		String mainwordPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
-		String numOfPairPath = "D:/dataset/A14OJS0VWMOSWO_numOfPair/";
+		String mainwordPath = "D:/dataset/mainWords/";
+		String numOfPairPath = "D:/dataset/numOfPair/";
 		ArrayList<String> tagTreeList = getTagTreeList(dirPath
 				+ "Concept/ConceptState.txt"); // 標籤樹清單
 		TagTree_Preprocess.main(dirPath, mainwordPath, numOfPairPath, searcher); // 標籤樹前處理

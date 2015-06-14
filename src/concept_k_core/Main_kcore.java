@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
+import main.findUserRatingInformation;
 import tw.edu.ncu.im.Util.HttpIndexSearcher;
 import database.DBconnect;
 
@@ -20,7 +22,7 @@ public class Main_kcore {
 		HttpIndexSearcher searcher = new HttpIndexSearcher();
 		searcher.url = "http://140.115.82.105/searchweb/";
 		new prepocess();
-		prepocess.mainwordPath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+		prepocess.mainwordPath = "D:/dataset/concept_mainWords/";
 		prepocess.path = path;
 		prepocess.getConceptTerms(concept_id, topic_id);
 		Lucene_Search2.doit(concept_id, topic_id, path,searcher);
@@ -44,17 +46,24 @@ public class Main_kcore {
 		// Main_kcore m_kcore = new Main_kcore();
 		// m_kcore.kcore(concept_id, topic_id);
 		// System.out.println("finish!!!");
-		new DBconnect();
-		PreparedStatement select_acticle = null;
-		select_acticle = DBconnect.getConn().prepareStatement(
-				"select * from concept_article");
-		ResultSet articlers = select_acticle.executeQuery();
-		Main_kcore m_kcore = new Main_kcore();
-		while (articlers.next()) {
-			m_kcore.kcore(Integer.parseInt(articlers.getString("concept_id")),
-					Integer.parseInt(articlers.getString("topic_id")));
-		}
+//		new DBconnect();
+//		PreparedStatement select_acticle = null;
+//		select_acticle = DBconnect.getConn().prepareStatement(
+//				"select * from concept_article");
+//		ResultSet articlers = select_acticle.executeQuery();
+//		Main_kcore m_kcore = new Main_kcore();
+//		while (articlers.next()) {
+//			m_kcore.kcore(Integer.parseInt(articlers.getString("concept_id")),
+//					Integer.parseInt(articlers.getString("topic_id")));
+//		}
 
+		Set<String> conceptSet =findUserRatingInformation.getAllConcept();		
+		for (String conceptAndTopic : conceptSet) {
+			String tempConcept = conceptAndTopic.split(",")[0];
+			String tempTopic = conceptAndTopic.split(",")[1];
+			Main_kcore m_kcore = new Main_kcore();
+			m_kcore.kcore(Integer.parseInt(tempConcept),Integer.parseInt(tempTopic));
+		}
 	}
 
 }

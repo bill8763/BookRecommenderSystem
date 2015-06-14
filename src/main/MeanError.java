@@ -22,7 +22,7 @@ public class MeanError {
 	static String dir = "D:/dataset/";
 	static String timeStart = "2001/01/16";
 	static String timeEnd = "2001/01/21"; /**需要設定成結束日+1*/
-	static String articlePath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+	static String articlePath = "D:/dataset/mainWords/";
 
 	public static void main(String[] args) throws Exception {
 		System.out.println(getMSE(userID, timeStart, timeEnd));

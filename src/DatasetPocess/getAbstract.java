@@ -8,7 +8,17 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * get user abstract
+ * 取得使用者某段時間有評價的書
+ * 並到亞馬遜上抓取abstract
+ * NOTE: 多次reconnecting 連不上時請重跑
+ * 有找過的不會再找一次
+ * 若還是一樣需要手動上網看問題
+ * 若網站尚無資訊則手動將此behavior刪掉
+ * @author chiang
+ *
+ */
 public class getAbstract {
 	public static void main(String args[]) throws IOException, ParseException {
 		/***/
@@ -17,17 +27,24 @@ public class getAbstract {
 		String dir = "D:/dataset/BookAbstract";
 		/**處理BookIdTitle*/
 		//getAbstract(input, dir);
-		String startDateString = "2001/01/01";
-		String endDateString = "2001/01/29"; /**比結束日多一天*/
 		
+		String startDateString = "2008/01/01";
+		String endDateString = "2008/07/01"; /**比結束日多一天*/
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date startDate = dateFormat.parse(startDateString);
 		long timeStart = (long) startDate.getTime()/1000;
 		Date endDate = dateFormat.parse(endDateString);
 		long timeEnd = (long) endDate.getTime()/1000;
-		/**user1:A14OJS0VWMOSWO*/
-		input = "D:/dataset/userRatingTimeOrder/AFVQZQ8PW0L.txt";
-		dir = "D:/dataset/AFVQZQ8PW0L_Abstract/";
+		/**
+		 * A14OJS0VWMOSWO
+		 * AFVQZQ8PW0L
+		 * A1D2C0WDCSHUWZ
+		 * AHD101501WCN1
+		 * A1X8VZWTOG8IS6 <--太多有聲書 來源太混亂
+		 * A1K1JW1C5CUSUZ
+		*/
+		input = "D:/dataset/userRatingTimeOrder/A1K1JW1C5CUSUZ.txt";
+		dir = "D:/dataset/A1K1JW1C5CUSUZ_Abstract/";
 		/**若dir不存在，先建立*/
 		File Dir = new File(dir);
 		if (!Dir.exists()) {

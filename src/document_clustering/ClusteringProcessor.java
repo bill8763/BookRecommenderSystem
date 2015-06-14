@@ -14,7 +14,7 @@ public class ClusteringProcessor {
 		HttpIndexSearcher searcher = new HttpIndexSearcher();
 		searcher.url = "http://140.115.82.105/searchweb/";
 		/** 由此資料夾內的各文件特徵字詞來分群 */
-		String path = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+		String path = "D:/dataset/mainWords/";
 		/** 輸出資料夾不存在則先建立 */
 		String ouputDir = "D:/DataSet/Processing/Concept/";
 		File outputDir = new File(ouputDir);

@@ -29,13 +29,12 @@ public class article_to_ontology  extends DBconnect{
 				temp = temp +line+"#";
 			}
 			if(line.contains("_concept")){
-				if(Integer.parseInt(line.split("_")[0])!=1){
+				if(Integer.parseInt(line.split("_")[0])!=0){
 					concept_list.add(concept_num+"%"+temp);				
+				}
 					System.out.println(concept_num+"%"+temp);					
 					concept_num = Integer.parseInt(line.split("_")[0]);
-
 					temp = "";
-				}
 			}
 		}
 		concept_list.add((concept_num)+"%"+temp); //最後一個concept

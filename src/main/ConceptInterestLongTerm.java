@@ -18,7 +18,7 @@ import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
 public class ConceptInterestLongTerm {
 	static String path = "D:/dataset/";
-	static String articlePath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+	static String articlePath = "D:/dataset/mainWords/";
 
 	public static void main(String[] args) throws Exception {
 
@@ -27,17 +27,17 @@ public class ConceptInterestLongTerm {
 		//AFVQZQ8PW0L
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2001/01/15";
+		String startDateString = "2008/01/01";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
-		String endDateString = "2001/01/16";
+		String endDateString = "2008/05/01";
 		Date endDate = dateFormat.parse(endDateString);
 		long endTime = (long) endDate.getTime();
 
 		while (startTime < endTime) {
 			ConceptInterestCalculate_Long(userID, Long.toString(startTime),
-					1.0, 7.0);
+					1.0, 1.0);
 
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
@@ -59,8 +59,9 @@ public class ConceptInterestLongTerm {
 		/** 取得所有使用者的評價記錄 */
 		List<String> userArticleList = findUserRatingInformation
 				.getUserArticle(user, processingStemp, articlePath);
+		
 		/** 取得所有概念 */
-		Set<String> conceptSet = findUserRatingInformation.getConcept(user);
+		Set<String> conceptSet = findUserRatingInformation.getAllConcept();
 
 		/** 找出每篇文章所屬概念 */
 		for (String article : userArticleList) {
@@ -118,6 +119,8 @@ public class ConceptInterestLongTerm {
 					articleToConceptMap.put(article, concept + "," + topic);
 					System.out.print(maxSim + "\t");
 				}
+				hasConcept.close();
+				selectCount.close();
 		}
 
 		/** 計算每個概念出現使用者有閱讀文章的頻率+天數 */
@@ -210,7 +213,7 @@ public class ConceptInterestLongTerm {
 				}
 			}
 			articleInterest = articleInterest / articleList.size();
-
+			System.out.println(articleInterest+","+ articleList.size());
 			/** 插入 */
 
 			PreparedStatement insertProfile = null;
@@ -231,7 +234,7 @@ public class ConceptInterestLongTerm {
 			insertProfile.setTimestamp(7,
 					new Timestamp(Long.parseLong(processingStemp)));
 			insertProfile.executeUpdate();
-
+			insertProfile.close();
 		}
 		/** 算完概念的興趣 */
 

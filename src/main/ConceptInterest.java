@@ -15,7 +15,7 @@ import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
 public class ConceptInterest {
 	static String path = "D:/dataset/";
-	static String articlePath = "D:/dataset/A14OJS0VWMOSWO_mainWords/";
+	static String articlePath = "D:/dataset/mainWords/";
 
 	public static void main(String[] args) throws Exception {
 

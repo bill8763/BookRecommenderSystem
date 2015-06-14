@@ -10,12 +10,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import DatasetPocess.fileList;
+
 public class behaviorTransformer {
-	static String userID = "AFVQZQ8PW0L";
+	static String userID = "A1K1JW1C5CUSUZ";
 	//A14OJS0VWMOSWO
 	static String path = "D:/dataset/userRatingTimeOrder/" + userID + ".txt";
-	static String timeStart = "2001/01/01";
-	static String timeEnd = "2001/01/16";/**需要設定成結束日+1*/
+	static String timeStart = "2008/01/01";
+	static String timeEnd = "2008/07/01";/**需要設定成結束日+1*/
 
 	public static void main(String[] args) throws IOException, ParseException,
 			SQLException, InstantiationException, IllegalAccessException,
@@ -37,10 +39,15 @@ public class behaviorTransformer {
 		long startTime = (long) startDate.getTime() / 1000;
 		Date endDate = dateFormat.parse(timeEnd);
 		long endTime = (long) endDate.getTime() / 1000;
+		
+		String mainWordsPath = "D:/dataset/mainWords/";
+		java.util.List<String> mainWordsList = fileList.getFileList(mainWordsPath);
+		
 
 		while ((line = BufferedStream.readLine()) != null) {
 			if (Long.parseLong(line.split("  ")[2]) >= startTime
-					&& Long.parseLong(line.split("  ")[2]) <= endTime) {
+					&& Long.parseLong(line.split("  ")[2]) <= endTime 
+					&& mainWordsList.contains(line.split("  ")[0]+".txt")) {
 				PreparedStatement insertBehavior = null;
 				insertBehavior = DBconnect.getConn().prepareStatement(
 						"INSERT INTO `behavior`(`user_id`, `article_id`, `ratingTime`)"

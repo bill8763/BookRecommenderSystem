@@ -45,7 +45,7 @@ public class GetAllConceptTerms extends DBconnect {
 			article_list.add(articlers.getString("article_id"));
 		}
 		System.out.println(article_list);
-
+		select_acticle.close();
 		// 計算多文章共同特徵
 		Set<String> term_set = new HashSet<String>(); // 存入(term,搜尋數)
 		Map<String, Integer> term_map = new HashMap<String, Integer>(); // 計算term在多少篇文件出現
