@@ -2,6 +2,7 @@ package user_k_core;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -38,13 +39,18 @@ public class K_core {
 	Map<String, String> hitMap = new HashMap<String, String>();
 	List<Map.Entry<String, Integer>> sort_data;
 
-	public void K_core_cal(int user_id,int concept_id,int topic_id) throws FileNotFoundException {
+	static String path="";
+	public K_core(String _path) {
+		path=_path;
+	}
+	
+	public void K_core_cal(String user_id,int concept_id,int topic_id) throws FileNotFoundException {
 		String no = "";
 		no = user_id+"_"+concept_id + "_"+ topic_id;
 		
 		this.no = no;
-		br = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/Rank/"+no + "_" + "Rank.txt"));//Åª¥X¸g¹L±Æ§ÇªºNGD
-		br2 = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/Stem/"+no + "_" + "stem.txt"));//Åª¥X¦rµü
+		br = new BufferedReader(new FileReader(path+"Rank/"+no + "_" + "Rank.txt"));//Åªï¿½Xï¿½gï¿½Lï¿½Æ§Çªï¿½NGD
+		br2 = new BufferedReader(new FileReader(path+"stem/"+no + "_" + "stem.txt"));//Åªï¿½Xï¿½rï¿½ï¿½
 		try {
 			
 			while ((line = br.readLine()) != null) {
@@ -56,9 +62,9 @@ public class K_core {
 				String key = line.split(",")[0];
 				String hits = line.split(",")[1];
 				int degree = getDegree(key);
-				coreMap.put(key, degree);//¬ö¿ýK-core­È
-				degreeMap.put(key, degree);//¬ö¿ý³sµ²«×
-				hitMap.put(key,hits);//¬ö¿ý·j´Mµ²ªG
+				coreMap.put(key, degree);//ï¿½ï¿½ï¿½ï¿½K-coreï¿½ï¿½
+				degreeMap.put(key, degree);//ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
+				hitMap.put(key,hits);//ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½Mï¿½ï¿½ï¿½G
 			}
 			
 			sort_data = new ArrayList<Map.Entry<String, Integer>>(coreMap
@@ -71,9 +77,9 @@ public class K_core {
 							return (int) ((o1.getValue() - o2.getValue()));
 						}
 					});
-			//«ö·Óªì©ldegree­È±Æ§Ç
+			//ï¿½ï¿½ï¿½Óªï¿½ldegreeï¿½È±Æ§ï¿½
 			getK_code_value();
-			//­pºâkcore­È
+			//ï¿½pï¿½ï¿½kcoreï¿½ï¿½
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,8 +97,8 @@ public class K_core {
 					&& Double.parseDouble(t.split(",")[2]) != 1) {
 				degree++;
 				weight=weight+Double.parseDouble(t.split(",")[2]);
-			}//¥u¦³¤p©óªùÂe­Èªº¤~·|«Ø¥ß³sµ²
-		}//­pºâ¦U¸`ÂI(¦rµü)ªº³sµ²«×(degree)
+			}//ï¿½uï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½eï¿½Èªï¿½ï¿½~ï¿½|ï¿½Ø¥ß³sï¿½ï¿½
+		}//ï¿½pï¿½ï¿½Uï¿½`ï¿½I(ï¿½rï¿½ï¿½)ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½(degree)
 		System.out.println(node+":"+degree);
 		return degree;
 	}
@@ -114,7 +120,7 @@ public class K_core {
 					if (coreMap.containsKey(t.split(",")[1])) {
 						if (node.getValue() < coreMap.get(t.split(",")[1])) {
 							temp = coreMap.get(t.split(",")[1]) - 1;
-							coreMap.put(t.split(",")[1], temp);//±N¥Ø«e¼Æ­È¤j©ó¦Û¤vªº¾F©~-1
+							coreMap.put(t.split(",")[1], temp);//ï¿½Nï¿½Ø«eï¿½Æ­È¤jï¿½ï¿½Û¤vï¿½ï¿½ï¿½Fï¿½~-1
 							System.out.println(t.split(",")[1] + " value-1");
 						}
 					}
@@ -129,7 +135,7 @@ public class K_core {
 							System.out.println(t.split(",")[0] + " value-1");
 						}
 					}
-				}//ÀËµø¬O§_¦³¤j©ó¦Û¤v³sµ²«×ªº¾F©~(½Ð¥h¬ÝK-coreªºµêÀÀ½X)
+				}//ï¿½Ëµï¿½ï¿½Oï¿½_ï¿½ï¿½ï¿½jï¿½ï¿½Û¤vï¿½sï¿½ï¿½ï¿½×ªï¿½ï¿½Fï¿½~(ï¿½Ð¥hï¿½ï¿½K-coreï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½X)
 				
 				sort_data = new ArrayList<Map.Entry<String, Integer>>(coreMap
 						.entrySet());
@@ -157,12 +163,20 @@ public class K_core {
 		BufferedWriter bw2;
 		String query="";
 		try {
-			bw = new BufferedWriter(new FileWriter("D:/DataTemp/User_K-core/K_core/"+no + "_" + "k_core.txt"));//¼g¤Jk-core¹Bºâµ²ªG
-			bw2 = new BufferedWriter(new FileWriter("D:/DataTemp/User_K-core/Main_word/"+no + "_" + "main_word.txt"));//¼g¤J®Ö¤ß¯S¼x
+			File test = new File(path+"K_core/");
+			if (!test.exists()) {
+				test.mkdirs();
+			}
+			File test2 = new File(path+"Main_word/");
+			if (!test2.exists()) {
+				test2.mkdirs();
+			}
+			bw = new BufferedWriter(new FileWriter(path+"K_core/"+no + "_" + "k_core.txt"));//ï¿½gï¿½Jk-coreï¿½Bï¿½âµ²ï¿½G
+			bw2 = new BufferedWriter(new FileWriter(path+"Main_word/"+no + "_" + "main_word.txt"));//ï¿½gï¿½Jï¿½Ö¤ß¯Sï¿½x
 			
 			for (Entry<String, Integer> core : outputList) {
 
-				bw.write(core.toString()+"="+degreeMap.get(core.toString().split("=")[0]));//MANETS=5=8(¦rµü=Kcore­È=degree­È)
+				bw.write(core.toString()+"="+degreeMap.get(core.toString().split("=")[0]));//MANETS=5=8(ï¿½rï¿½ï¿½=Kcoreï¿½ï¿½=degreeï¿½ï¿½)
 			
 				if(Integer.parseInt(core.toString().split("=")[1])>=( max_core)  )
 				{
@@ -174,15 +188,15 @@ public class K_core {
 					bw2.newLine();
 					bw2.flush(); 
 					
-				}//¥u¨úk-core­È³Ì¤jªº¤@¸s¬°®Ö¤ß¯S¼x
+				}//ï¿½uï¿½ï¿½k-coreï¿½È³Ì¤jï¿½ï¿½ï¿½@ï¿½sï¿½ï¿½ï¿½Ö¤ß¯Sï¿½x
 				
 				bw.newLine();
 				bw.flush();
-				//´«¦æ¥H¤Î²MªÅ½w½Ä°Ï
+				//ï¿½ï¿½ï¿½ï¿½Hï¿½Î²Mï¿½Å½wï¿½Ä°ï¿½
 				
 			}
 			bw.close(); 
-			bw2.close(); // Ãö³¬BufferedWriterª«¥ó
+			bw2.close(); // ï¿½ï¿½ï¿½ï¿½BufferedWriterï¿½ï¿½ï¿½ï¿½
 			System.out.println(query);
 			System.out.println(avgSim);
 		} catch (IOException f) {
@@ -195,15 +209,15 @@ public class K_core {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws FileNotFoundException {
-		Scanner input = new Scanner(System.in);
-		System.out.println("Enter document index:");
-		int user_id = input.nextInt();
-		int concept_id = input.nextInt();
-		int topic_id = input.nextInt();
-		K_core kcore = new K_core();
-		System.out.println("Enter threshold:");
+//		Scanner input = new Scanner(System.in);
+//		System.out.println("Enter document index:");
+//		int user_id = input.nextInt();
+//		int concept_id = input.nextInt();
+//		int topic_id = input.nextInt();
+//		K_core kcore = new K_core();
+//		System.out.println("Enter threshold:");
 //		kcore.simMin = input.nextDouble(); 
-		kcore.K_core_cal(user_id,concept_id,topic_id);//­pºâK-core­È
+//		kcore.K_core_cal(user_id,concept_id,topic_id);//ï¿½pï¿½ï¿½K-coreï¿½ï¿½
 		
 
 		

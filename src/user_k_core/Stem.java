@@ -2,6 +2,7 @@ package user_k_core;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,8 +21,8 @@ public class Stem {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void stemming(int user_id,int concept_id,int topic_id) throws IOException {
-		FileReader FileStream = new FileReader("D:/DataTemp/User_K-core/Number_of_term/"+user_id +"_" +concept_id + "_"+topic_id + "_number_of_term.txt");
+	public static void stemming(String user_id,int concept_id,int topic_id, String path) throws IOException {
+		FileReader FileStream = new FileReader(path+"Number_of_term/"+user_id +"_" +concept_id + "_"+topic_id + "_number_of_term.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream = new BufferedReader(FileStream);
 		String e = "";
@@ -52,10 +53,13 @@ public class Stem {
  
 			  
 		}
-		
+		File test = new File(path+"Stem/");
+		if (!test.exists()) {
+			test.mkdirs();
+		}
 		Object[] objs = set.toArray();
 		BufferedWriter bw;
-		bw = new BufferedWriter(new FileWriter("D:/DataTemp/User_K-core/Stem/"+user_id +"_" +concept_id + "_" +topic_id + "_stem.txt", false));
+		bw = new BufferedWriter(new FileWriter(path+"Stem/"+user_id +"_" +concept_id + "_" +topic_id + "_stem.txt", false));
 		for (int j = 0; j < objs.length; j++) {
 			String objs_out = (String) objs[j];
 
@@ -63,7 +67,7 @@ public class Stem {
 					
 					bw.write(objs_out);
 					bw.newLine();
-					bw.flush(); // ²MªÅ½w½Ä°Ï
+					bw.flush(); // ï¿½Mï¿½Å½wï¿½Ä°ï¿½
 					
 
 				} catch (IOException f) {
@@ -73,7 +77,7 @@ public class Stem {
 
 			
 		}
-		bw.close(); // Ãö³¬BufferedWriterª«¥ó
+		bw.close(); // ï¿½ï¿½ï¿½ï¿½BufferedWriterï¿½ï¿½ï¿½ï¿½
 	}
 
 	/**
@@ -82,12 +86,12 @@ public class Stem {
 	 */
 	// TODO Auto-generated method stub
 	public static void main(int user_id,int concept_id,int topic_id) throws IOException {
-		stemming(user_id,concept_id,topic_id);
+//		stemming(user_id,concept_id,topic_id);
 	}
 
 	public static void main(String args[]) throws IOException {
 		// TODO Auto-generated method stub
-		stemming(1,3,2);
+//		stemming(1,3,2);
 	}
 
 }

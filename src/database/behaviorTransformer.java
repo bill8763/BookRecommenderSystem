@@ -17,7 +17,7 @@ public class behaviorTransformer {
 	//A14OJS0VWMOSWO
 	static String path = "D:/dataset/userRatingTimeOrder/" + userID + ".txt";
 	static String timeStart = "2008/01/01";
-	static String timeEnd = "2008/07/01";/**需要設定成結束日+1*/
+	static String timeEnd = "2008/06/01";/**需要設定成結束日+1*/
 
 	public static void main(String[] args) throws IOException, ParseException,
 			SQLException, InstantiationException, IllegalAccessException,

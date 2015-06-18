@@ -18,13 +18,13 @@ import java.util.Map;
 public class Result_Rank {
 	public static void main(String args[])
 	{
-		ranking(1,3,2);
+//		ranking(1,3,2);
 	}
 	@SuppressWarnings("resource")
-	public static void ranking(int user_id,int concept_id,int topic_id) {
+	public static void ranking(String user_id,int concept_id,int topic_id, String path) {
 		try {
 			
-			BufferedReader br = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/NGD/"+user_id +"_" +concept_id+ "_" + topic_id +
+			BufferedReader br = new BufferedReader(new FileReader(path+"NGD/"+user_id +"_" +concept_id+ "_" + topic_id +
 					"_nNGD.txt"));
 			Map<String, Double> map_Data = new HashMap<String, Double>();
 			String line = "";
@@ -48,9 +48,13 @@ public class Result_Rank {
 							return (int) ((o1.getValue() - o2.getValue()) * 1000.0);
 						}
 					});
-			File file=new File("D:/DataTemp/User_K-core/Rank/"+user_id +"_" +concept_id + "_" + topic_id +"_Rank.txt");
+			File test = new File(path+"Rank/");
+			if (!test.exists()) {
+				test.mkdirs();
+			}
+			File file=new File(path+"Rank/"+user_id +"_" +concept_id + "_" + topic_id +"_Rank.txt");
 			file.delete();
-			BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/User_K-core/Rank/"+user_id +"_" +concept_id + "_" + topic_id + "_Rank.txt"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter(path+"Rank/"+user_id +"_" +concept_id + "_" + topic_id + "_Rank.txt"));
 			//bw.write("");
 			//bw.newLine();
 

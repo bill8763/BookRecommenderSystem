@@ -22,12 +22,17 @@ public class ConceptInterestLongTerm {
 
 	public static void main(String[] args) throws Exception {
 
-		String userID = "AFVQZQ8PW0L";
-		//A14OJS0VWMOSWO
-		//AFVQZQ8PW0L
+		String userID = "A1K1JW1C5CUSUZ";
+		/**
+		 * A14OJS0VWMOSWO
+		 * AFVQZQ8PW0L
+		 * A1D2C0WDCSHUWZ
+		 * AHD101501WCN1
+		 * A1K1JW1C5CUSUZ
+		 * */
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2008/01/01";
+		String startDateString = "2008/04/30";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
@@ -37,7 +42,7 @@ public class ConceptInterestLongTerm {
 
 		while (startTime < endTime) {
 			ConceptInterestCalculate_Long(userID, Long.toString(startTime),
-					1.0, 1.0);
+					1.0, 3.0);
 
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
@@ -180,8 +185,10 @@ public class ConceptInterestLongTerm {
 		double sd = Math.sqrt(var / count);
 		double threshold = mean + sd;
 
+		/** 取得所有概念 */
+		Set<String> userConceptSet = findUserRatingInformation.getConcept(user);
 		/** 計算每個概念的興趣 */
-		for (String conceptAndTopic : conceptSet) {
+		for (String conceptAndTopic : userConceptSet) {
 			concept = conceptAndTopic.split(",")[0];
 			topic = conceptAndTopic.split(",")[1];
 			/** 取得user於該概念的文章 */
