@@ -69,7 +69,7 @@ public class DocPrepocess {
 		NGDistanceDecorator<TermNode, CEdge<Double>> ngdComp = new NGDistanceDecorator<TermNode, CEdge<Double>>(
 				filitedTermComp, posComp.getVertexResultsTerms(), searcher);
 		NgdEdgeFilter<TermNode, CEdge<Double>> ngdflitedComp = new NgdEdgeFilter<TermNode, CEdge<Double>>(
-				ngdComp, ngdComp.getEdgeDistance(), 0.5);
+				ngdComp, ngdComp.getEdgeDistance(), 0.25);
 		KcoreDecorator<TermNode, CEdge<Double>> kcoreComp = new KcoreDecorator<TermNode, CEdge<Double>>(
 				ngdflitedComp, ngdflitedComp.getNgdMap(), 1.0);
 		System.out.println("ready to processing:" + doc);
@@ -97,7 +97,7 @@ public class DocPrepocess {
 		/**
 		 * test
 		 */
-		System.out.print(docGraph.getVertexCount());
+		System.out.println(docGraph.getVertexCount());
 		if (docGraph.getVertexCount() > 0) {
 		gerenratingTXT.gerenratingMainWords(docGraph, posComp.getVertexResultsTerms(),
 					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
@@ -124,12 +124,13 @@ public class DocPrepocess {
 		File tempFile = null;
 		for (int i = 0; i < list.size(); i++) {
 			tempFile = new File(path + list.get(i));
-			readFromDTG(tempFile, mainWordsOutputPath + list.get(i),numOfPathOuputPath+list.get(i));
-			/*
-			 * if ( new
-			 * File(ouputPath+list.get(i)).exists()){System.out.println(
-			 * "exists!");} else{readFromDTG(tempFile,ouputPath+list.get(i));}
-			 */
+//			readFromDTG(tempFile, mainWordsOutputPath + list.get(i),numOfPathOuputPath+list.get(i));
+			if (new File(mainWordsOutputPath + list.get(i)).exists()) {
+				System.out.println("exists!");
+			} else {
+				readFromDTG(tempFile, mainWordsOutputPath + list.get(i),
+						numOfPathOuputPath + list.get(i));
+			}
 		}
 	}
 }

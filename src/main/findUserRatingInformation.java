@@ -47,9 +47,9 @@ public class findUserRatingInformation {
 		List<String> outputList = new ArrayList<String>();
 		PreparedStatement select_UserActicle = null;
 		select_UserActicle = DBconnect.getConn().prepareStatement(
-				"select * from behavior,concept_article "
+				"select * from behavior,concept_userarticle "
 						+ "where behavior.user_id = ? "
-						+ "and behavior.article_id=concept_article.article_id "
+						+ "and behavior.article_id=concept_userarticle.article_id "
 						+ "and concept_id = ? " + "and  topic_id = ?");
 		select_UserActicle.setString(1, user);
 		select_UserActicle.setString(2, concept);
@@ -135,6 +135,9 @@ public class findUserRatingInformation {
 					}
 				}
 			}
+			else{
+				System.out.println("mainword not found");
+			}
 		}
 		behaviorSet.close();
 		selectBehavior.close();
@@ -162,7 +165,7 @@ public class findUserRatingInformation {
 				.prepareStatement(
 						"select * from behavior,concept_article "
 								+ "where behavior.user_id = ? "
-								+ "and behavior.article_id=concept_article.article_id ");
+								+ "and behavior.article_id=concept_userarticle.article_id ");
 		selectConcept.setString(1, user);
 
 		ResultSet Uarticlers = selectConcept.executeQuery();

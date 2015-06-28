@@ -37,7 +37,7 @@ public class ClusteringProcessor {
 			}
 		}
 		/** 過濾 */
-		BetaSimilarity_Filtering.main(0.2, ouputDir
+		BetaSimilarity_Filtering.main(0.3, ouputDir
 				+ "BetaSimilarityResult.txt", ouputDir
 				+ "BetaSimilarityMatrix.txt");
 		/** 只保留最大邊 */

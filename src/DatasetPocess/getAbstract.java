@@ -22,13 +22,23 @@ import java.util.Date;
 public class getAbstract {
 	public static void main(String args[]) throws IOException, ParseException {
 		/***/
-		// String input = "D:/dataset/BookIdTitle.txt";
-		String input = "D:/dataset/BookIdTitle.txt";
-		String dir = "D:/dataset/BookAbstract";
+//		 String input = "D:/dataset/BookIdTitle.txt";
+		String input = "D:/dataset/Propulsion Technology.txt";
+		String dir = "D:/dataset/0Propulsion Technology_traningAbstract";
+		/**若dir不存在，先建立*/
+		File Dir = new File(dir);
+		if (!Dir.exists()) {
+			Dir.mkdirs();
+			try {
+				Dir.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		/**處理BookIdTitle*/
-		//getAbstract(input, dir);
+		getAbstract(input, dir);
 		
-		String startDateString = "2008/01/01";
+		String startDateString = "2007/08/01";
 		String endDateString = "2008/07/01"; /**比結束日多一天*/
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date startDate = dateFormat.parse(startDateString);
@@ -43,19 +53,19 @@ public class getAbstract {
 		 * A1X8VZWTOG8IS6 <--太多有聲書 來源太混亂
 		 * A1K1JW1C5CUSUZ
 		*/
-		input = "D:/dataset/userRatingTimeOrder/A1K1JW1C5CUSUZ.txt";
-		dir = "D:/dataset/A1K1JW1C5CUSUZ_Abstract/";
-		/**若dir不存在，先建立*/
-		File Dir = new File(dir);
-		if (!Dir.exists()) {
-			Dir.mkdirs();
-			try {
-				Dir.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		getUserAbstract(input, dir, timeStart, timeEnd);
+//		input = "D:/dataset/userRatingTimeOrder/A1K1JW1C5CUSUZ.txt";
+//		dir = "D:/dataset/A1K1JW1C5CUSUZ_Abstract/";
+//		/**若dir不存在，先建立*/
+//		File Dir = new File(dir);
+//		if (!Dir.exists()) {
+//			Dir.mkdirs();
+//			try {
+//				Dir.createNewFile();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		getUserAbstract(input, dir, timeStart, timeEnd);
 	}
 
 	/** 由BookIdTitle取得Abstract */
@@ -65,7 +75,8 @@ public class getAbstract {
 		BufferedReader in = new BufferedReader(FileStream);
 		String line = "";
 		while ((line = in.readLine()) != null) {
-			String BookId = line.split(" :: ")[0];
+//			String BookId = line.split(" :: ")[0];
+			String BookId=line;
 			UrlCrawler.getBookDescription("http://www.amazon.com/dp/" + BookId, dir
 					+ "/" + BookId + ".txt");
 			System.out.println(dir + "/" + BookId + ".txt is done!");
@@ -88,7 +99,10 @@ public class getAbstract {
 		BufferedReader in = new BufferedReader(FileStream);
 		String line = "";
 		while ((line = in.readLine()) != null) {
-			if (Long.valueOf(line.split("  ")[2]) >= timeStart && Long.valueOf(line.split("  ")[2]) <= timeEnd) {
+			/**時間內 評價>3.0 */
+			if (Long.valueOf(line.split("  ")[2]) >= timeStart 
+					&& Long.valueOf(line.split("  ")[2]) <= timeEnd
+					&& Double.valueOf(line.split("  ")[1])>3.0) {
 				String BookId = line.split("  ")[0];
 				UrlCrawler.getBookDescription("http://www.amazon.com/dp/" + BookId, dir
 						+ "/" + BookId + ".txt");
