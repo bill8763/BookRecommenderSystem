@@ -18,7 +18,7 @@ import database.DBconnect;
 
 public class recommend {
 	public static void main(String[] args) throws Exception {
-		recommendDoc("simulate1", null);
+		recommendDoc("test1", "D:/dataset/recommendation/test.txt");
 	}
 
 	public static void recommendDoc(String user, String outputfile)
@@ -71,9 +71,10 @@ public class recommend {
 					.getConn()
 					.prepareStatement(
 							"select * from concept_article,concept_userarticle "
-							+ "where concept_id = ? topic_id=?"
-							+ "concept_article.article_id=concept_userarticle.article_id");
-			selectarticleInConcept.setString(1, user);
+							+ "where concept_userarticle.concept_id = ? and concept_userarticle.topic_id=?"
+							+ "and concept_article.article_id=concept_userarticle.article_id");
+			selectarticleInConcept.setString(1, concept);
+			selectarticleInConcept.setString(2, topic);	
 			ResultSet articleInConcept = selectarticleInConcept.executeQuery();
 			while(articleInConcept.next()){
 				String tempArticle= articleInConcept.getString("article_id");
@@ -82,14 +83,14 @@ public class recommend {
 				articleRecommendMap.put(tempArticle, docRecommend);
 			}
 		}
-			List<Entry<?, Double>> sortedArticle = NgdEdgeSorter.sort(articleRecommendMap);
+			List<Entry<?, Double>> sortedArticle = sort(articleRecommendMap);
 			int recommendNum=10;
 			if(sortedArticle.size()<recommendNum){
 				recommendNum=sortedArticle.size();
 			}
 			BufferedWriter bw;
 			for(int i=0;i<recommendNum;i++){
-				bw = new BufferedWriter(new FileWriter(outputfile, false));
+				bw = new BufferedWriter(new FileWriter(outputfile, true));
 				bw.write(sortedArticle.get(i).getKey().toString()+":"+sortedArticle.get(i).getValue());
 				bw.newLine();
 				bw.flush();

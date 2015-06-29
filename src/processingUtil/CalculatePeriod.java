@@ -19,7 +19,6 @@ public class CalculatePeriod {
 	    else {
 	        dateDiff = ((time1-time2)/(24*60*60*1000));
 	    }
-	    if(dateDiff==0)dateDiff=1;
 	    return (int) dateDiff;
 	}
 	public static void main(String[] args){

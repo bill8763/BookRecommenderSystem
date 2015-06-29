@@ -29,6 +29,37 @@ public class DocPrepocess {
 	public static String path = "";
 	public static String mainWordsOutputPath = "";
 	public static String numOfPathOuputPath = "";
+	public static void main(String[] args) throws IOException {
+		path="D:/dataset/1Bioinformatics_testingAbstract/";
+		//path = "D:/dataset/Abstract/";
+		mainWordsOutputPath = "D:/dataset/1Bioinformatics_testingAbstractmainWords/";
+		//mainWordsOutputPath = "D:/dataset/mainWords/";
+		File outputDir = new File(mainWordsOutputPath);
+		if (!outputDir.exists()) {
+			outputDir.mkdirs();
+		}
+		numOfPathOuputPath="D:/dataset/1Bioinformatics_testingAbstractnumOfPair/";
+		//numOfPathOuputPath="D:/dataset/numOfPair/";
+		File numOfPathOuputDir = new File(numOfPathOuputPath);
+		if (!numOfPathOuputDir.exists()) {
+			numOfPathOuputDir.mkdirs();
+		}		
+		List<String> list = null;
+		list = fileList.getFileList(path);
+		File tempFile = null;
+		for (int i = 0; i < list.size(); i++) {
+			tempFile = new File(path + list.get(i));
+//			readFromDTG(tempFile, mainWordsOutputPath + list.get(i),numOfPathOuputPath+list.get(i));
+			if (new File(mainWordsOutputPath + list.get(i)).exists()) {
+				System.out.println("exists!");
+			} else {
+				readFromDTG(tempFile, mainWordsOutputPath + list.get(i),
+						numOfPathOuputPath + list.get(i));
+			}
+		}
+	}
+	
+	
 	public static void readFromDTG(File doc, String mainwordsOutputPath,String numOfPathOuputPath)
 			throws IOException {
 
@@ -103,34 +134,6 @@ public class DocPrepocess {
 					filitedTermComp.termsSearchResult, kcoreComp.getCoreMap(),
 					mainwordsOutputPath);
 			gerenratingTXT.gerenratingNumOfPair(docGraph,posComp.getVertexResultsTerms(),ngdComp.pairOfTermsSearchResult,numOfPathOuputPath);
-		}
-	}
-
-	public static void main(String[] args) throws IOException {
-		// path="D:/dataset/abstract/";
-		path = "D:/dataset/Abstract/";
-		mainWordsOutputPath = "D:/dataset/mainWords/";
-		File outputDir = new File(mainWordsOutputPath);
-		if (!outputDir.exists()) {
-			outputDir.mkdirs();
-		}
-		numOfPathOuputPath="D:/dataset/numOfPair/";
-		File numOfPathOuputDir = new File(numOfPathOuputPath);
-		if (!numOfPathOuputDir.exists()) {
-			numOfPathOuputDir.mkdirs();
-		}		
-		List<String> list = null;
-		list = fileList.getFileList(path);
-		File tempFile = null;
-		for (int i = 0; i < list.size(); i++) {
-			tempFile = new File(path + list.get(i));
-//			readFromDTG(tempFile, mainWordsOutputPath + list.get(i),numOfPathOuputPath+list.get(i));
-			if (new File(mainWordsOutputPath + list.get(i)).exists()) {
-				System.out.println("exists!");
-			} else {
-				readFromDTG(tempFile, mainWordsOutputPath + list.get(i),
-						numOfPathOuputPath + list.get(i));
-			}
 		}
 	}
 }

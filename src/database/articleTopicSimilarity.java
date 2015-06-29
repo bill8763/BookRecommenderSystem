@@ -13,7 +13,7 @@ public class articleTopicSimilarity {
 	}
 	public static void simToDB() throws Exception{
 		String path = "D:/dataset/";
-		String articlePath = "D:/dataset/kcorethreshold1.0/mainWords/";
+		String articlePath = "D:/dataset/mainWords/";
 		HttpIndexSearcher searcher = new HttpIndexSearcher();
 		searcher.url = "http://140.115.82.105/searchweb/";
 		new DBconnect();

@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  * 
- * ¦C¥X¸ê®Æ§¨¤º©Ò¦³ÀÉ®×
+ * ï¿½Cï¿½Xï¿½ï¿½Æ§ï¿½ï¿½ï¿½ï¿½Ò¦ï¿½ï¿½É®ï¿½
  * 
  * @author chiang
  */
@@ -25,17 +25,17 @@ public class fileList {
 			filenames = a.list();
 			outputList = Arrays.asList(a.list());
 			/**
-			 * ¥H¤U¬Ý»Ý­n¦L¥X¤°»ò®æ¦¡
+			 * ï¿½Hï¿½Uï¿½Ý»Ý­nï¿½Lï¿½Xï¿½ï¿½ï¿½ï¿½æ¦¡
 			 */
 			for (int i = 0; i < filenames.length; i++) {
 				File tempFile = new File(fullpath + "\\" + filenames[i]);
 				if (tempFile.isDirectory()) {
-					System.out.println("¥Ø¿ý:" + filenames[i]);
+					System.out.println("è³‡æ–™å¤¾:" + filenames[i]);
 				} else
 					System.out.print("\""+filenames[i].split(".txt")[0]+"\""+",");
 			}
 		} else
-			System.out.println("[" + a + "]¤£¬O¥Ø¿ý");
+			System.out.println("[" + a + "]ä¸å­˜åœ¨");
 		return outputList;
 	}
 }

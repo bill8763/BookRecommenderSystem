@@ -20,15 +20,16 @@ import database.DBconnect;
 
 public class findUserRatingInformation {
 	public static void main(String args[]) throws Exception {
-		String processDateString = "2001/01/16";
+		String processDateString = "2015/06/02";
 		/** 結束日+1 */
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		Date processDate = dateFormat.parse(processDateString);
 		long processTime = (long) processDate.getTime();
-		System.out.println(getEarliestTime("A14OJS0VWMOSWO", "3", "1"));
+		System.out.println(getUserArticle("test1", Long.toString(processTime), "D:/dataset/userMainWords/"));
+/*		System.out.println(getEarliestTime("test1", "17", "2"));
 		System.out.println(getUserArticle("A14OJS0VWMOSWO",
 				Long.toString(processTime),
-				"D:/dataset/mainWords/"));
+				"D:/dataset/mainWords/"));*/
 	}
 
 	/**
@@ -123,14 +124,15 @@ public class findUserRatingInformation {
 			File tempFile = new File(articlePath);
 			if (tempFile.exists()) {
 				long preocessingTime = Long.parseLong(processingStemp);
+				System.out.println(preocessingTime);
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Date startDate = dateFormat.parse(behaviorSet
 						.getString("ratingTime"));
-				long ratingTime = (long) startDate.getTime() / 1000;
+				long ratingTime = (long) startDate.getTime();
 				File test = new File(articlePath
 						+ behaviorSet.getString("article_id"));
 				if (test.exists()) {
-					if (ratingTime < preocessingTime) {
+					if (ratingTime <= preocessingTime) {
 						articleList.add(behaviorSet.getString("article_id"));
 					}
 				}
@@ -163,7 +165,7 @@ public class findUserRatingInformation {
 		selectConcept = DBconnect
 				.getConn()
 				.prepareStatement(
-						"select * from behavior,concept_article "
+						"select * from behavior,concept_userarticle "
 								+ "where behavior.user_id = ? "
 								+ "and behavior.article_id=concept_userarticle.article_id ");
 		selectConcept.setString(1, user);
@@ -212,11 +214,14 @@ public class findUserRatingInformation {
 		PreparedStatement selectConcept = null;
 		new DBconnect();
 		selectConcept = DBconnect.getConn().prepareStatement(
-				"select * from behavior,concept_article "
+				"select * from behavior,concept_userarticle "
 						+ "where behavior.user_id = ? "
-						+ "and behavior.article_id=concept_article.article_id "
-						+ "order by ratingTime ASC");
+						+ "and concept_userarticle.concept_id = ?"
+						+ "and concept_userarticle.topic_id = ? "
+						+ "and behavior.article_id = concept_userarticle.article_id ORDER BY `ratingTime`");
 		selectConcept.setString(1, user);
+		selectConcept.setString(2, concept);
+		selectConcept.setString(3, topic);
 
 		ResultSet behavior = selectConcept.executeQuery();
 		behavior.next();
