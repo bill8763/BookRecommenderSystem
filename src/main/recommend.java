@@ -1,11 +1,19 @@
 package main;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import tw.edu.ncu.im.Util.NgdEdgeSorter;
 import database.DBconnect;
 
 public class recommend {
@@ -36,7 +44,7 @@ public class recommend {
 						"select * from profile where user_id = ? ORDER BY interest DESC");
 		selectProfile.setString(1, user);
 		ResultSet userInterest = selectProfile.executeQuery();
-		ArrayList article = new ArrayList();
+		HashMap<String,Double> articleRecommendMap = new HashMap<>();
 		HashMap<String,Double> conceptInterestMap = new HashMap<>();
 		double interest;
 		String concept;
@@ -58,6 +66,47 @@ public class recommend {
 			concept = concept_topic.split(",")[0];
 			topic = concept_topic.split(",")[1];
 			
+			PreparedStatement selectarticleInConcept = null;
+			selectarticleInConcept = DBconnect
+					.getConn()
+					.prepareStatement(
+							"select * from concept_article,concept_userarticle "
+							+ "where concept_id = ? topic_id=?"
+							+ "concept_article.article_id=concept_userarticle.article_id");
+			selectarticleInConcept.setString(1, user);
+			ResultSet articleInConcept = selectarticleInConcept.executeQuery();
+			while(articleInConcept.next()){
+				String tempArticle= articleInConcept.getString("article_id");
+				double docConSim = articleInConcept.getDouble("similarity");
+				double docRecommend =  conceptInterestMap.get(concept_topic) * docConSim;
+				articleRecommendMap.put(tempArticle, docRecommend);
+			}
 		}
+			List<Entry<?, Double>> sortedArticle = NgdEdgeSorter.sort(articleRecommendMap);
+			int recommendNum=10;
+			if(sortedArticle.size()<recommendNum){
+				recommendNum=sortedArticle.size();
+			}
+			BufferedWriter bw;
+			for(int i=0;i<recommendNum;i++){
+				bw = new BufferedWriter(new FileWriter(outputfile, false));
+				bw.write(sortedArticle.get(i).getKey().toString()+":"+sortedArticle.get(i).getValue());
+				bw.newLine();
+				bw.flush();
+				bw.close();
+			}
+			
+	}
+	
+	public static List<Entry<?, Double>> sort(Map<? , Double> unsortingMap){
+		List<Entry<? extends Object, Double>> sortingList = new ArrayList<Entry<? extends Object, Double>>(unsortingMap.entrySet());
+		Collections.sort(sortingList, new Comparator<Map.Entry<?, Double>>() {
+			public int compare(Map.Entry<?, Double> entry1,
+					Map.Entry<?, Double> entry2) {
+				return entry1.getValue().compareTo(entry2.getValue());
+			}
+		});
+		return sortingList;
+		//TODO return the LinkedHashMap is a better idea
 	}
 }

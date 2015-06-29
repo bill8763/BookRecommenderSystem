@@ -1,6 +1,11 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -12,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import DatasetPocess.fileList;
 import database.DBconnect;
 import document_clustering.Avg_link_all;
 import processingUtil.CalculatePeriod;
@@ -20,6 +26,7 @@ import tw.edu.ncu.im.Util.HttpIndexSearcher;
 public class ConceptInterestLongTerm {
 	static String path = "D:/dataset/";
 	static String articlePath = "D:/dataset/mainWords/";
+	static String toRecommendDocDir = "D:/dataset/recommendation/";
 
 	public static void main(String[] args) throws Exception {
 
@@ -43,7 +50,7 @@ public class ConceptInterestLongTerm {
 
 		while (startTime < endTime) {
 			ConceptInterestCalculate_Long(userID, Long.toString(startTime),
-					1.0, 2.0);
+					1.0, 1.0);
 			
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
@@ -64,6 +71,7 @@ public class ConceptInterestLongTerm {
 		HashMap<String, Double> articleCoceptSimMap = new HashMap<>();
 		List<String> userArticleList = findUserRatingInformation
 				.getUserArticle(user, processingStemp, articlePath);/** 取得所有使用者的評價文件 */
+		ArrayList<String> recomArticle = new ArrayList<>();
 		/**當日是否有閱讀文章*/
 		boolean newArticleFlag=false;
 		ArrayList<String> newArticle = new ArrayList<>(); /**存當日新增文章*/
@@ -299,7 +307,55 @@ public class ConceptInterestLongTerm {
 			/** 算完概念的興趣 */
 		
 			/**推薦*/
+			File outputDir = new File(toRecommendDocDir);
+			if (!outputDir.exists()) {
+				outputDir.mkdirs();
+				try {
+					outputDir.createNewFile();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd");
+			Date processDate = dateFormat.parse(processingStemp);
+			recommend.recommendDoc(user, toRecommendDocDir+processDate+"_"+user+".txt");
 			
+			/**驗證*/
+			List totleArticle =  fileList.getFileList("");
+			List correctArticle = fileList.getFileList("");
+			FileReader FileStream1 = null;
+			FileStream1 = new FileReader(toRecommendDocDir+processDate+"_"+user+".txt");
+			BufferedReader BufferedStream1 = null;
+			BufferedStream1 = new BufferedReader(FileStream1);
+			String e2 = "";
+			while ((e2 = BufferedStream1.readLine()) != null) {
+				recomArticle.add(e2.split(":")[0]);
+			}
+			int truePositive=0;
+			int falsePositive=0;
+			int falseNegative=0;
+			int trueNegative=0;
+			BufferedStream1.close();
+			for(String article:recomArticle){
+				if(correctArticle.contains(article)){
+					truePositive++;
+				}
+				else{
+					falsePositive++;
+				}
+			}
+			falseNegative = correctArticle.size() - truePositive;
+			trueNegative = totleArticle.size() - truePositive - falsePositive
+					- falseNegative;
+			double precision = truePositive / (truePositive + falsePositive);
+			double recall = truePositive / correctArticle.size();
+			double fMeasure = 2 * recall * precision / (recall + precision);
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(toRecommendDocDir, true));
+			bw.write(processDate+"_"+user+":"+fMeasure+","+precision+","+recall);
+			bw.newLine();
+			bw.flush();
+			bw.close();
 		}
 	}
 }
