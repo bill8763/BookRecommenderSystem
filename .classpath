@@ -16,5 +16,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DTG"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Graph"/>
 	<classpathentry kind="lib" path="C:/Users/chiang/Downloads/mysql-connector-java-5.1.30/mysql-connector-java-5.1.30-bin.jar"/>
+	<classpathentry kind="lib" path="D:/workspace/jung-visualization-2.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

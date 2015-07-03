@@ -10,7 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import database.DBconnect;
-
+/**
+ * 寫的方法不好，會造成大量連線，一直跳出警示訊息
+ * 之後可以改為先將父節點資訊存下來減少連線數
+ * @author chiang
+ *
+ */
 public class StructureSimilarity {
 	public static void main(String[] args) throws Exception{
 		ArrayList<String> conceptList = new ArrayList<>();

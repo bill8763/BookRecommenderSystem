@@ -23,7 +23,7 @@ import document_clustering.Avg_link_all;
 import processingUtil.CalculatePeriod;
 import tw.edu.ncu.im.Util.HttpIndexSearcher;
 
-public class ConceptInterestLongTerm {
+public class CopyOfConceptInterestLongTerm {
 	static String path = "D:/dataset/";
 	static String articlePath = "D:/dataset/userMainWords/";
 	static String toRecommendDocDir = "D:/dataset/recommendation/";
@@ -71,7 +71,7 @@ public class ConceptInterestLongTerm {
 		HashMap<String, Double> articleCoceptSimMap = new HashMap<>();
 		List<String> userArticleList = findUserRatingInformation
 				.getUserArticle(user, processingStemp, articlePath);/** 取得所有使用者的評價文件 */
-		HashSet<String> recomArticle = new HashSet<>();
+
 		/**當日是否有閱讀文章*/
 		boolean newArticleFlag=false;
 		ArrayList<String> newArticle = new ArrayList<>(); /**存當日新增文章*/
@@ -331,34 +331,23 @@ public class ConceptInterestLongTerm {
 					e.printStackTrace();
 				}
 			}
-			File outputDir2 = new File(toRecommendDocDir+"extended/");
-			if (!outputDir2.exists()) {
-				outputDir2.mkdirs();
-				try {
-					outputDir2.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 			SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 			Timestamp time = new Timestamp(Long.parseLong(processingStemp));
 			String rateday = ft.format(time);
 			recommend.recommendDoc(user, toRecommendDocDir+rateday+"_"+user+".txt");
-//			recommend.extendedRecommendDoc(user, toRecommendDocDir+"extended/"+rateday+"_"+user+".txt");
 			
-			/**驗證推薦*/
 			String correctPath =  "D:/dataset/exp3/5/";
 			String outputPath = toRecommendDocDir+"exp3_5.txt";
 			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/6/";
-			outputPath = toRecommendDocDir+"exp3_6.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/7/";
-			outputPath = toRecommendDocDir+"exp3_7.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/10/";
-			outputPath = toRecommendDocDir+"exp3_10.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/6/";
+//			outputPath = toRecommendDocDir+"exp3_6.txt";
+//			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/7/";
+//			outputPath = toRecommendDocDir+"exp3_7.txt";
+//			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/10/";
+//			outputPath = toRecommendDocDir+"exp3_10.txt";
+//			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
 		}
 	}
 }

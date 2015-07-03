@@ -30,15 +30,15 @@ public class DocPrepocess {
 	public static String mainWordsOutputPath = "";
 	public static String numOfPathOuputPath = "";
 	public static void main(String[] args) throws IOException {
-		path="D:/dataset/1Bioinformatics_testingAbstract/";
+		path="D:/dataset/Abstract/";
 		//path = "D:/dataset/Abstract/";
-		mainWordsOutputPath = "D:/dataset/1Bioinformatics_testingAbstractmainWords/";
+		mainWordsOutputPath = "D:/dataset/mainWords/";
 		//mainWordsOutputPath = "D:/dataset/mainWords/";
 		File outputDir = new File(mainWordsOutputPath);
 		if (!outputDir.exists()) {
 			outputDir.mkdirs();
 		}
-		numOfPathOuputPath="D:/dataset/1Bioinformatics_testingAbstractnumOfPair/";
+		numOfPathOuputPath="D:/dataset/numOfPair/";
 		//numOfPathOuputPath="D:/dataset/numOfPair/";
 		File numOfPathOuputDir = new File(numOfPathOuputPath);
 		if (!numOfPathOuputDir.exists()) {
