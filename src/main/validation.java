@@ -40,7 +40,7 @@ public class validation {
 			startTime = startTime + 24 * 60 * 60 * 1000;
 		}
 	}
-	public static void recommValidation(String user, String toRecommendDocDir, String processingStemp,String correctPath,String outputPath) throws Exception{
+	public static void recommValidation(String user, String toRecommendDocPath, String processingStemp,String correctPath,String outputPath) throws Exception{
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 		Timestamp time = new Timestamp(Long.parseLong(processingStemp));
 		String rateday = ft.format(time);
@@ -53,7 +53,7 @@ public class validation {
 		List correctArticle = fileList.getFileList(correctPath);
 		HashSet<String> recomArticle = new HashSet<>();
 		FileReader FileStream1 = null;
-		FileStream1 = new FileReader(toRecommendDocDir+rateday+"_"+user+".txt");
+		FileStream1 = new FileReader(toRecommendDocPath);
 		BufferedReader BufferedStream1 = null;
 		BufferedStream1 = new BufferedReader(FileStream1);
 		String e2 = "";

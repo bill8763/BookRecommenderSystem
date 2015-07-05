@@ -32,9 +32,9 @@ public class user_strength {
 				
 		no = user_id+"_"+concept_id +"_"+ topic_id;	
 
-		br = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/Rank/"+no + "_" + "Rank.txt"));//Ū�X�g�L�ƧǪ�NGD(�L�o�᪺�r����XNGD�����G)
-		br2 = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/Stem/"+no + "_" + "stem.txt"));//Ū�X�r��(�g�L�o�᪺�r��)
-		br3 = new BufferedReader(new FileReader("D:/DataTemp/User_K-core/Main_word/"+no + "_" + "main_word.txt")); //Ū�Xmain_word
+		br = new BufferedReader(new FileReader("D:/dataset/User_K-core/Rank/"+no + "_" + "Rank.txt"));//Ū�X�g�L�ƧǪ�NGD(�L�o�᪺�r����XNGD�����G)
+		br2 = new BufferedReader(new FileReader("D:/dataset/User_K-core/Stem/"+no + "_" + "stem.txt"));//Ū�X�r��(�g�L�o�᪺�r��)
+		br3 = new BufferedReader(new FileReader("D:/dataset/User_K-core/Main_word/"+no + "_" + "main_word.txt")); //Ū�Xmain_word
 		
 		while ((line = br.readLine()) != null) {
 			linkList.add(line);
@@ -70,9 +70,9 @@ public class user_strength {
 					}
 				});
 		
-		File file=new File("D:/DataTemp/User_K-core/Strength/"+no + "_" + "strength.txt");
+		File file=new File("D:/dataset/User_K-core/Strength/"+no + "_" + "strength.txt");
 		file.delete();
-		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/User_K-core/Strength/"+no + "_" + "strength.txt"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/dataset/User_K-core/Strength/"+no + "_" + "strength.txt"));
 			
 
 		while (iterator.hasNext()) {

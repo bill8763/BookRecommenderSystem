@@ -20,7 +20,7 @@ public class Experimental_EI extends database.DBconnect{
 	}
 	public void ex_EI(int user_id,double max) throws IOException, SQLException{
 		FileReader FileStream1;
-		FileStream1 = new FileReader("Explicit_profile/"+user_id + "_norm_EI.txt");
+		FileStream1 = new FileReader("D:/dataset/Explicit_profile/"+user_id + "_norm_EI.txt");
 		//�i�H�ϥΥ��W�ƹL��@@`
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
@@ -55,11 +55,11 @@ public class Experimental_EI extends database.DBconnect{
 		//System.out.println(article_set);
 		
 		FileReader FileStream2;
-		FileStream2 = new FileReader("Explicit_profile/data_7.txt");
+		FileStream2 = new FileReader("D:/dataset/Explicit_profile/data_7.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream2 = new BufferedReader(FileStream2);
 		FileReader FileStream3;
-		FileStream3 = new FileReader("Explicit_profile/ans_7.txt");
+		FileStream3 = new FileReader("D:/dataset/Explicit_profile/ans_7.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream3 = new BufferedReader(FileStream3);
 		

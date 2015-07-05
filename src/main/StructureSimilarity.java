@@ -26,6 +26,7 @@ public class StructureSimilarity {
 		while(concepts.next()){
 			conceptList.add(concepts.getString("concept_id"));
 		}
+		concepts.close();
 		select_concept.close();
 		for(int i=0;i<conceptList.size();i++){
 		calculateStructureSim(conceptList.get(i));

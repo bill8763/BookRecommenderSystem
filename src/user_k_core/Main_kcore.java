@@ -24,7 +24,7 @@ public class Main_kcore {
 			HttpIndexSearcher searcher = new HttpIndexSearcher();
 			searcher.url = "http://140.115.82.105/searchweb/";
 			new prepocess();
-			prepocess.mainwordPath = "D:/dataset/mainWords/";
+			prepocess.mainwordPath = "D:/dataset/userMainWords/";
 			prepocess.path = path;
 			prepocess.getUserConceptTerms(user_id,concept_id, topic_id);
 			new Lucene_Search2().doit(user_id,concept_id,topic_id,path,searcher);

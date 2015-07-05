@@ -20,7 +20,7 @@ public class Experimental_RF extends database.DBconnect{
 	}
 	public void ex_RF(int user_id,double max) throws IOException, SQLException{
 		FileReader FileStream1;
-		FileStream1 = new FileReader("Relevance_Factor/"+user_id + "_RF.txt");
+		FileStream1 = new FileReader("D:/dataset/Relevance_Factor/"+user_id + "_RF.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream1 = new BufferedReader(FileStream1);
 	
@@ -54,11 +54,11 @@ public class Experimental_RF extends database.DBconnect{
 		//System.out.println(article_set);
 		
 		FileReader FileStream2;
-		FileStream2 = new FileReader("Relevance_Factor/data_same.txt");
+		FileStream2 = new FileReader("D:/dataset/Relevance_Factor/data_same.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream2 = new BufferedReader(FileStream2);
 		FileReader FileStream3;
-		FileStream3 = new FileReader("Relevance_Factor/ans_same.txt");
+		FileStream3 = new FileReader("D:/dataset/Relevance_Factor/ans_same.txt");
 		@SuppressWarnings("resource")
 		BufferedReader BufferedStream3 = new BufferedReader(FileStream3);
 		

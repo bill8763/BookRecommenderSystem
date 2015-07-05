@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,20 +19,22 @@ public class user_in_article extends database.DBconnect {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public void UIA(String user_id,double phi) throws SQLException, IOException{ //��user�C�g�\Ū�L���峹�h���p��A��X
+	public void UIA(String user_id,double phi,String processingTime) throws SQLException, IOException{ //��user�C�g�\Ū�L���峹�h���p��A��X
 		
 		PreparedStatement  select_user_article = null;
 		select_user_article = getConn().prepareStatement("select * from behavior where user_id = ?");
 		select_user_article.setString(1, user_id);
 		ResultSet user_article_rs = select_user_article.executeQuery();
 		
-		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/processing/Explicit_profile/"+user_id + "_UIA.txt"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/dataset/Explicit_profile/"+user_id + "_UIA.txt"));
 		
 		while(user_article_rs.next()){
 			double dateDis;
 			SimpleDateFormat sdf =  new SimpleDateFormat("yyyyMMdd");	
-			String s = sdf.format(user_article_rs.getDate("last_time"));       
-			String e = sdf.format(new Date(System.currentTimeMillis()));
+			String s = sdf.format(user_article_rs.getDate("ratingtime"));       
+			Timestamp time = new Timestamp(Long.parseLong(processingTime));
+			String rateday = sdf.format(time);
+			String e = rateday;
 			
 			
 			if (calcutePeriod(s,e) <=1  ){
@@ -43,7 +46,7 @@ public class user_in_article extends database.DBconnect {
 			}
 			double uia = (double)1/dateDis; //���l���ϥΪ̦欰�A�ثe�Ȥ����A�ݭnuser�h����
 			
-			bw.write(user_article_rs.getInt("article_id")+";"+uia);
+			bw.write(user_article_rs.getString("article_id")+";"+uia);
 			bw.newLine();
 		}
 		bw.flush();

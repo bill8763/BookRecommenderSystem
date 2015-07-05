@@ -35,32 +35,32 @@ public class  strength{
 				
 		no = concept_id +"_"+ topic_id;	
 
-		br = new BufferedReader(new FileReader("D:/DataTemp/Concept_K-core/Rank/"+no + "_" + "Rank.txt"));//Åª¥X¸g¹L±Æ§ÇªºNGD(¹LÂo«áªº¦rµüºâ¥XNGDªºµ²ªG)
-		br2 = new BufferedReader(new FileReader("D:/DataTemp/Concept_K-core/Stem/"+no + "_" + "stem.txt"));//Åª¥X¦rµü(¸g¹LÂo«áªº¦rµü)
-		br3 = new BufferedReader(new FileReader("D:/DataTemp/Concept_K-core/Main_word/"+no + "_" + "main_word.txt")); //Åª¥Xmain_word
+		br = new BufferedReader(new FileReader("D:/dataset/Concept_K-core/Rank/"+no + "_" + "Rank.txt"));//Åªï¿½Xï¿½gï¿½Lï¿½Æ§Çªï¿½NGD(ï¿½Lï¿½oï¿½áªºï¿½rï¿½ï¿½ï¿½ï¿½XNGDï¿½ï¿½ï¿½ï¿½ï¿½G)
+		br2 = new BufferedReader(new FileReader("D:/dataset/Concept_K-core/Stem/"+no + "_" + "stem.txt"));//Åªï¿½Xï¿½rï¿½ï¿½(ï¿½gï¿½Lï¿½oï¿½áªºï¿½rï¿½ï¿½)
+		br3 = new BufferedReader(new FileReader("D:/dataset/Concept_K-core/Main_word/"+no + "_" + "main_word.txt")); //Åªï¿½Xmain_word
 		
 		while ((line = br.readLine()) != null) {
 			linkList.add(line);
 		}
-		simMin=Double.parseDouble(linkList.get(linkList.size()/4).split(",")[2]);//NGD«e1/4¬°³Ì¤p­È
+		simMin=Double.parseDouble(linkList.get(linkList.size()/4).split(",")[2]);//NGDï¿½e1/4ï¿½ï¿½ï¿½Ì¤pï¿½ï¿½
 		Double maxstrength = 0.0;	
 		while ((line = br2.readLine()) != null) {
-			String key = line.split(",")[0]; //¦rµü
+			String key = line.split(",")[0]; //ï¿½rï¿½ï¿½
 			double strength= getStrength(key,linkList); 
-			strengthList.add(key+","+ strength); //°O¿ý¸`ÂI±j«×
+			strengthList.add(key+","+ strength); //ï¿½Oï¿½ï¿½ï¿½`ï¿½Iï¿½jï¿½ï¿½
 			strengthmap.put(key,strength);
 			if(strength>maxstrength)
 				maxstrength =strength;
 	
-		//		degreeMap.put(key, weight);//¬ö¿ý³sµ²«×
+		//		degreeMap.put(key, weight);//ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½
 		}
-		while ((line = br3.readLine()) != null) {  //§ä¥XmainwordÅv­«
+		while ((line = br3.readLine()) != null) {  //ï¿½ï¿½Xmainwordï¿½vï¿½ï¿½
 			String mainwordkey = line.split(",")[0];
 			if(strengthmap.get(mainwordkey)!=null){
 				mainwordmap.put(mainwordkey, strengthmap.get(mainwordkey));
 			}
 		}
-		//±Æ§Ç³¡¥÷	
+		//ï¿½Æ§Ç³ï¿½ï¿½ï¿½	
 		List<Map.Entry<String, Double>> list_Data = new ArrayList<Map.Entry<String, Double>>(
 				mainwordmap.entrySet());
 		Iterator<Map.Entry<String, Double>> iterator = list_Data.iterator();
@@ -73,14 +73,14 @@ public class  strength{
 					}
 				});
 		
-		File file=new File("D:/DataTemp/Concept_K-core/Strength/"+no + "_" + "strength.txt");
+		File file=new File("D:/dataset/Concept_K-core/Strength/"+no + "_" + "strength.txt");
 		file.delete();
-		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/DataTemp/Concept_K-core/Strength/"+no + "_" + "strength.txt"));
+		BufferedWriter bw = new BufferedWriter(new FileWriter("D:/dataset/Concept_K-core/Strength/"+no + "_" + "strength.txt"));
 			
 
 		while (iterator.hasNext()) {
 			Map.Entry<String, Double> entry = iterator.next();
-			System.out.println(entry.getKey() + "," + (double)entry.getValue()/maxstrength); //¥¿³W¤Æ
+			System.out.println(entry.getKey() + "," + (double)entry.getValue()/maxstrength); //ï¿½ï¿½ï¿½Wï¿½ï¿½
 			bw.write(entry.getKey() + "," + (double)entry.getValue()/maxstrength);
 //			rel_loader.rel_map.put(entry.getKey(), entry.getValue());
 			bw.newLine();
@@ -88,7 +88,7 @@ public class  strength{
 		bw.flush();
 		bw.close();
 			
-        //¥þ³¡¦rªºweight		
+        //ï¿½ï¿½ï¿½ï¿½ï¿½rï¿½ï¿½weight		
 		/*			
 		Object[] objs = weightList.toArray();
 		BufferedWriter bw;
@@ -108,7 +108,7 @@ public class  strength{
 					
 					bw.write(objs_out);
 					bw.newLine();
-					bw.flush(); // ²MªÅ½w½Ä°Ï
+					bw.flush(); // ï¿½Mï¿½Å½wï¿½Ä°ï¿½
 					
 
 				} catch (IOException f) {
@@ -116,16 +116,16 @@ public class  strength{
 					f.printStackTrace();
 				}
 		}
-		bw.close(); // Ãö³¬BufferedWriterª«¥ó
+		bw.close(); // ï¿½ï¿½ï¿½ï¿½BufferedWriterï¿½ï¿½ï¿½ï¿½
 */
 	}
 	
 	public double getStrength (String node, ArrayList<String> linkList) { 
 		//int degree = 0;
 		double strength=0;
-		for (String t : linkList) {//¬°¸g¹L±Æ§Ç«áªºNGD­È
-			if ((t.split(",")[0].equals(node) || t.split(",")[1].equals(node)) //node¬°¦rµü
-					&& Double.parseDouble(t.split(",")[2]) < simMin) { //­n¤p©óªù¼Ð­È
+		for (String t : linkList) {//ï¿½ï¿½ï¿½gï¿½Lï¿½Æ§Ç«áªºNGDï¿½ï¿½
+			if ((t.split(",")[0].equals(node) || t.split(",")[1].equals(node)) //nodeï¿½ï¿½ï¿½rï¿½ï¿½
+					&& Double.parseDouble(t.split(",")[2]) < simMin) { //ï¿½nï¿½pï¿½ï¿½ï¿½ï¿½Ð­ï¿½
 			//	degree++; 
 				double ngd = 0;
 				if(Double.parseDouble(t.split(",")[2])>1)
@@ -133,8 +133,8 @@ public class  strength{
 				else
 					ngd = Double.parseDouble(t.split(",")[2]);
 				strength=strength+(1-ngd);   
-			}//¥u¦³¤p©óªùÂe­Èªº¤~·|«Ø¥ß³sµ²
-		}//­pºâ¦U¸`ÂI(¦rµü)ªº³sµ²«×(degree)
+			}//ï¿½uï¿½ï¿½ï¿½pï¿½ï¿½ï¿½ï¿½eï¿½Èªï¿½ï¿½~ï¿½|ï¿½Ø¥ß³sï¿½ï¿½
+		}//ï¿½pï¿½ï¿½Uï¿½`ï¿½I(ï¿½rï¿½ï¿½)ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½(degree)
 		//System.out.println(node+":"+weight);
 		return strength;
 	}

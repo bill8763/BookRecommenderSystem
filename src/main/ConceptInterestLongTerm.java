@@ -30,7 +30,7 @@ public class ConceptInterestLongTerm {
 	static HashMap<String, String> articleToConceptMap = new HashMap<>();
 	public static void main(String[] args) throws Exception {
 
-		String userID = "exp3";
+		String userID = "exp5";
 		/**real user
 		 * A14OJS0VWMOSWO
 		 * AFVQZQ8PW0L
@@ -40,11 +40,11 @@ public class ConceptInterestLongTerm {
 		 * */
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
-		String startDateString = "2015/07/31";
+		String startDateString = "2015/07/03";
 		Date startDate = dateFormat.parse(startDateString);
 		long startTime = (long) startDate.getTime();
 
-		String endDateString = "2015/08/14";
+		String endDateString = "2015/07/08";
 		Date endDate = dateFormat.parse(endDateString);
 		long endTime = (long) endDate.getTime();
 
@@ -344,21 +344,24 @@ public class ConceptInterestLongTerm {
 			Timestamp time = new Timestamp(Long.parseLong(processingStemp));
 			String rateday = ft.format(time);
 			recommend.recommendDoc(user, toRecommendDocDir+rateday+"_"+user+".txt");
-//			recommend.extendedRecommendDoc(user, toRecommendDocDir+"extended/"+rateday+"_"+user+".txt");
-			
+			recommend.extendedRecommendDoc(user, toRecommendDocDir+"extended/"+rateday+"_"+user+".txt");
 			/**驗證推薦*/
-			String correctPath =  "D:/dataset/exp3/5/";
-			String outputPath = toRecommendDocDir+"exp3_5.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/6/";
-			outputPath = toRecommendDocDir+"exp3_6.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/7/";
-			outputPath = toRecommendDocDir+"exp3_7.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
-			correctPath="D:/dataset/exp3/10/";
-			outputPath = toRecommendDocDir+"exp3_10.txt";
-			validation.recommValidation(user, toRecommendDocDir, processingStemp,correctPath,outputPath);
+			String correctPath =  "D:/dataset/exp5/";
+			String outputPath = toRecommendDocDir+"extended/"+"exp5_extended.txt";
+			validation.recommValidation(user, toRecommendDocDir+"extended/"+rateday+"_"+user+".txt", processingStemp,correctPath,outputPath);
+			/**驗證推薦*/
+//			String correctPath =  "D:/dataset/exp3/5/";
+//			String outputPath = toRecommendDocDir+"exp3_5.txt";
+//			validation.recommValidation(user, toRecommendDocDir+rateday+"_"+user+".txt", processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/6/";
+//			outputPath = toRecommendDocDir+"exp3_6.txt";
+//			validation.recommValidation(user, toRecommendDocDir+rateday+"_"+user+".txt", processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/7/";
+//			outputPath = toRecommendDocDir+"exp3_7.txt";
+//			validation.recommValidation(user, toRecommendDocDir+rateday+"_"+user+".txt", processingStemp,correctPath,outputPath);
+//			correctPath="D:/dataset/exp3/10/";
+//			outputPath = toRecommendDocDir+"exp3_10.txt";
+//			validation.recommValidation(user, toRecommendDocDir+rateday+"_"+user+".txt", processingStemp,correctPath,outputPath);
 		}
 	}
 }

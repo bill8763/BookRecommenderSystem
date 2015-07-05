@@ -139,7 +139,7 @@ public class relevance_factor extends database.DBconnect{
 		//�p��峹�@�P�S�x
 		for(int i=0;i<user_article.length;i++){
 			FileReader FileStream;
-			FileStream = new FileReader("D:/dataset/mainWords/"+user_article[i]+"_main_word.txt");
+			FileStream = new FileReader("D:/dataset/userMainWords/"+user_article[i]);
 			BufferedReader BufferedStream = new BufferedReader(FileStream);
 			String line = "";
 			
@@ -243,7 +243,7 @@ public class relevance_factor extends database.DBconnect{
 		//�d�ߤ峹��concept
 		Map<String, String> user_concept_map = new HashMap<String, String>(); //�p��term�b�h�ֽg���X�{
 		PreparedStatement selsect_UserConcept = null;
-		selsect_UserConcept = getConn().prepareStatement("select * from concept_article where article_id = ?");
+		selsect_UserConcept = getConn().prepareStatement("select * from concept_userarticle where article_id = ?");
 		
 		for(int i=0 ;i<article_list.size();i++){
 			String article_id = article_list.get(i);
