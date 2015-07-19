@@ -1,5 +1,6 @@
 package database;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -29,7 +30,10 @@ import org.apache.commons.collections15.functors.ConstantTransformer;
 import edu.uci.ics.jung.algorithms.layout.ISOMLayout;
 import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.TreeLayout;
+import edu.uci.ics.jung.graph.DelegateForest;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.Forest;
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.visualization.VisualizationImageServer;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
@@ -72,15 +76,17 @@ public class DrawOntology extends DBconnect{
 		String line = "";
 		int i = 1;
 		ArrayList<String> hierarchy_list = new ArrayList<String>();
-	    DirectedSparseMultigraph<String, Number> graph = new DirectedSparseMultigraph<String, Number>();
+	    Forest<String, Number> graph = new DelegateForest<String, Number>();
 	    String outputpath = "D:/dataset/processing/"+no+".png";
 		
 		while ((line = BufferedStream.readLine()) != null) {
-			String topic = i + ","+ line; 
+			String topic = i + "," + line;
 			hierarchy_list.add(topic);
-			String temp = new String();
-			temp=line.split(":")[0];
-			graph.addVertex(temp);
+			if (i == 1) {/**forest 只需要將root node加入圖形 其他點加入邊時會加入*/
+				String temp = new String();
+				temp = line.split(":")[0];
+				graph.addVertex(temp);
+			}
 			i++;
 		}
 	
@@ -115,26 +121,26 @@ public class DrawOntology extends DBconnect{
 
     VisualizationImageServer<String, Number> vv;
     
-	public void draw(DirectedSparseMultigraph<String, Number> graph,String outputPath) throws IOException{
+	public void draw(Forest<String, Number> graph,String outputPath) throws IOException{
 	       // create a simple graph for the demo
 		  Layout<String, Number> layout = new ISOMLayout<>(graph);
-			layout.setSize(new Dimension(600, 600));
-        vv =  new VisualizationImageServer<String,Number>(new KKLayout<String,Number>(graph), new Dimension(600,600));
+			layout.setSize(new Dimension(950,300));
+        vv =  new VisualizationImageServer<String,Number>(new TreeLayout<String,Number>(graph), new Dimension(950,300));
 
         vv.getRenderer().setVertexRenderer(
         		new GradientVertexRenderer<String,Number>(
-        				Color.white, Color.red, 
+        				Color.white, Color.blue, 
         				Color.white, Color.blue,
         				vv.getPickedVertexState(),
         				false));
         vv.setBackground(Color.white);
         vv.getRenderContext().setEdgeDrawPaintTransformer(new ConstantTransformer(Color.lightGray));
+        vv.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(2f)));
         vv.getRenderContext().setArrowFillPaintTransformer(new ConstantTransformer(Color.lightGray));
         vv.getRenderContext().setArrowDrawPaintTransformer(new ConstantTransformer(Color.lightGray));
-        
         vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
         vv.getRenderer().getVertexLabelRenderer().setPositioner(new InsidePositioner());
-        vv.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.AUTO);
+        vv.getRenderer().getVertexLabelRenderer().setPosition(Renderer.VertexLabel.Position.SE);
 
 		BufferedImage image = (BufferedImage) vv.getImage(
 				new Point2D.Double(layout.getSize().getWidth() / 2,
